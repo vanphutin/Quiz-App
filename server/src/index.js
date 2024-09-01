@@ -5,6 +5,10 @@ const PORT = process.env.PORT || 8080;
 const database = require("./config/database.config");
 const api_router_v1 = require("./api/v1/routers/index.router");
 
+// Middleware for parsing JSON and URL-encoded data
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // APIs
 api_router_v1(app);
 
