@@ -3,6 +3,10 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 8080;
 const database = require("./config/database.config");
+const api_router_v1 = require("./api/v1/routers/index.router");
+
+// APIs
+api_router_v1(app);
 
 // Connect to the database and start the server
 database.getConnection((error, connection) => {
