@@ -1,4 +1,6 @@
 import axios from "axios";
+import NProgress from "nprogress"; // Chỉnh sửa tên import cho đồng nhất
+import "nprogress/nprogress.css"; // Import stylesheet của nprogress
 
 const instance = axios.create({
   baseURL: "http://localhost:8081/api/v1/",
@@ -8,6 +10,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   function (config) {
+    NProgress.start();
     // Thêm token vào headers của request
     const token = localStorage.getItem("token");
     if (token) {
@@ -16,17 +19,18 @@ instance.interceptors.request.use(
     return config;
   },
   function (error) {
+    NProgress.done(); // Dừng thanh tiến trình khi có lỗi request
     return Promise.reject(error);
   }
 );
 
 instance.interceptors.response.use(
   function (response) {
-    // Xử lý dữ liệu phản hồi trước khi trả về
+    NProgress.done();
     return response.data;
   },
   function (error) {
-    // Xử lý lỗi phản hồi
+    NProgress.done(); // Dừng thanh tiến trình khi có lỗi response
     return Promise.reject(error);
   }
 );
