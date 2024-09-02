@@ -1,0 +1,19 @@
+@import "../../../assets/style/utils/variables";
+.DescLogin {
+  margin-bottom: $margin-bottom;
+  padding: 0 30px;
+  .DescLogin__icon {
+    font-size: $font-size-icon;
+    color: $secondary-text-color;
+  }
+  .DescLogin__intro {
+    .DescLogin__intro-title {
+      color: $text-color;
+      font-size: $font-size-text;
+    }
+    .DescLogin__intro-describe {
+      color: $secondary-text-color;
+      font-size: 0.9em;
+    }
+  }
+}
