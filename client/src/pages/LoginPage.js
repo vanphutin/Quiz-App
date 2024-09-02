@@ -5,10 +5,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { loginUser } from "../services/apiAuth";
 import { handleErrorResponse } from "../components/common/errorHandler/errorHandler";
+import { useDispatch } from "react-redux";
+import { USER_LOGIN_SUCCESS } from "../redux/userSlice";
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigator = useNavigate();
+  const dispatch = useDispatch();
 
   //call api
   const fetchApi = async (formData) => {
@@ -18,7 +21,7 @@ const LoginPage = () => {
 
       if (res.codeStatus === 200) {
         navigator("/");
-        localStorage.setItem("token", res.data.token);
+        dispatch(USER_LOGIN_SUCCESS(res.data));
       } else if (res.codeStatus === 401) {
         toast.error(res.error || "Login failed");
       } else {
@@ -46,10 +49,10 @@ const LoginPage = () => {
       style={{ height: "90vh" }}
     >
       <div className="login-form-page gap-3 d-flex align-items-center justify-content-center row  ">
-        <div className="desc-container  col-6">
+        <div className="desc-container d-none d-lg-block  col-12 col-md-6">
           <LoginDesc />
         </div>
-        <div className="login-container col-5">
+        <div className="login-container col-12 col-lg-5 col-md-12">
           <LoginForm
             onLogin={handleLogin}
             isLoading={isLoading}
