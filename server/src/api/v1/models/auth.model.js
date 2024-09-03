@@ -7,7 +7,7 @@ const Auth = {
   findById: async (user_id) => {
     const sql_findById = "SELECT * FROM users WHERE user_id = ?";
     try {
-      const [result] = await query(sql_findById, [user_id]);
+      const result = await query(sql_findById, [user_id]);
       return result.length > 0 ? result[0] : null; // Trả về đối tượng người dùng hoặc null
     } catch (error) {
       throw new Error("ERROR: findById", error);
@@ -73,6 +73,48 @@ const Auth = {
     }
   },
   //====END LOGIN====
+  //====START FORGOT PASSWORD====
+  forgotPassword: async (email) => {
+    const sql_forgotPassword =
+      "SELECT user_id, lastname, firstname FROM users WHERE email = ?";
+    try {
+      const result = await query(sql_forgotPassword, [email]);
+
+      if (result.length === 0) {
+        throw new Error("No result found for email check");
+      }
+      return result[0];
+    } catch (error) {
+      throw new Error(`ERROR: forgot password - ${error.message}`);
+    }
+  },
+  verifyOtp: async (otp, email) => {
+    const sql_verifyOtp = `SELECT u.user_id
+          FROM users u
+          JOIN otp_requests o ON u.user_id = o.user_id
+          WHERE u.email=?
+          AND o.otp_code =?
+          AND o.expiration_at > NOW()`;
+    try {
+      const result = await query(sql_verifyOtp, [email, otp]);
+      return result;
+    } catch (error) {
+      throw new Error(`ERROR: Otp Verify - ${error.message}`);
+    }
+  },
+  //reset password
+  resetPassword: async (user_id, newPassword) => {
+    console.log("newPassword", newPassword);
+
+    const sql_resetPassword = "UPDATE users SET password=? WHERE user_id=?";
+    try {
+      const result = await query(sql_resetPassword, [newPassword, user_id]);
+      return result;
+    } catch (error) {
+      throw new Error(`ERROR: reset password - ${error.message}`);
+    }
+  },
+  //====END FORGOT PASSWORD====
 };
 
 module.exports = Auth;

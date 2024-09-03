@@ -12,4 +12,39 @@ const loginUser = async (email, password) => {
   }
 };
 
+const forgotPassword = async (email) => {
+  try {
+    const response = await axios.post(`${AUTH_API}/forgot-password`, { email });
+    return response;
+  } catch (error) {
+    console.error("Error during login:", error);
+    throw error;
+  }
+};
+const verifyOtp = async (email, otp) => {
+  try {
+    const response = await axios.post(`${AUTH_API}/verify-otp`, { email, otp });
+    return response;
+  } catch (error) {
+    console.error("Error during login:", error);
+    throw error;
+  }
+};
+
+const resetPassword = async (user_id, newPassword) => {
+  try {
+    const response = await axios.post(`${AUTH_API}/reset-password`, {
+      user_id,
+      newPassword,
+    });
+    return response;
+  } catch (error) {
+    console.error("Error during login:", error);
+    throw error;
+  }
+};
+
 export { loginUser };
+export { forgotPassword };
+export { verifyOtp };
+export { resetPassword };
