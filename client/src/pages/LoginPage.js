@@ -38,9 +38,8 @@ const LoginPage = () => {
 
   // Xử lý logic đăng nhập ở đây (gọi API, xác thực, v.v.)
   const handleLogin = (formData) => {
-    setTimeout(() => {
-      fetchApi(formData);
-    }, 1000);
+    setTimeout(() => {}, 1000);
+    fetchApi(formData);
   };
 
   return (
