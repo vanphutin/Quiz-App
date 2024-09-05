@@ -44,7 +44,38 @@ const resetPassword = async (user_id, newPassword) => {
   }
 };
 
+const singupUser = async (
+  password,
+  email,
+  username,
+  lastname,
+  firstname,
+  role,
+  school,
+  gender,
+  code
+) => {
+  try {
+    const response = await axios.post(`${AUTH_API}/register`, {
+      password: password,
+      email: email,
+      username: username,
+      lastname: lastname,
+      firstname: firstname,
+      role: role,
+      school: school,
+      gender: gender,
+      code: code,
+    });
+    return response;
+  } catch (error) {
+    console.error("Error during login:", error);
+    throw error;
+  }
+};
+
 export { loginUser };
 export { forgotPassword };
 export { verifyOtp };
 export { resetPassword };
+export { singupUser };
