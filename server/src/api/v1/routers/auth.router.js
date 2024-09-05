@@ -15,5 +15,6 @@ router.post(
   validate.checkResetPassValid,
   authController.resetPassword
 );
+router.post("/register", validate.validateRegister, authController.register);
 
 module.exports = router;

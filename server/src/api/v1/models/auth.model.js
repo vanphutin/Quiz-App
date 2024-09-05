@@ -38,11 +38,11 @@ const Auth = {
       const [result] = await query(sql_checkPassword, [email]);
 
       // Ensure the user exists and has a password
-      if (result.length === 0) {
+      if (result?.length === 0) {
         return false; // User does not exist
       }
 
-      const hashedPassword = result.password;
+      const hashedPassword = result?.password;
       const inputHashedPassword = Auth.hashPassword(password);
 
       // Compare the input password with the stored hashed password
@@ -115,6 +115,53 @@ const Auth = {
     }
   },
   //====END FORGOT PASSWORD====
+
+  //=== START REGISTER====
+  checkUserNameExists: async (username) => {
+    const sql_checkUserNameExists =
+      "SELECT COUNT(*) AS count FROM users WHERE username = ?";
+    try {
+      const [result] = await query(sql_checkUserNameExists, [username]);
+      if (result.length === 0) {
+        throw new Error("No result found for username check");
+      }
+      return result.count > 0;
+    } catch (error) {
+      console.error("Error in checkUserNameExists:", error); // Logging error for debugging
+      throw error;
+    }
+  },
+  register: async (
+    user_id,
+    username,
+    email,
+    lastname,
+    firstname,
+    role,
+    school,
+    gender,
+    password
+  ) => {
+    const sql_register =
+      "INSERT INTO users (user_id, username, email, lastname, firstname, role, school, gender, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    try {
+      const result = await query(sql_register, [
+        user_id,
+        username,
+        email,
+        lastname,
+        firstname,
+        role,
+        school,
+        gender,
+        password,
+      ]);
+      return result;
+    } catch (error) {
+      throw new Error(`ERROR: register - ${error.message}`);
+    }
+  },
+  //=== END REGISTER====
 };
 
 module.exports = Auth;
