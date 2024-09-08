@@ -162,3 +162,47 @@ module.exports.resetPassword = async (req, res) => {
     });
   }
 };
+
+module.exports.register = async (req, res) => {
+  const {
+    email,
+    username,
+    lastname,
+    firstname,
+    role,
+    school,
+    gender,
+    password,
+  } = req.body;
+  const user_id = uuidv4();
+  try {
+    const user = await Auth.register(
+      user_id,
+      username,
+      email,
+      lastname,
+      firstname,
+      role,
+      school,
+      gender,
+      md5(password)
+    );
+    if (!user) {
+      return res.status(401).json({
+        codeStatus: 401,
+        message: "Invalid field",
+      });
+    }
+    res.status(201).json({
+      codeStatus: 201,
+      message: "Registration successful",
+      userID: user.user_id,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      codeStatus: 500,
+      message: `Error at auth: ${error.message}`,
+      name: error.name,
+    });
+  }
+};

@@ -115,6 +115,100 @@ module.exports.checkResetPassValid = async (req, res, next) => {
       message: `Password too long`,
     });
   }
+
+  // Hợp lệ
+  next();
+};
+
+//validate register
+module.exports.validateRegister = async (req, res, next) => {
+  const {
+    email,
+    password,
+    username,
+    lastname,
+    firstname,
+    role,
+    school,
+    gender,
+    code,
+  } = req.body;
+
+  // Kiểm tra các trường theo yêu cầu
+  const requiredFields = [
+    "email",
+    "password",
+    "username",
+    "lastname",
+    "firstname",
+    "role",
+    "school",
+    "gender",
+  ];
+
+  for (const field of requiredFields) {
+    if (!req.body[field]) {
+      return res.status(400).json({
+        codeStatus: 400,
+        message: `Error: Missing required field: ${field}`,
+      });
+    }
+  }
+
+  // kiem tra username ton tai
+  const usernameexists = await Auth.checkUserNameExists(username);
+  if (usernameexists) {
+    return res.status(400).json({
+      codeStatus: 400,
+      message: "Username already exists",
+    });
+  }
+  // Kiểm tra tồn tại email
+  const emailExists = await Auth.checkEmailExists(email);
+
+  if (emailExists) {
+    return res.status(400).json({
+      codeStatus: 400,
+      message: "Email already exists",
+    });
+  }
+
+  // Kiểm tra mật khẩu hợp lệ
+  if (password.length < 6) {
+    return res.status(401).json({
+      codeStatus: 401,
+      message: "Password to short",
+    });
+  }
+
+  // Kiểm tra username hợp lệ
+  if (username.length < 3) {
+    return res.status(401).json({
+      codeStatus: 401,
+      message: "Password to short",
+    });
+  }
+
+  // Kiểm tra role hợp lệ
+  if (role === "teacher") {
+    if (!code || code?.length < 6) {
+      return res.status(401).json({
+        codeStatus: 401,
+        message: "Code invalid",
+      });
+    }
+  }
+
+  //check role
+  const ROLE_INIT = ["user", "instructor", "admin"];
+
+  if (!ROLE_INIT.includes(req.body.role)) {
+    return res.status(400).json({
+      codeStatus: 400,
+      message: "Role invalid",
+    });
+  }
+
   // Hợp lệ
   next();
 };
