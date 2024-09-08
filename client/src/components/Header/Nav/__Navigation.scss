@@ -1,0 +1,27 @@
+@import "../../../assets/style/utils/variables";
+@import "../../../assets/style/utils/responive";
+
+nav {
+  ul {
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    @include mobile {
+      display: flex;
+      flex-direction: column;
+    }
+
+    li {
+      padding: 0 30px;
+      list-style: none;
+      font-size: $font-size-text-lg;
+    }
+  }
+}
+.active {
+  border-bottom: 1px solid;
+  width: 100%;
+  transition: 0.5s all;
+}

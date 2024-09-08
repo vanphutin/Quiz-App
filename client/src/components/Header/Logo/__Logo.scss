@@ -1,0 +1,17 @@
+@import "../../../assets/style/utils/variables";
+@import "../../../assets/style/utils/responive";
+
+.logo {
+  .logo-name {
+    cursor: pointer;
+    display: inline;
+    margin-bottom: 0;
+    color: $header-text-color-dark-blue;
+    font-weight: 800;
+    font-size: $font-size-logo;
+    span {
+      font-weight: 600;
+      color: $header-text-color-blue-light;
+    }
+  }
+}
