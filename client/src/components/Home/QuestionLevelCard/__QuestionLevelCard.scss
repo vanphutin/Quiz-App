@@ -1,0 +1,36 @@
+@import "../../../assets/style/utils/variables";
+.question__card {
+  margin-top: 30px;
+  border: 1px solid $border-color;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  text-align: center;
+  padding: 20px 30px;
+  border-radius: 10px;
+
+  .question__card-title {
+    font-size: $font-size-text-lg;
+    color: $text-secondary-color;
+    font-weight: 600;
+  }
+
+  .question__card-icon {
+    padding: 15px;
+  }
+
+  .question__card-button {
+    background: transparent;
+    padding: 10px 30px;
+    border-radius: 20px;
+    border: 1px solid $button-secondary-hover-color;
+    &:hover {
+      box-shadow: rgba(151, 151, 151, 0.25) 0px 6px 12px -2px,
+        rgba(151, 151, 151, 0.25) 0px 3px 7px -3px;
+    }
+
+    .button-icon {
+      font-size: $font-size-text-lg;
+      margin: auto;
+      text-align: center;
+    }
+  }
+}
