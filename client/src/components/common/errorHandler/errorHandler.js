@@ -6,8 +6,10 @@ export const handleErrorResponse = (error) => {
     // Có phản hồi từ server với status code nằm ngoài 2xx
 
     const { status, data } = error.response;
-    console.log(data);
+    console.log("data", data);
     if (status === 400) {
+      toast.error(data.error || data.message || "Bad request");
+    } else if (status === 400) {
       toast.error(data.error || data.message || "Bad request");
     } else if (status === 401) {
       toast.error(error.response.data.error);
