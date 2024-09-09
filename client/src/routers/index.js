@@ -4,6 +4,7 @@ import HomePage from "../pages/HomePage";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ScrollToTop from "../utils/ScrollToTop";
+import HeaderPage from "../pages/HeaderPage";
 const AuthLayout = () => {
   return (
     <>
@@ -34,8 +35,13 @@ const router = createBrowserRouter([
         path: "/login",
       },
       {
-        element: <HomePage />,
-        path: "/",
+        element: <HeaderPage />,
+        children: [
+          {
+            element: <HomePage />,
+            path: "/",
+          },
+        ],
       },
     ],
   },
