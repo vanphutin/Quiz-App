@@ -81,9 +81,11 @@ const LoginForm = ({ isLoading, setIsLoading, onLogin }) => {
           {errors.password}
         </p>
       )}
-      <p className="callout callout-forgotpass mb-1 mt-4">
-        Forgot your password?
-      </p>
+      <Link to="/recover/forgot">
+        <p className="callout callout-forgotpass mb-1 mt-4">
+          Forgot your password?
+        </p>
+      </Link>
 
       <CommonButton
         isLoading={isLoading}

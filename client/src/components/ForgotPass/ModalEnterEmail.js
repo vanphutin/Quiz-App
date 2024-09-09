@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import InputField from "../common/InputField/InputField";
 import { useState } from "react";
 import CommonButton from "../common/button/CommonButton";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { forgotPassword } from "../../services/apiAuth";
 import { handleErrorResponse } from "../common/errorHandler/errorHandler";
 import { toast } from "react-toastify";
@@ -61,13 +61,17 @@ function ModalEnterEmail(props) {
       return;
     }
 
-    // Proceed with API call to send OTP to the email
     setErrors({});
     fetchApiForgotPassword(email);
   };
 
   return (
-    <Modal {...props} aria-labelledby="contained-modal-title-vcenter" centered>
+    <Modal
+      {...props}
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+      show
+    >
       <Modal.Header style={bgStyle}>
         <Modal.Title id="contained-modal-title-vcenter" className="fw-bolder">
           Reset password
@@ -91,9 +95,9 @@ function ModalEnterEmail(props) {
         </form>
       </Modal.Body>
       <Modal.Footer style={bgStyle}>
-        <Button onClick={props.onHide} className="btn-light">
-          Cancel
-        </Button>
+        <Link to="/login">
+          <Button className="btn-light">Cancel</Button>
+        </Link>
         <form onSubmit={handleSubmitForm}>
           <Button type="submit" className="btn-primary">
             Continue
