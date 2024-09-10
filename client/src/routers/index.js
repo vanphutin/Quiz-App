@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ScrollToTop from "../utils/ScrollToTop";
 import HeaderPage from "../pages/HeaderPage";
+import { getAllQuizzLevel } from "../services/apiQuizzes";
 const AuthLayout = () => {
   return (
     <>
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
           {
             element: <HomePage />,
             path: "/",
+            loader: async () => {
+              const res = await getAllQuizzLevel();
+              return res.data;
+            },
           },
         ],
       },

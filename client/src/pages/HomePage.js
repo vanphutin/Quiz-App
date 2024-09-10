@@ -1,22 +1,65 @@
-import React from "react";
-import { toast } from "react-toastify";
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import React, { useEffect, useRef, useState } from "react";
+import Introduction from "../components/Home/Introduction/Introduction";
+import QuestionLevelCard from "../components/Home/QuestionLevelCard/QuestionLevelCard";
+import LoadingCompo from "../components/common/loadingCompo/LoadingCompo";
+import { useLoaderData } from "react-router-dom";
 
 const HomePage = () => {
-  const user = useSelector((state) => state.user.account);
-  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-  console.log("isAuthenticated", isAuthenticated);
+  const data = useLoaderData() || [];
+  const [loading, setLoading] = useState(true);
+  const hiddenRef = useRef(null);
+
+  useEffect(() => {
+    // Giả lập thời gian chờ khi tải dữ liệu
+    const timer = setTimeout(() => {
+      if (data.length > 0) {
+        setLoading(false);
+      }
+    }, 10000);
+
+    return () => clearTimeout(timer);
+  }, [data]);
+
+  useEffect(() => {
+    // Xử lý khi loading đã hoàn tất
+    if (!loading && hiddenRef.current) {
+      const hiddenElement = hiddenRef.current.previousSibling;
+      if (hiddenElement) {
+        // Đảm bảo rằng phần tử trước đó tồn tại và có thể xử lý
+        hiddenElement.classList.remove("d-none");
+      }
+    }
+  }, [loading]);
+
+  const capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
+  if (loading) {
+    return <LoadingCompo loading={loading} />;
+  }
 
   return (
-    <div>
-      <h1>Profile</h1>
-      <p>Username: {user.username}</p>
-      <p>Firstname: {user.firstname}</p>
-      <p>Lastname: {user.lastname}</p>
-      <p>Email: {user.email}</p>
-
-      {isAuthenticated ? "ok" : "no"}
+    <div className="home container mt-5" ref={hiddenRef}>
+      <div className="home__screen-main">
+        <Introduction />
+      </div>
+      <div className="home__screen-card my-2 row">
+        {data.length > 0 ? (
+          data.map((items, index) => (
+            <div
+              className="screen-card-item col-12 col-md-4 col-lg-4"
+              key={index}
+            >
+              <QuestionLevelCard
+                titleLevel={capitalizeFirstLetter(items.level)}
+              />
+            </div>
+          ))
+        ) : (
+          <p>No quiz levels available.</p>
+        )}
+      </div>
     </div>
   );
 };
