@@ -6,7 +6,7 @@ const Introduction = () => {
     <div className="introduction">
       <div className="introduction__title">
         <div className="introduction__title-main">
-          <h1>
+          <h1 className="text">
             Join <p>the ranking</p>
           </h1>
         </div>

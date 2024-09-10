@@ -1,0 +1,50 @@
+.loading {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  .loading-logo {
+    display: flex;
+    flex-direction: column;
+
+    .logo {
+      .logo-name {
+        font-size: 3rem;
+      }
+    }
+
+    .loading-subtitle {
+      font-size: 0.8rem;
+      text-align: end;
+      span {
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.loading {
+  .loader-icon {
+    margin-right: 7px;
+    top: 2px;
+    animation: spin 1s infinite linear;
+    z-index: 100 !important;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: scale(1) rotate(0deg);
+      color: #00ffd5;
+    }
+    50% {
+      transform: scale(1) rotate(-180deg);
+      color: #48ff00;
+    }
+    100% {
+      transform: scale(1) rotate(360deg);
+      color: pink;
+    }
+  }
+}

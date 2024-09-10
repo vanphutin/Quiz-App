@@ -9,6 +9,8 @@ import HeaderBackTo from "../components/common/HeaderBackTo/HeaderBackTo";
 import FormEnterOTP from "../components/ForgotPass/FormEnterOTP";
 import ModalEnterNewPass from "../components/ForgotPass/ModalEnterNewPass";
 import SignUpPage from "../pages/SignUpPage";
+import HeaderPage from "../pages/HeaderPage";
+import { getAllQuizzLevel } from "../services/apiQuizzes";
 const AuthLayout = () => {
   return (
     <>
@@ -35,8 +37,17 @@ const router = createBrowserRouter([
     element: <AuthLayout />,
     children: [
       {
-        element: <HomePage />,
-        path: "/",
+        element: <HeaderPage />,
+        children: [
+          {
+            element: <HomePage />,
+            path: "/",
+            loader: async () => {
+              const res = await getAllQuizzLevel();
+              return res.data;
+            },
+          },
+        ],
       },
       {
         element: <HeaderBackTo />,

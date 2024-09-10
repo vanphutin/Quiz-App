@@ -17,11 +17,23 @@ nav {
       padding: 0 30px;
       list-style: none;
       font-size: $font-size-text-lg;
+
+      a {
+        text-decoration: none;
+        color: $link-color;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: $link-hover-color;
+        }
+
+        &.active {
+          border-bottom: 1px solid;
+          width: 100%;
+          transition: 0.5s all;
+          color: $link-hover-color;
+        }
+      }
     }
   }
-}
-.active {
-  border-bottom: 1px solid;
-  width: 100%;
-  transition: 0.5s all;
 }
