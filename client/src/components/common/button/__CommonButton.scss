@@ -1,4 +1,6 @@
 .loading {
+  height: min-content !important;
+  display: inline-block !important;
   .loader-icon {
     margin-right: 7px;
     top: 2px;
