@@ -1,24 +1,42 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLoaderData, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const HomePage = () => {
-  const user = useSelector((state) => state.user.account);
-  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-  console.log("isAuthenticated", isAuthenticated);
+  const data = useLoaderData() || [];
+  const [loading, setLoading] = useState(true);
+  const hiddenRef = useRef(null);
 
-  return (
-    <div>
-      <h1>Profile</h1>
-      <p>Username: {user.username}</p>
-      <p>Firstname: {user.firstname}</p>
-      <p>Lastname: {user.lastname}</p>
-      <p>Email: {user.email}</p>
+  useEffect(() => {
+    // Giả lập thời gian chờ khi tải dữ liệu
+    const timer = setTimeout(() => {
+      if (data.length > 0) {
+        setLoading(false);
+      }
+    }, 500);
 
-      {isAuthenticated ? "ok" : "no"}
-    </div>
-  );
+    return () => clearTimeout(timer);
+  }, [data]);
+
+  useEffect(() => {
+    // Xử lý khi loading đã hoàn tất
+    if (!loading && hiddenRef.current) {
+      const hiddenElement = hiddenRef.current.previousSibling;
+      if (hiddenElement) {
+        // Đảm bảo rằng phần tử trước đó tồn tại và có thể xử lý
+        hiddenElement.classList.remove("d-none");
+      }
+    }
+  }, [loading]);
+
+  const capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
+  if (loading) {
+    // return <LoadingCompo loading={loading} />;
+  }
 };
 
 export default HomePage;
