@@ -11,6 +11,7 @@ import ModalEnterNewPass from "../components/ForgotPass/ModalEnterNewPass";
 import SignUpPage from "../pages/SignUpPage";
 import HeaderPage from "../pages/HeaderPage";
 import { getAllQuizzLevel } from "../services/apiQuizzes";
+import QuizPage from "../pages/QuizPage";
 const AuthLayout = () => {
   return (
     <>
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
               const res = await getAllQuizzLevel();
               return res.data;
             },
+          },
+          {
+            element: <QuizPage />,
+            path: "/quiz",
           },
         ],
       },
