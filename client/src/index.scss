@@ -30,6 +30,7 @@ button {
 
 a {
   color: $link-color;
+  text-decoration: none;
   &:hover {
     color: $link-hover-color;
   }

@@ -1,0 +1,23 @@
+@import "../../../assets/style/utils/responive";
+.quizzes {
+  .quizzes__level {
+    .quizzes__level-title {
+    }
+  }
+
+  .quizzes__type {
+    .quizzes__type-item {
+      .quizzes__type-item-title {
+      }
+      .quizzes__type-item-card {
+        .swiper-slide {
+          width: 450px;
+
+          @include mobile {
+            width: 300px;
+          }
+        }
+      }
+    }
+  }
+}
