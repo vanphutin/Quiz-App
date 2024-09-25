@@ -23,11 +23,12 @@ const userSlice = createSlice({
   reducers: {
     USER_LOGIN_SUCCESS: (state, action) => {
       localStorage.setItem("token", action.payload.token);
+
       return {
         ...state,
         account: {
           token: localStorage.getItem("token") || null,
-          user_id: action.payload.user_id,
+          user_id: action.payload.user.user_id,
           username: action.payload.user.username,
           firstname: action.payload.user.firstname,
           lastname: action.payload.user.lastname,
