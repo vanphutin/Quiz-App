@@ -1,0 +1,65 @@
+@import "../../assets/style/utils/variables";
+
+.card {
+  padding: 20px;
+  background-color: $background-quiz;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  .quiz__card {
+    padding: 20px;
+    background-color: #fff;
+    background-color: $background-quiz;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+
+    &--level {
+      border-color: #475847;
+    }
+
+    &__title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      color: $text-color;
+    }
+
+    &__description {
+      font-size: 16px;
+      margin-bottom: 20px;
+      color: #666;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+    }
+
+    &__creator {
+      display: flex;
+      align-items: center;
+
+      &__avatar {
+        width: 30px;
+        height: 30px;
+        background-color: #ddd;
+        border-radius: 50%;
+        margin-right: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .avatar-icon {
+          font-size: 20px;
+          color: #333;
+        }
+      }
+
+      &__name {
+        font-size: 16px;
+        color: $text-color;
+      }
+    }
+  }
+}
