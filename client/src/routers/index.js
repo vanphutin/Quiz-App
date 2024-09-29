@@ -12,6 +12,8 @@ import SignUpPage from "../pages/SignUpPage";
 import HeaderPage from "../pages/HeaderPage";
 import { getAllQuizzLevel } from "../services/apiQuizzes";
 import QuizPage from "../pages/QuizPage";
+import AdminPage from "../pages/AdminPage";
+
 const AuthLayout = () => {
   return (
     <>
@@ -76,6 +78,10 @@ const router = createBrowserRouter([
           {
             element: <SignUpPage />,
             path: "/sign-up",
+          },
+          {
+            element: <AdminPage />,
+            path: "/admin",
           },
         ],
       },
