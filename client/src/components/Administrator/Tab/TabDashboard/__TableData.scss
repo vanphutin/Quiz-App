@@ -1,0 +1,57 @@
+@import "../../../../assets/style/utils/variables";
+.dashboard__table__main {
+  table {
+    thead {
+      background: #000;
+      tr {
+        background: #000;
+        th {
+          background: #000;
+          color: $text-color;
+          text-align: center;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        td {
+          color: $text-color;
+          background: $background-card;
+        }
+
+        button {
+          padding: 10px 15px;
+          margin: 2px;
+          color: $text-color;
+          font-weight: 500;
+        }
+        button.btn-dark {
+          background-color: #6c757d;
+        }
+        button.btn-danger {
+          background-color: #dc3545;
+        }
+      }
+    }
+  }
+}
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  ul.MuiPagination-ul {
+    li {
+      padding: 0 15px;
+      color: #fff;
+      button {
+        color: #fff;
+        border: 1px solid #fff;
+      }
+      .MuiPaginationItem-root {
+        color: #fff;
+      }
+    }
+  }
+}

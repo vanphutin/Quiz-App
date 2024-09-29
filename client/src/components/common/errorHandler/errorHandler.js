@@ -18,7 +18,7 @@ export const handleErrorResponse = (error) => {
     } else if (status === 404) {
       toast.error("Resource not found");
     } else if (status === 500) {
-      toast.error("Server error. Please try again later.");
+      toast.error(data.message || "Server error. Please try again later.");
     } else {
       toast.error(data.error || "An error occurred");
     }
