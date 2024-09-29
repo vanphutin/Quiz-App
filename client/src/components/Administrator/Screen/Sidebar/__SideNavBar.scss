@@ -1,0 +1,88 @@
+@import "../../../../assets/style/utils/variables";
+@import "../../../../assets/style/utils/responive";
+
+.sidebar {
+  background-color: $background-secondary;
+  color: white;
+  top: 0;
+  left: 0;
+  width: 250px; // Set width cho sidebar
+  height: 90vh; // Đảm bảo sidebar chiếm toàn bộ chiều cao của màn hình
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+  transition: width 0.3s ease; // Thêm animation khi mở/đóng sidebar
+  border-radius: 10px;
+
+  @include mobile {
+    width: 60px; // Thu gọn sidebar trên mobile
+    padding: 0; // Loại bỏ padding trên mobile
+  }
+
+  .sidebar_logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    @include mobile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sidebar_logo__main {
+      @include mobile {
+        display: none;
+      }
+    }
+
+    .sidebar_logo__menu {
+      display: none;
+
+      @include mobile {
+        display: block;
+        cursor: pointer;
+      }
+    }
+  }
+
+  ul.sidebar_nav {
+    list-style: none;
+    text-align: center;
+    border-radius: 8px;
+    padding: 20px;
+
+    li {
+      text-align: start;
+      padding: 15px 0;
+
+      a {
+        display: flex;
+        align-items: center; // Đảm bảo icon và text được căn chỉnh theo chiều dọc
+        text-decoration: none;
+        font-size: $font-size-title;
+        color: white;
+        transition: color 0.2s ease; // Animation khi hover
+
+        &:hover {
+          color: $link-hover-color;
+          text-decoration: underline;
+        }
+
+        p {
+          font-size: $font-size-text-lg;
+          text-align: center;
+          margin-bottom: 0;
+          padding-left: 10px;
+
+          @include mobile {
+            display: none; // Ẩn text menu trên mobile
+          }
+        }
+      }
+    }
+
+    @include mobile {
+      text-align: center; // Đảm bảo căn giữa icon khi text bị ẩn
+    }
+  }
+}

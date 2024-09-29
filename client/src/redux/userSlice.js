@@ -23,11 +23,12 @@ const userSlice = createSlice({
   reducers: {
     USER_LOGIN_SUCCESS: (state, action) => {
       localStorage.setItem("token", action.payload.token);
+
       return {
         ...state,
         account: {
           token: localStorage.getItem("token") || null,
-          user_id: action.payload.user_id,
+          user_id: action.payload.user.user_id,
           username: action.payload.user.username,
           firstname: action.payload.user.firstname,
           lastname: action.payload.user.lastname,
@@ -41,29 +42,24 @@ const userSlice = createSlice({
         isAuthenticated: true, // Set authentication status to true
       };
     },
-    USER_LOGOUT_SUCCESS: (state, action) => {
-      localStorage.removeItem("token");
-
-      return {
-        ...state,
-        account: {
-          token: null,
-          user_id: "",
-          username: "",
-          firstname: "",
-          lastname: "",
-          school: "",
-          email: "",
-          gender: "",
-          role: "",
-          avatar: "",
-          created_at: "",
-        },
-        isAuthenticated: false,
+    USER_LOGOUT_SUCCESS: (state) => {
+      state.account = {
+        token: null,
+        user_id: "",
+        username: "",
+        firstname: "",
+        lastname: "",
+        school: "",
+        email: "",
+        gender: "",
+        role: "",
+        avatar: "",
+        created_at: "",
       };
+      state.isAuthenticated = false;
     },
   },
 });
 
-export const { USER_LOGIN_SUCCESS, USER_LOGOUT_SUCCESS } = userSlice.actions; // Use the correct action name
+export const { USER_LOGIN_SUCCESS, USER_LOGOUT_SUCCESS } = userSlice.actions;
 export default userSlice.reducer;
