@@ -15,13 +15,13 @@ const Auth = () => {
       ) : (
         <>
           <Link to="/sign-up">
-            <button class="btn btn-outline-secondary nav-auth__btn nav-auth__login text-white">
+            <button className="btn btn-outline-secondary nav-auth__btn nav-auth__login text-white">
               Sign up
             </button>
           </Link>
           <Link to="/login">
             <button
-              class="btn btn-info nav-auth__btn nav-auth__login"
+              className="btn btn-info nav-auth__btn nav-auth__login"
               style={{ marginLeft: "20px" }}
             >
               Sign in

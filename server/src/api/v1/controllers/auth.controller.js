@@ -84,7 +84,7 @@ module.exports.forgotPassword = async (req, res) => {
 
     const subject = "OTP code to authenticate and retrieve password";
     const text = `
-    <div class=" box-message-send-otp " >
+    <div className=" box-message-send-otp " >
       <div style="margin-bottom:10px">Hi ${user.firstname}, </div>
       <p>We have received your request to reset your Quiz App password.</p>
       <p style="margin-bottom:10px">Enter the following password reset code:</p>

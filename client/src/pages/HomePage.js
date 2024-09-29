@@ -15,7 +15,7 @@ const HomePage = () => {
       if (data.length > 0) {
         setLoading(false);
       }
-    }, 10000);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [data]);

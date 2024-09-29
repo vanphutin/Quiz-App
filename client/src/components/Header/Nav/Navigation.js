@@ -13,11 +13,11 @@ const Navigation = ({ handleLinkClick }) => {
         </li>
         <li>
           <NavLink
-            to="/quiz" // Update with correct route
+            to="/rank" // Update with correct route
             className={({ isActive }) => (isActive ? "active" : "")}
             onClick={handleLinkClick}
           >
-            Quiz
+            Rank
           </NavLink>
         </li>
         <li>
