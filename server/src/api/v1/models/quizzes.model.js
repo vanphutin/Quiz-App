@@ -43,6 +43,35 @@ const Quizzes = {
       throw new Error(`ERROR: get Quizzes Level - ${error.message}`);
     }
   },
+  createNewQuiz: async (
+    quiz_id,
+    title,
+    description,
+    created_by_user_id,
+    category_id,
+    level
+  ) => {
+    const sql_createNewQuiz = `INSERT INTO quizzes (quiz_id,
+    title,
+    description,
+    created_by_user_id,
+    category_id,
+    level) VALUES (?, ?, ?, ?, ?, ?) `;
+
+    try {
+      const result = await query(sql_createNewQuiz, [
+        quiz_id,
+        title,
+        description,
+        created_by_user_id,
+        category_id,
+        level,
+      ]);
+      return result;
+    } catch (error) {
+      throw new Error(`ERROR: create new quiz - ${error.message}`);
+    }
+  },
 };
 
 module.exports = Quizzes;

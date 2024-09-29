@@ -1,4 +1,6 @@
 const Quizzes = require("../models/quizzes.model");
+const { v4: uuidv4 } = require("uuid");
+
 module.exports.getLevels = async (req, res) => {
   try {
     const levels = await Quizzes.getLevels();
@@ -71,6 +73,61 @@ module.exports.getQuizzesLevel = async (req, res) => {
         itemsPerPage: limit,
         totalItems: quizzesByCategory.length,
       },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      statusCode: 500,
+      message: `Error at quizzes: ${error.message}`,
+      name: error.name,
+    });
+  }
+};
+
+module.exports.createNewQuiz = async (req, res) => {
+  const { title, description, created_by_user_id, category_id, level } =
+    req.body;
+
+  const valid = [
+    "title",
+    "description",
+    "created_by_user_id",
+    "category_id",
+    "level",
+  ];
+  const init_level = ["easy", "medium", "hard"];
+
+  // Check if title is one of the valid levels
+  if (!init_level.includes(level)) {
+    return res.status(400).json({
+      statusCode: 400,
+      message: `Invalid level. Level must be one of: ${init_level.join(", ")}`,
+    });
+  }
+
+  // Check if all required fields are present in req.body
+  for (let i = 0; i < valid.length; i++) {
+    if (!req.body[valid[i]]) {
+      // Check if the field is missing or undefined
+      return res.status(400).json({
+        statusCode: 400,
+        message: `Missing required field: ${valid[i]}`,
+      });
+    }
+  }
+  const quiz_id = uuidv4();
+  try {
+    const createQuiz = await Quizzes.createNewQuiz(
+      quiz_id,
+      title,
+      description,
+      created_by_user_id,
+      category_id,
+      level
+    );
+
+    res.status(201).json({
+      statusCode: 201,
+      message: "Create quiz successful",
     });
   } catch (error) {
     return res.status(500).json({

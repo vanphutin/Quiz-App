@@ -1,0 +1,13 @@
+@import "../../../../assets/style/utils/variables";
+.quiz {
+  .quiz__model {
+    button.quiz__model__creare-quiz {
+      padding: 10px 20px;
+      font-size: $font-size-text-lg;
+      span.quiz-icon {
+        font-size: $font-size-text-lg;
+        margin-right: 10px;
+      }
+    }
+  }
+}

@@ -18,5 +18,22 @@ const getQuizzes = (level, sort, page, limit) => {
   url = url.endsWith("&") ? url.slice(0, -1) : url;
   return axios.get(url);
 };
+
+const postQuiz = (
+  title,
+  category_id,
+  description,
+  level,
+  created_by_user_id
+) => {
+  return axios.post(`${QUIZZES_API}`, {
+    title,
+    category_id,
+    description,
+    level,
+    created_by_user_id,
+  });
+};
 export { getAllQuizzLevel };
 export { getQuizzes };
+export { postQuiz };

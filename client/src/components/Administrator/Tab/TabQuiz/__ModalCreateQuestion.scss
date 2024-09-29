@@ -1,0 +1,32 @@
+@import "../../../../assets/style/utils/variables";
+
+.modal-dialog {
+  .modal-content {
+    background: $background-color;
+  }
+}
+
+form {
+  label {
+    color: $text-color !important;
+    font-size: 0.9rem !important;
+  }
+  span {
+    font-size: 0.8rem;
+  }
+}
+.modal-header {
+  button {
+    background-color: #b1b1b1;
+  }
+}
+.timer {
+  font-size: 12px; /* Change the font size */
+  color: gray; /* Change the text color */
+  margin-left: 10px; /* Add some space between the text and time */
+  font-style: italic; /* Make the time italic */
+  display: inline-block; /* Make sure it stays inline with the text */
+  background-color: #f0f0f0; /* Light background color */
+  padding: 2px 5px; /* Add some padding around the text */
+  border-radius: 5px; /* Rounded corners */
+}
