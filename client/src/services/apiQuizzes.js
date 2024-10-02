@@ -34,6 +34,10 @@ const postQuiz = (
     created_by_user_id,
   });
 };
+const deleteQuiz = (quiz_id) => {
+  return axios.put(`${QUIZZES_API}/${quiz_id}`);
+};
 export { getAllQuizzLevel };
 export { getQuizzes };
 export { postQuiz };
+export { deleteQuiz };

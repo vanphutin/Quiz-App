@@ -31,7 +31,7 @@ const Quizzes = {
       FROM categories c
       JOIN quizzes q ON c.category_id = q.category_id
       JOIN users u ON q.created_by_user_id = u.user_id
-      WHERE q.level = ?
+      WHERE q.level = ? AND q.is_deleted = 0
       GROUP BY c.category_name
       ORDER BY q.created_at ${sort.toUpperCase()}
       LIMIT ? OFFSET ?`; // Thêm phần phân trang
@@ -70,6 +70,16 @@ const Quizzes = {
       return result;
     } catch (error) {
       throw new Error(`ERROR: create new quiz - ${error.message}`);
+    }
+  },
+  deleteQuiz: async (quiz_id) => {
+    const sql_deleteQuiz =
+      "UPDATE quizzes SET is_deleted = 1 WHERE quiz_id = ?";
+    try {
+      const result = await query(sql_deleteQuiz, [quiz_id]);
+      return result;
+    } catch (error) {
+      throw new Error(`ERROR: delete quiz - ${error.message}`);
     }
   },
 };

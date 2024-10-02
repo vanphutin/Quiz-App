@@ -28,7 +28,6 @@ const Dashboard = () => {
 
   const [nameCategorie, setNameCategorie] = useState("");
   const [countCategorie, setCountCategorie] = useState(0);
-
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
@@ -79,12 +78,11 @@ const Dashboard = () => {
       const resQuestion = await getQuestion();
       const resCategorie = await getCategorieTotal();
 
-      if (resQuestion.statusCode === 200 || resCategorie.statusCode === 200) {
-        setCountQuestion(resQuestion.questionCount);
-        setNameQuestion(resQuestion.name);
-
+      if (resCategorie.statusCode === 200 || resQuestion.statusCode === 200) {
         setCountCategorie(resCategorie.categorieCount);
         setNameCategorie(resCategorie.name);
+        setCountQuestion(resQuestion.questionCount);
+        setNameQuestion(resQuestion.name);
       } else {
         return <p>No data</p>;
       }
@@ -130,20 +128,8 @@ const Dashboard = () => {
               <CardAnalyticalData
                 count={countQuiz || "NaN"}
                 description={
-                  nameQuiz.charAt(0).toLocaleUpperCase() + nameQuiz.slice(1) ||
-                  "NaN"
-                }
-              />
-            </li>
-            <li
-              style={{ listStyle: "none" }}
-              className="col-12 col-md-6 col-lg-3"
-            >
-              <CardAnalyticalData
-                count={countQuestion || "NaN"}
-                description={
-                  nameQuestion.charAt(0).toLocaleUpperCase() +
-                    nameQuestion.slice(1) || "NaN"
+                  nameQuiz?.charAt(0).toLocaleUpperCase() +
+                    nameQuiz?.slice(1) || "NaN"
                 }
               />
             </li>
@@ -155,7 +141,19 @@ const Dashboard = () => {
                 count={countCategorie || "NaN"}
                 description={
                   nameCategorie.charAt(0).toLocaleUpperCase() +
-                    nameCategorie.slice(1) || "NaN"
+                    nameCategorie.slice(1) || "Categorie"
+                }
+              />
+            </li>
+            <li
+              style={{ listStyle: "none" }}
+              className="col-12 col-md-6 col-lg-3"
+            >
+              <CardAnalyticalData
+                count={countQuestion || "NaN"}
+                description={
+                  nameQuestion.charAt(0).toLocaleUpperCase() +
+                    nameQuestion.slice(1) || "Question"
                 }
               />
             </li>

@@ -82,6 +82,7 @@ function ModalCreateQuiz({ show, handleClose }) {
       try {
         if (res.statusCode === 201) {
           handleClose(true);
+
           return toast.success("Create new a quizz successful");
         }
       } catch (error) {

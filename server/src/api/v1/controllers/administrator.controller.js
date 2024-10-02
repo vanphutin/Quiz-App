@@ -123,6 +123,8 @@ module.exports.countQuestion = async (req, res) => {
 module.exports.countCategories = async (req, res) => {
   try {
     const categorie = await Administrator.countCategories();
+    console.log("categorie", categorie);
+
     if (categorie === 0) {
       return res.status(200).json({
         statusCode: 200,

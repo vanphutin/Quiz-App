@@ -137,3 +137,36 @@ module.exports.createNewQuiz = async (req, res) => {
     });
   }
 };
+// delete quiz
+
+module.exports.deleteQuiz = async (req, res) => {
+  const quiz_id = req.params.id;
+
+  if (!quiz_id) {
+    return res.status(400).json({
+      statusCode: 400,
+      message: "ID Invalid",
+    });
+  }
+  try {
+    const quiz_d = await Quizzes.deleteQuiz(quiz_id);
+    if (!quiz_d) {
+      return res.status(400).json({
+        statusCode: 400,
+        message: "Don't delete this quiz ",
+      });
+    }
+
+    return res.status(200).json({
+      statusCode: 200,
+      message: "Delete quiz successful",
+      code: "DELETE_QUIZ",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      statusCode: 500,
+      message: `Error at quizzes: ${error.message}`,
+      name: error.name,
+    });
+  }
+};

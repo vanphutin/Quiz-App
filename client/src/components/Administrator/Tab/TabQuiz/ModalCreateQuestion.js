@@ -1,6 +1,7 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import InputField from "../../../common/InputField/InputField";
+import { TbReload } from "react-icons/tb";
 
 import * as React from "react";
 import Radio from "@mui/material/Radio";
@@ -19,6 +20,7 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { postQuestion } from "../../../../services/apiQuestion";
 function ModalCreateQuestion(props) {
+  const { dataquiz } = props;
   const level = ["easy", "medium", "hard"];
   const question_type = ["multiple_choice", "true_false", "short_answer"];
   const [quizData, setQuizzData] = React.useState("");
@@ -145,26 +147,6 @@ function ModalCreateQuestion(props) {
     }
   };
 
-  React.useEffect(() => {
-    if (user) {
-      fetchApiGetQuiz(user.user_id);
-    }
-  }, []);
-  const fetchApiGetQuiz = async (user) => {
-    try {
-      const res = await getQuiz(user);
-      if (res.statusCode === 200) {
-        setQuizzData(res.data);
-      } else {
-        console.log("error at fetchApiGetQuiz");
-      }
-    } catch (error) {
-      console.log("error", error);
-
-      handleErrorResponse(error);
-    }
-  };
-
   const handleOnChange = (type, questionID, value) => {
     if (type === "QUESTION") {
       let questionClone = _.cloneDeep(questions);
@@ -240,8 +222,6 @@ function ModalCreateQuestion(props) {
       });
     });
 
-    console.log("questionClone", questionClone);
-
     try {
       const res = await postQuestion(questions);
       console.log("res", res);
@@ -273,7 +253,7 @@ function ModalCreateQuestion(props) {
           },
         ]);
 
-        return toast.success(res.message || "Submit successful"); // Thông báo thành công
+        return toast.success(res.message || "Submit successful");
       } else {
         return toast.error("Submit failed"); // Thông báo lỗi nếu submit không thành công
       }
@@ -338,8 +318,8 @@ function ModalCreateQuestion(props) {
                 onChange={(e) => setQuizzChoose(e.target.value)}
               >
                 <option value="">Selection</option>
-                {quizData &&
-                  quizData.map((item, index) => (
+                {dataquiz &&
+                  dataquiz.map((item, index) => (
                     <React.Fragment key={index}>
                       <option value={item.quiz_id}>
                         {item.title}

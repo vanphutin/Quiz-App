@@ -11,12 +11,47 @@ import { useSelector } from "react-redux";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import { SiQuizlet } from "react-icons/si";
 import { BsFillPatchQuestionFill } from "react-icons/bs";
+import { TbReload } from "react-icons/tb";
 
 const TabQuiz = () => {
   const [show, setShow] = useState(false);
   const [data, setData] = useState([]);
   const [countQuiz, setCountQuiz] = useState(0);
   const user = useSelector((state) => state.user.account);
+  const [dataQuiz, setDataQuiz] = useState([]);
+
+  //reload page to get latest request
+  const [reloadload, setReload] = React.useState(0);
+  const handleReload = () => {
+    setReload(reloadload + 1);
+  };
+  console.log("reloadload", reloadload);
+  console.log("data", data);
+
+  React.useEffect(() => {
+    if (user) {
+      fetchApiGetQuiz(user.user_id);
+    }
+  }, [user, reloadload]);
+  let data_length_limit = 0;
+  const fetchApiGetQuiz = async (user) => {
+    try {
+      const res = await getQuiz(1, data_length_limit, null, user);
+
+      data_length_limit = res.quizCount;
+      console.log(data_length_limit);
+
+      if (res.statusCode === 200) {
+        setDataQuiz(res.data);
+      } else {
+        console.log("error at fetchApiGetQuiz");
+      }
+    } catch (error) {
+      console.log("error", error);
+
+      handleErrorResponse(error);
+    }
+  };
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,11 +65,11 @@ const TabQuiz = () => {
     if (user && user.role === "admin") {
       fetchApi(currentPage, itemsPerPage, sort);
     }
-  }, [currentPage, sort, user]);
+  }, [currentPage, sort, user, reloadload]);
 
   const fetchApi = async (currentPage, itemsPerPage, sort, userID) => {
     try {
-      const res = await getQuiz(currentPage, itemsPerPage, sort, userID);
+      const res = await getQuiz(currentPage, 6, sort, userID);
       if (res.statusCode === 200) {
         setData(res.data);
         setCountQuiz(res.quizCount);
@@ -45,7 +80,9 @@ const TabQuiz = () => {
     }
   };
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+  };
   const handleShowModalCategories = () => {
     setShow(true);
   };
@@ -67,7 +104,10 @@ const TabQuiz = () => {
   const handleShowModalQuizz = () => {
     setShowQuesCreate(true);
   };
-  const handleCloseQuesCreate = () => setShowQuesCreate(false);
+  const handleCloseQuesCreate = () => {
+    setShowQuesCreate(false);
+    handleReload();
+  };
   return (
     <div className="quiz">
       <div className="quiz__model d-flex gap-4">
@@ -103,11 +143,11 @@ const TabQuiz = () => {
       </div>
       <hr />
       <div className="quiz__table mt-3">
-        <div className="quiz__table__title">
+        <div className="quiz__table__title ">
           <h2>Categories Table</h2>
         </div>
         <div className="quiz__table__main mt-3">
-          <TableData data={data} />
+          <TableData data={data} onDeleteSuccess={handleReload} />
         </div>
         <div className="pagination">
           <Pagination
@@ -130,6 +170,8 @@ const TabQuiz = () => {
       <ModalCreateQuestion
         show={modalShowQues}
         onHide={() => setModalShowQues(false)}
+        dataquiz={dataQuiz}
+        handleReload={handleReload}
       />
     </div>
   );
