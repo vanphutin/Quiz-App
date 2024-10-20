@@ -3,16 +3,19 @@ import avatar from "../../../assets/image/avatar-user.jpg";
 import { USER_LOGOUT_SUCCESS } from "../../../redux/userSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useContext } from "react";
+import { DataQuesContext } from "../../../context/DataQuesContext";
 
 function UserDropDown(props) {
   const user = useSelector((state) => state.user.account);
-
   const navigator = useNavigate();
   const dispatch = useDispatch();
+  const { setError } = useContext(DataQuesContext);
 
   const handleLogout = () => {
     navigator("/login");
     dispatch(USER_LOGOUT_SUCCESS());
+    setError("Request failed with status code 403");
   };
 
   return (

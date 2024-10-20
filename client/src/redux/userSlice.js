@@ -43,6 +43,7 @@ const userSlice = createSlice({
       };
     },
     USER_LOGOUT_SUCCESS: (state) => {
+      localStorage.removeItem("token");
       state.account = {
         token: null,
         user_id: "",

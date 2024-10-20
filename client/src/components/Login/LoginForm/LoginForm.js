@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import InputField from "../../common/InputField/InputField";
 import Button from "react-bootstrap/Button";
 import "./__LoginForm.scss";
 import CommonButton from "../../common/button/CommonButton";
 import { Link } from "react-router-dom";
+import { DataQuesContext } from "../../../context/DataQuesContext";
 
 const LoginForm = ({ isLoading, setIsLoading, onLogin }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const { setError } = useContext(DataQuesContext);
 
   const [errors, setErrors] = useState({});
 
@@ -40,7 +42,6 @@ const LoginForm = ({ isLoading, setIsLoading, onLogin }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -48,6 +49,7 @@ const LoginForm = ({ isLoading, setIsLoading, onLogin }) => {
       return;
     }
 
+    setError(null || "");
     setIsLoading(true);
     onLogin(formData);
     console.log("Form submitted");

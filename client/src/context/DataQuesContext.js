@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import { getQuestionById } from "../services/apiQuestion";
 import { handleErrorResponse } from "../components/common/errorHandler/errorHandler";
+import { set } from "nprogress";
 
 // Tạo context
 const DataQuesContext = createContext(null);
@@ -12,6 +13,7 @@ const MyProvider = ({ children }) => {
   const [quizId, setQuizId] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [codeStatus, setCodeStatus] = useState(0);
 
   // kiểm tra trước khi làm bài thi
   // chưa đăng nhập or hết hạn token thì error code - status
@@ -48,6 +50,7 @@ const MyProvider = ({ children }) => {
         quizId,
         setQuizId,
         setTitleQuiz,
+        setError,
         loading,
         error,
       }}
