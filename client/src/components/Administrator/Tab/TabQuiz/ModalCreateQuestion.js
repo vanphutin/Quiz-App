@@ -29,6 +29,7 @@ function ModalCreateQuestion(props) {
   const [questionType, setQuestionType] = React.useState("multiple_choice");
   const user = useSelector((state) => state.user.account);
   const questionId = uuidv4();
+  const [point, setPoint] = React.useState(10);
   const [questions, setQuestions] = React.useState([
     {
       question_id: questionId,
@@ -95,6 +96,7 @@ function ModalCreateQuestion(props) {
 
   const handleActionQuestion = (type, id) => {
     if (type === "ADD") {
+      setPoint((count) => count + 10);
       const questionId = uuidv4();
       const newQuestion = {
         question_id: questionId,
@@ -114,6 +116,7 @@ function ModalCreateQuestion(props) {
       setQuestions([...questions, newQuestion]);
     }
     if (type === "REMOVE") {
+      setPoint((count) => count - 10);
       let questionClone = _.cloneDeep(questions);
       questionClone = questionClone.filter((item) => item.question_id !== id);
       setQuestions(questionClone);
@@ -223,8 +226,9 @@ function ModalCreateQuestion(props) {
     });
 
     try {
-      const res = await postQuestion(questions);
+      const res = await postQuestion(questions, point);
       console.log("res", res);
+      console.log("point", point);
       if (res.codeStatus === 201) {
         props.onHide(); // Đóng modal
 
@@ -232,7 +236,7 @@ function ModalCreateQuestion(props) {
         setQuestions([
           {
             question_id: uuidv4(),
-            quiz_id: "",
+            quiz_id: uuidv4(),
             question_text: "",
             question_type: "multiple_choice",
             difficulty: "easy",
@@ -262,6 +266,11 @@ function ModalCreateQuestion(props) {
       handleErrorResponse(error); // Handle the error response appropriately
       return toast.error("An error occurred while submitting"); // Xử lý lỗi
     }
+  };
+  const [file, setFile] = React.useState(null);
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
   };
 
   return (
@@ -436,6 +445,20 @@ function ModalCreateQuestion(props) {
               </div>
             ))}
 
+          <div className="d-flex align-items-center justify-content-between px-3">
+            <label htmlFor="" className="mb-3">
+              <p>
+                {" "}
+                Upload file excel <span>(being updated ...)</span>
+              </p>
+              <input type="file" accept=".xlsx" onChange={handleFileChange} />
+            </label>
+            <div className="point">
+              <button disabled={true} className="btn btn-light">
+                POINT : {point}
+              </button>
+            </div>
+          </div>
           <Modal.Footer>
             <Button onClick={props.onHide} className="btn btn-light">
               Close

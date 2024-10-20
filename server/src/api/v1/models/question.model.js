@@ -41,6 +41,31 @@ const Question = {
       throw error;
     }
   },
+  getQuestion: async (quiz_id) => {
+    const sql_getQuestion = `
+    SELECT 
+        q.question_id,
+        q.question_text,
+        q.question_type,
+        q.difficulty,
+        o.option_id,
+        o.option_text,
+        o.is_correct
+    FROM 
+        questions q
+    LEFT JOIN 
+        options o ON q.question_id = o.question_id
+    WHERE 
+        q.quiz_id=? AND q.is_deleted = 0
+`;
+    try {
+      const result = await query(sql_getQuestion, [quiz_id]);
+      return result;
+    } catch (error) {
+      console.error("Error in get all question:", error);
+      throw error;
+    }
+  },
 };
 
 module.exports = Question;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import "./__QuizCard.scss";
+import { Link } from "react-router-dom";
 
 const QuizCard = ({ data }) => {
   return (
@@ -11,8 +12,7 @@ const QuizCard = ({ data }) => {
           className="quiz__card__description"
           data-toggle="tooltip"
           data-placement="top"
-          title=" A quiz to test your math skills Lorem ipsum dolor sit amet consect
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit."
+          title={data.description}
         >
           {data.description}
         </div>

@@ -10,14 +10,18 @@ import { Provider } from "react-redux";
 import { store, persistor } from "./redux/configureStore";
 import { PersistGate } from "redux-persist/integration/react";
 import "nprogress/nprogress.css";
+import { MyProvider } from "./context/DataQuesContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <React.StrictMode>
+      {/* <React.StrictMode> */}
+      <MyProvider>
         <RouterProvider router={router}></RouterProvider>
-      </React.StrictMode>
+      </MyProvider>
+
+      {/* </React.StrictMode> */}
     </PersistGate>
   </Provider>
 );

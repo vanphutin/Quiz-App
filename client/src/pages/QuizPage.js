@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import QuizCard from "../components/Quizzes/QuizCard";
 import QuizCardTitle from "../components/Quizzes/QuizCardTitle";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -10,15 +10,29 @@ import { getQuizzes } from "../services/apiQuizzes";
 import SkeletonLoader from "../components/common/skeletonLoader/SkeletonLoader";
 
 const QuizPage = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const level = useLocation()?.state?.titleLevel;
+  const location = useLocation();
+  const level = location?.state?.titleLevel; // Lấy level từ state
   const [dataQuizzes, setDataQuizzes] = useState([]);
+  const quizzesFromState = location?.state?.dataQuizzes; // Lấy quizzes từ state
 
   useEffect(() => {
-    if (level) {
-      fetchApiQuiz(level.toLowerCase());
+    const storedLevel = localStorage.getItem("level");
+    const levelToUse =
+      level || new URLSearchParams(location.search).get("level");
+
+    if (quizzesFromState) {
+      setDataQuizzes(quizzesFromState); // Sử dụng quizzes từ state
+    } else if (levelToUse) {
+      fetchApiQuiz(levelToUse.toLowerCase());
+      localStorage.setItem("level", levelToUse.toLowerCase());
+    } else if (storedLevel) {
+      fetchApiQuiz(storedLevel);
+    } else {
+      navigate("/");
     }
-  }, [level]);
+  }, [level, quizzesFromState, location.search]);
 
   //fetch api
   const fetchApiQuiz = async (level) => {
@@ -36,6 +50,7 @@ const QuizPage = () => {
       setLoading(false);
     }
   };
+
   if (loading) {
     return (
       <span className="container mt-5 d-flex gap-3">
@@ -49,10 +64,9 @@ const QuizPage = () => {
     <div className="quizzes container mt-3">
       <div className="quizzes__level text-end">
         <span>
-          Level
+          Level{"  "}
           <i>
             <h2 className="quizzes__level-title d-inline">
-              {" "}
               {level?.toLowerCase()}
             </h2>
           </i>
@@ -71,9 +85,18 @@ const QuizPage = () => {
                   spaceBetween={40}
                   slidesPerView={"auto"}
                 >
-                  {item.quizzes.map((data, index) => (
-                    <SwiperSlide key={index}>
-                      <QuizCard data={data} />
+                  {item.quizzes.map((data) => (
+                    <SwiperSlide key={data.quiz_id}>
+                      <Link
+                        to="intro-quiz"
+                        state={{
+                          id: data?.quiz_id,
+                          title: data?.title,
+                          totalQuestion: dataQuizzes?.length,
+                        }}
+                      >
+                        <QuizCard data={data} />
+                      </Link>
                     </SwiperSlide>
                   ))}
                 </Swiper>

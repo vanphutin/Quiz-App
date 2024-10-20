@@ -13,6 +13,9 @@ import HeaderPage from "../pages/HeaderPage";
 import { getAllQuizzLevel } from "../services/apiQuizzes";
 import QuizPage from "../pages/QuizPage";
 import AdminPage from "../pages/AdminPage";
+import QuestionPage from "../pages/QuestionPage";
+import ResultPage from "../pages/ResultPage";
+import IntroQuiz from "../pages/IntroQuiz";
 
 const AuthLayout = () => {
   return (
@@ -47,12 +50,29 @@ const router = createBrowserRouter([
             path: "/",
             loader: async () => {
               const res = await getAllQuizzLevel();
-              return res.data;
+              const levelOrder = ["easy", "medium", "hard"];
+              return res.data.sort((a, b) => {
+                return (
+                  levelOrder.indexOf(a.level) - levelOrder.indexOf(b.level)
+                );
+              });
             },
           },
           {
             element: <QuizPage />,
             path: "/quiz",
+          },
+          {
+            element: <ResultPage />,
+            path: "/quiz/result",
+          },
+          {
+            element: <IntroQuiz />,
+            path: "/quiz/intro-quiz",
+          },
+          {
+            element: <QuestionPage />,
+            path: "/quiz/:id",
           },
         ],
       },

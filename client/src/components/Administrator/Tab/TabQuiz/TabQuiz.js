@@ -25,8 +25,6 @@ const TabQuiz = () => {
   const handleReload = () => {
     setReload(reloadload + 1);
   };
-  console.log("reloadload", reloadload);
-  console.log("data", data);
 
   React.useEffect(() => {
     if (user) {
@@ -39,7 +37,6 @@ const TabQuiz = () => {
       const res = await getQuiz(1, data_length_limit, null, user);
 
       data_length_limit = res.quizCount;
-      console.log(data_length_limit);
 
       if (res.statusCode === 200) {
         setDataQuiz(res.data);

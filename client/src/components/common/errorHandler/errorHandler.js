@@ -1,19 +1,19 @@
 import { toast } from "react-toastify";
 
 // errorHandler.js
-export const handleErrorResponse = (error) => {
+export const handleErrorResponse = (error, navigate) => {
   if (error.response) {
     // Có phản hồi từ server với status code nằm ngoài 2xx
-
     const { status, data } = error.response;
     console.log("data", data);
+
     if (status === 400) {
       toast.error(data.error || data.message || "Bad request");
-    } else if (status === 400) {
-      toast.error(data.error || data.message || "Bad request");
     } else if (status === 401) {
-      toast.error(error.response.data.error);
+      navigate("/login");
+      toast.error(data.error || data.message || "Unauthorized");
     } else if (status === 403) {
+      navigate("/login");
       toast.error(data.error || data.message || "Forbidden");
     } else if (status === 404) {
       toast.error("Resource not found");
