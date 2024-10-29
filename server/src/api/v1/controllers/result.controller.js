@@ -54,25 +54,31 @@ module.exports.postResult = async (req, res) => {
 };
 
 module.exports.countAttempts = async (req, res) => {
-  const { user_id, quiz_id } = req.body;
+  const { quiz_id, user_id } = req.query; // Lấy từ req.query
+  console.log(user_id, quiz_id);
+  console.log(req.query);
+
   const result_init = ["quiz_id", "user_id"];
   for (let i = 0; i < result_init.length; i++) {
-    if (!req.body[result_init[i]]) {
+    if (!req.query[result_init[i]]) {
+      // Kiểm tra req.query
       return res.status(400).json({
         codeStatus: 400,
         message: `Missing required field: ${result_init[i]}`,
       });
     }
   }
+
   try {
     const cntAttempts = await Result.checkCountAttempts(quiz_id, user_id);
-
+    console.log(cntAttempts);
     return res.status(200).json({
       codeStatus: 200,
       data: {
         quiz_id: quiz_id,
         user_id: user_id,
-        count: cntAttempts,
+        attempts: cntAttempts[0]?.attempts,
+        score: cntAttempts[0]?.score,
       },
       message: "Get count attempts successful",
     });

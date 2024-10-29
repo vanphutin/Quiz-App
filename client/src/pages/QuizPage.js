@@ -88,7 +88,7 @@ const QuizPage = () => {
                   {item.quizzes.map((data) => (
                     <SwiperSlide key={data.quiz_id}>
                       <Link
-                        to="intro-quiz"
+                        to="overview"
                         state={{
                           id: data?.quiz_id,
                           title: data?.title,

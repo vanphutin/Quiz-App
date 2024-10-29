@@ -15,7 +15,7 @@ import QuizPage from "../pages/QuizPage";
 import AdminPage from "../pages/AdminPage";
 import QuestionPage from "../pages/QuestionPage";
 import ResultPage from "../pages/ResultPage";
-import IntroQuiz from "../pages/IntroQuiz";
+import OverviewQuiz from "../pages/OverviewQuiz";
 
 const AuthLayout = () => {
   return (
@@ -67,8 +67,8 @@ const router = createBrowserRouter([
             path: "/quiz/result",
           },
           {
-            element: <IntroQuiz />,
-            path: "/quiz/intro-quiz",
+            element: <OverviewQuiz />,
+            path: "/quiz/overview",
           },
           {
             element: <QuestionPage />,

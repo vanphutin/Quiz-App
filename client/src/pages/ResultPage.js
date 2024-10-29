@@ -13,11 +13,13 @@ const ResultPage = () => {
   const state = useLocation().state;
   const navigate = useNavigate();
   const level = localStorage.getItem("level");
-  const { data, quizId, initMaxQuestion, titleQuiz } =
+  const { data, quizId, initMaxQuestion, titleQuiz, attempt } =
     useContext(DataQuesContext); // Lấy dữ liệu từ context
   const user = useSelector((state) => state.user.account);
   const doneCount = state?.results?.length;
   const notDoneCount = initMaxQuestion - doneCount;
+  const [isApiCalled, setIsApiCalled] = useState(false);
+
   // console.log(data);
   useEffect(() => {
     // Thêm trạng thái mới vào history để ngăn người dùng quay lại trang trước
@@ -37,6 +39,8 @@ const ResultPage = () => {
           }
         } catch (error) {
           console.error("Error during API call:", error);
+          handleErrorResponse(error);
+          throw new Error(error);
         }
       } else {
         navigate("/");
@@ -67,9 +71,6 @@ const ResultPage = () => {
           (option) => option?.is_correct === 1
         );
 
-        // console.log("Đáp án đúng:", option_true);
-        // console.log("Câu trả lời của người dùng:", listAnswer[i]);
-
         if (listAnswer[i]?.answer !== option_true?.option_id) {
           countInCorrect++;
         }
@@ -95,30 +96,37 @@ const ResultPage = () => {
     for (let i = 1; i <= attempts; i++) {
       PointsReceived *= 1 - reductionPercentage;
     }
-
-    return PointsReceived.toFixed(2);
+    return PointsReceived?.toFixed(2);
   }
-  const finalPoints = actualPointsReceived(point, 5);
-  useEffect(() => {
-    if (quizId) {
-      fetchApi(quizId, user?.user_id, finalPoints);
-    }
-  }, [quizId, user?.user_id, finalPoints]);
-
-  const fetchApi = async (quiz_id, user_id, point) => {
-    const res = await postResult(quiz_id, user_id, point);
+  const finalPoints = actualPointsReceived(point, attempt);
+  const fetchApi = async (quizId, userId, finalPoints) => {
     try {
-      if (res.codeStatus !== 200) {
-        return toast.error(
-          "Unable to update score, please contact teacher or admin!"
-        );
+      let res;
+      if (!isApiCalled && userId && quizId) {
+        // Kiểm tra điều kiện
+        res = await postResult(quizId, userId, finalPoints);
+        setIsApiCalled(true);
+
+        if (!res || res.codeStatus !== 200) {
+          toast.error(
+            "Unable to update score, please contact teacher or admin!"
+          );
+          return;
+        }
       }
-      console.log(res);
     } catch (error) {
       handleErrorResponse(error);
     }
   };
 
+  useEffect(() => {
+    // Gọi fetchApi một lần với các tham số
+    if (user?.user_id && quizId) {
+      fetchApi(quizId, user?.user_id, finalPoints);
+    }
+  }, []);
+
+  console.log("isApiCalled", isApiCalled);
   return (
     <div className="container result-page mt-5">
       <h1 className="result-title text-center">
@@ -166,3 +174,5 @@ const ResultPage = () => {
 };
 
 export default ResultPage;
+
+// làm bảng xếp hạn

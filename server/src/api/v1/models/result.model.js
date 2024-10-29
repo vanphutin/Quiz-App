@@ -21,11 +21,10 @@ const Result = {
   },
   checkCountAttempts: async (quiz_id, user_id) => {
     const sql_checkCountAttempts =
-      "SELECT COUNT(attempts)  as count  FROM results WHERE user_id= ? AND quiz_id=? ";
+      "SELECT attempts,score FROM results WHERE user_id= ? AND quiz_id=? ";
     try {
       const result = await query(sql_checkCountAttempts, [user_id, quiz_id]);
-
-      return result[0].count;
+      return result;
     } catch (error) {
       throw new Error(`ERROR: check Count Attempts - ${error.message}`);
     }

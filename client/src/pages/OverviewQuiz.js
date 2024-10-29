@@ -1,28 +1,49 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../assets/style/pages/__IntroQuiz.scss";
 import { DataQuesContext } from "../context/DataQuesContext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdOutlineNoEncryptionGmailerrorred } from "react-icons/md";
+import { useSelector } from "react-redux";
 
-const IntroQuiz = () => {
+const OverviewQuiz = () => {
   const formattedDate = new Date().toLocaleDateString();
   let { state } = useLocation();
+  const user = useSelector((state) => state.user.account);
+
   const navigate = useNavigate();
+
   const {
     dataQuestion,
     initMaxQuestion,
     titleQuiz,
     quizId,
+    setError,
     setQuizId,
     loading,
     error,
+    attempt,
+    scoreQuiz,
+    updateAttempt,
   } = useContext(DataQuesContext);
+
   useEffect(() => {
     if (state?.id) {
       setQuizId(state?.id);
     }
+    updateAttempt(user?.user_id, state?.id);
   }, [state?.id]);
-  console.log("error", error);
+
+  const handleStartQuiz = async () => {
+    if (attempt >= 11) {
+      // Hiển thị thông báo lỗi rõ ràng hơn
+      alert("Bạn đã hết lượt làm bài!");
+      return;
+    }
+
+    if (!loading && !error) {
+      navigate(`/quiz/${state?.id}`, { state: { id: state?.id } });
+    }
+  };
   return (
     <div className="intro-quiz container mt-4">
       <div className="intro-quiz main">
@@ -37,8 +58,11 @@ const IntroQuiz = () => {
           <li className="list-item">
             <label htmlFor="#">Status</label>
             <h3>
-              {error ? (
-                <span className="status status--error"> failed</span>
+              {error || attempt > 10 ? (
+                <span className="status status--error">
+                  {" "}
+                  failed | {error || "has reached the limit"}
+                </span>
               ) : (
                 <span className="status status--success"> ready</span>
               )}
@@ -54,11 +78,13 @@ const IntroQuiz = () => {
           </li>
           <li className="list-item">
             <label htmlFor="#">Have done</label>
-            <h3>0</h3>
+            <h3 style={attempt?.toString() > 10 ? { color: "red" } : {}}>
+              {attempt || 0}
+            </h3>
           </li>
           <li className="list-item">
             <label htmlFor="#">Previous point</label>
-            <h3>300</h3>
+            <h3>{scoreQuiz || 0}</h3>
           </li>
           <li className="list-item">
             <label htmlFor="#">Total question</label>
@@ -68,15 +94,11 @@ const IntroQuiz = () => {
       </div>
       <div className="intro-quiz footer">
         <button
-          disabled={loading}
           className="btn btn-primary btn-lg get-start"
-          onClick={() => {
-            if (!loading && !error) {
-              navigate(`/quiz/${state?.id}`, { state: { id: state?.id } });
-            }
-          }}
+          disabled={loading || error || attempt >= 11} // Vô hiệu hóa nút khi loading, error, hoặc hết lượt
+          onClick={handleStartQuiz}
         >
-          {loading || error ? (
+          {loading || error || attempt > 10 ? (
             <span style={{ color: "red", cursor: "no-drop" }}>
               <MdOutlineNoEncryptionGmailerrorred size={30} />
               {""}
@@ -90,4 +112,4 @@ const IntroQuiz = () => {
   );
 };
 
-export default IntroQuiz;
+export default OverviewQuiz;
