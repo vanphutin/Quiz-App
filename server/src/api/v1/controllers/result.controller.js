@@ -27,9 +27,7 @@ module.exports.postResult = async (req, res) => {
       quiz_id,
       user_id
     );
-    console.log("checkAlreadyExistsResult", checkAlreadyExistsResult);
     if (checkAlreadyExistsResult) {
-      console.log("yes");
       await query(
         `UPDATE results SET score = score + ?, attempts = attempts + 1 WHERE quiz_id = ? AND user_id = ?`,
         [score, quiz_id, user_id]
@@ -69,7 +67,6 @@ module.exports.countAttempts = async (req, res) => {
 
   try {
     const cntAttempts = await Result.checkCountAttempts(quiz_id, user_id);
-    console.log(cntAttempts);
     return res.status(200).json({
       codeStatus: 200,
       data: {

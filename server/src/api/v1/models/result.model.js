@@ -8,7 +8,6 @@ const Result = {
       "SELECT COUNT(*) as count FROM results WHERE quiz_id = ? AND user_id = ?";
     try {
       const result = await query(sql_checkIsResult, [quiz_id, user_id]);
-      console.log(result); // result là một mảng chứa đối tượng { count: ... }
 
       if (result[0].count > 0) {
         return true; // Đã tồn tại kết quả
