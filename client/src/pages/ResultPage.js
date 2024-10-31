@@ -176,3 +176,4 @@ const ResultPage = () => {
 export default ResultPage;
 
 // làm bảng xếp hạn
+// tao nhánh ranking

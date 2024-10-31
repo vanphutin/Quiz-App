@@ -55,8 +55,6 @@ module.exports.postResult = async (req, res) => {
 
 module.exports.countAttempts = async (req, res) => {
   const { quiz_id, user_id } = req.query; // Lấy từ req.query
-  console.log(user_id, quiz_id);
-  console.log(req.query);
 
   const result_init = ["quiz_id", "user_id"];
   for (let i = 0; i < result_init.length; i++) {
