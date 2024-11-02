@@ -96,7 +96,7 @@ const ResultPage = () => {
     for (let i = 1; i <= attempts; i++) {
       PointsReceived *= 1 - reductionPercentage;
     }
-    return PointsReceived?.toFixed(2);
+    return PointsReceived;
   }
   const finalPoints = actualPointsReceived(point, attempt);
   const fetchApi = async (quizId, userId, finalPoints) => {

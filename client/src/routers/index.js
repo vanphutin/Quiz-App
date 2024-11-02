@@ -16,6 +16,7 @@ import AdminPage from "../pages/AdminPage";
 import QuestionPage from "../pages/QuestionPage";
 import ResultPage from "../pages/ResultPage";
 import OverviewQuiz from "../pages/OverviewQuiz";
+import RankPage from "../pages/RankPage";
 
 const AuthLayout = () => {
   return (
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
                 );
               });
             },
+          },
+          {
+            element: <RankPage />,
+            path: "/rank",
           },
           {
             element: <QuizPage />,
