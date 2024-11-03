@@ -18,6 +18,7 @@ const RankPage = () => {
       console.log(res);
       if (res.statusCode === 200) {
         setRanks(res.data.ranks);
+        setMyRank(res.data.myRank);
         const oneChampionship = res.data.ranks.filter(
           (rank) => rank.rank === 1
         );
@@ -83,15 +84,26 @@ const RankPage = () => {
             ))}
           </div>
           {/* Display current user's rank if available */}
-          {myRank && (
+          {myRank ? (
             <li className="table-rank__item row my-rank">
-              <span className="place col-4">
-                <TfiCup /> {myRank.rank}
+              <span className="place col-4 d-fle">
+                <b style={{ marginRight: "20px" }}>You</b> <TfiCup />{" "}
+                {myRank.rank}
               </span>
               <span className="username col-4">
                 <i> @ {myRank.username || "---"}</i>
               </span>
               <span className="point col-4">{myRank.total_score || "---"}</span>
+            </li>
+          ) : (
+            <li className="table-rank__item row my-rank">
+              <span className="place col-4">
+                <b style={{ marginRight: "20px" }}>You</b> -----
+              </span>
+              <span className="username col-4">
+                <i> -----</i>
+              </span>
+              <span className="point col-4">-----</span>
             </li>
           )}
         </ul>
