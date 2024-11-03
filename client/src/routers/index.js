@@ -17,6 +17,8 @@ import QuestionPage from "../pages/QuestionPage";
 import ResultPage from "../pages/ResultPage";
 import OverviewQuiz from "../pages/OverviewQuiz";
 import RankPage from "../pages/RankPage";
+import NotFoundPage from "../pages/NotFoundPage";
+import PrivateRouter from "./PrivateRouter";
 
 const AuthLayout = () => {
   return (
@@ -37,6 +39,10 @@ const AuthLayout = () => {
       <Outlet />
     </>
   );
+};
+
+const ProtectedRoute = ({ children, role }) => {
+  return PrivateRouter(role) ? children : <NotFoundPage />;
 };
 
 const router = createBrowserRouter([
@@ -105,10 +111,18 @@ const router = createBrowserRouter([
             path: "/sign-up",
           },
           {
-            element: <AdminPage />,
+            element: (
+              <ProtectedRoute role="admin">
+                <AdminPage />
+              </ProtectedRoute>
+            ),
             path: "/admin",
           },
         ],
+      },
+      {
+        element: <NotFoundPage />,
+        path: "*",
       },
     ],
   },

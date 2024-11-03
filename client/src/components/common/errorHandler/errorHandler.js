@@ -13,7 +13,7 @@ export const handleErrorResponse = (error, navigate) => {
       // navigate("/login");
       toast.error(data.error || data.message || "Unauthorized");
     } else if (status === 403) {
-      navigate("/login");
+      // navigate("/login");
       toast.error(data.error || data.message || "Forbidden");
     } else if (status === 404) {
       toast.error("Resource not found");

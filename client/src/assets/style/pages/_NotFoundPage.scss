@@ -1,0 +1,36 @@
+// NotFound.scss
+.not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  color: #333;
+  background-color: #f4f4f9;
+
+  h1 {
+    font-size: 10rem;
+    margin: 0;
+    color: #ff6b6b;
+  }
+
+  p {
+    font-size: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  .home-link {
+    font-size: 1.2rem;
+    padding: 0.5rem 1.5rem;
+    color: #fff;
+    background-color: #4e89ae;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #43658b;
+    }
+  }
+}
