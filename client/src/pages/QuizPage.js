@@ -16,7 +16,6 @@ const QuizPage = () => {
   const level = location?.state?.titleLevel; // Lấy level từ state
   const [dataQuizzes, setDataQuizzes] = useState([]);
   const quizzesFromState = location?.state?.dataQuizzes; // Lấy quizzes từ state
-
   useEffect(() => {
     const storedLevel = localStorage.getItem("level");
     const levelToUse =

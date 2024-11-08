@@ -85,3 +85,42 @@ module.exports.countAttempts = async (req, res) => {
     });
   }
 };
+
+module.exports.overView = async (req, res) => {
+  const { quiz_id, user_id } = req.query; // Lấy từ req.query
+
+  const result_init = ["quiz_id", "user_id"];
+  for (let i = 0; i < result_init.length; i++) {
+    if (!req.query[result_init[i]]) {
+      // Kiểm tra req.query
+      return res.status(200).json({
+        codeStatus: 400,
+        message: `Missing required field: ${result_init[i]}`,
+      });
+    }
+  }
+
+  try {
+    // Gọi hàm truy vấn và lấy kết quả
+    const overview = await Result.overViewQuiz(quiz_id, user_id);
+    if (!overview) {
+      return res.status(404).json({
+        codeStatus: 404,
+        message: "No data found for the given quiz_id and user_id",
+      });
+    }
+
+    return res.status(200).json({
+      codeStatus: 200,
+      message: "Data retrieved successfully",
+      data: overview,
+    });
+  } catch (error) {
+    console.error(error); // Ghi lỗi vào console để dễ dàng debug
+    return res.status(500).json({
+      codeStatus: 500,
+      message: "An error occurred while processing the request",
+      error: error.message, // Gửi thông báo lỗi chi tiết
+    });
+  }
+};

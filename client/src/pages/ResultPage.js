@@ -3,24 +3,17 @@ import "../assets/style/pages/_ResultPage.scss";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getQuizzes } from "../services/apiQuizzes";
-import { postResult } from "../services/apiResult";
 import { handleErrorResponse } from "../components/common/errorHandler/errorHandler";
 import { IoIosInformationCircle } from "react-icons/io";
-import { DataQuesContext } from "../context/DataQuesContext";
-import { toast } from "react-toastify";
 
 const ResultPage = () => {
   const state = useLocation().state;
   const navigate = useNavigate();
   const level = localStorage.getItem("level");
-  const { data, quizId, initMaxQuestion, titleQuiz, attempt } =
-    useContext(DataQuesContext); // Lấy dữ liệu từ context
   const user = useSelector((state) => state.user.account);
-  const doneCount = state?.results?.length;
-  const notDoneCount = initMaxQuestion - doneCount;
-  const [isApiCalled, setIsApiCalled] = useState(false);
-
-  // console.log(data);
+  const res = state?.res?.data;
+  const titleQuiz = state?.titleQuiz;
+  console.log(state);
   useEffect(() => {
     // Thêm trạng thái mới vào history để ngăn người dùng quay lại trang trước
     window.history.pushState(null, null, window.location.href);
@@ -55,82 +48,13 @@ const ResultPage = () => {
     };
   }, [navigate, level]);
 
-  // tính điểm cho bài quizzes
-
-  const listAnswer = state?.results; // câu trả lời người dùng làm
-  const listData = data; // toàn bộ câu hỏi
-  // console.log(listData);
-  // console.log(listAnswer);
-  let countInCorrect = 0;
-  function totalCountIncorrects(listAnswer, listData) {
-    if (listData?.length <= 0) return;
-
-    for (let i = 0; i < listAnswer?.length; i++) {
-      if (listAnswer[i]?.questionIndex === listData[i]?.question_id) {
-        const option_true = listData[i]?.options.find(
-          (option) => option?.is_correct === 1
-        );
-
-        if (listAnswer[i]?.answer !== option_true?.option_id) {
-          countInCorrect++;
-        }
-      }
-    }
-
-    return countInCorrect;
-  }
-  totalCountIncorrects(listAnswer, listData);
-  const point =
-    countInCorrect > 0
-      ? ((initMaxQuestion - countInCorrect) * 10).toFixed(1)
-      : ((initMaxQuestion - notDoneCount) * 10).toFixed(1);
-
-  // Tính số điểm thực nhận
-  function actualPointsReceived(initialPoints, attempts) {
-    const reductionPercentage = 0.1; // 10%
-    let PointsReceived = initialPoints;
-    if (attempts === 0) {
-      return PointsReceived;
-    }
-    // Giảm điểm cho mỗi lần làm lại
-    for (let i = 1; i <= attempts; i++) {
-      PointsReceived *= 1 - reductionPercentage;
-    }
-    return PointsReceived;
-  }
-  const finalPoints = actualPointsReceived(point, attempt);
-  const fetchApi = async (quizId, userId, finalPoints) => {
-    try {
-      let res;
-      if (!isApiCalled && userId && quizId) {
-        // Kiểm tra điều kiện
-        res = await postResult(quizId, userId, finalPoints);
-        setIsApiCalled(true);
-
-        if (!res || res.codeStatus !== 200) {
-          toast.error(
-            "Unable to update score, please contact teacher or admin!"
-          );
-          return;
-        }
-      }
-    } catch (error) {
-      handleErrorResponse(error);
-    }
-  };
-
-  useEffect(() => {
-    // Gọi fetchApi một lần với các tham số
-    if (user?.user_id && quizId) {
-      fetchApi(quizId, user?.user_id, finalPoints);
-    }
-  }, []);
-
-  console.log("isApiCalled", isApiCalled);
   return (
     <div className="container result-page mt-5">
       <h1 className="result-title text-center">
-        Test results <span className="point text-white">point : {point}</span>
+        Test results{" "}
+        <span className="point text-white">
+          max point : {res?.totalQuesPoint}
+        </span>
       </h1>
       <div className="result-details">
         <div className="result-item">
@@ -139,23 +63,23 @@ const ResultPage = () => {
         </div>
         <div className="result-item">
           <label>Test name</label>
-          <h3>{titleQuiz || NaN}</h3>
+          <h3>{titleQuiz}</h3>
         </div>
         <div className="result-item">
           <label>Total questions</label>
-          <h3>{initMaxQuestion}</h3>
+          <h3>{res?.totalQues}</h3>
         </div>
         <div className="result-item">
           <label>Done</label>
-          <h3 style={{ color: "rgb(0 246 132)" }}>{doneCount}</h3>
+          <h3 style={{ color: "rgb(0 246 132)" }}>{res?.totalDone}</h3>
         </div>
         <div className="result-item">
           <label>Not done</label>
-          <h3 style={{ color: "yellow" }}>{notDoneCount}</h3>
+          <h3 style={{ color: "yellow" }}>{res?.totalNotDone}</h3>
         </div>
         <div className="result-item">
           <label>Incorrect</label>
-          <h3 style={{ color: "red" }}>{countInCorrect || notDoneCount}</h3>
+          <h3 style={{ color: "red" }}>{res?.inCorrect}</h3>
         </div>
         <div
           className="result-item"
@@ -166,7 +90,7 @@ const ResultPage = () => {
           <label>
             Actual points received <IoIosInformationCircle size={30} />
           </label>
-          <h3 style={{ color: "rgb(0 246 132)" }}>{finalPoints || NaN} 🎉</h3>
+          <h3 style={{ color: "rgb(0 246 132)" }}>{res?.PointsReceived} 🎉</h3>
         </div>
       </div>
     </div>

@@ -94,8 +94,9 @@ module.exports.getQuestion = async (req, res) => {
     });
 
     // Convert the groupedQuestions object to an array
-    const result = Object.values(groupedQuestions);
-
+    const result = Object.values(groupedQuestions).sort(
+      () => Math.random() - 0.5
+    );
     return res.status(200).json({
       statusCode: 200,
       data: result,

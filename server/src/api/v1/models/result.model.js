@@ -43,6 +43,19 @@ const Result = {
       throw new Error(`ERROR: post quiz - ${error.message}`);
     }
   },
+  overViewQuiz: async (quiz_id, user_id) => {
+    const sql_overViewQuiz = `SELECT r.score,r.attempts, q.title,q.created_by_user_id, COUNT(ques.question_id) AS totalQuestion from results r 
+                              JOIN quizzes q ON q.quiz_id = r.quiz_id
+                              JOIN questions ques ON ques.quiz_id =  q.quiz_id 
+                              WHERE r.quiz_id= ? 
+                              AND r.user_id = ?`;
+    try {
+      const result = await query(sql_overViewQuiz, [quiz_id, user_id]);
+      return result[0];
+    } catch (error) {
+      throw new Error(`ERROR: overview Quiz- ${error.message}`);
+    }
+  },
 };
 
 module.exports = Result;

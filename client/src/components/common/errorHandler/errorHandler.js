@@ -5,7 +5,6 @@ export const handleErrorResponse = (error, navigate) => {
   if (error.response) {
     // Có phản hồi từ server với status code nằm ngoài 2xx
     const { status, data } = error.response;
-    console.log("data", data);
 
     if (status === 400) {
       toast.error(data.error || data.message || "Bad request");

@@ -12,7 +12,13 @@ const getAttempts = (user_id, quiz_id) => {
     `${RESULT_API}/count-attempts?user_id=${user_id}&quiz_id=${quiz_id}`
   );
 };
+const overview = (quiz_id, user_id) => {
+  return axios.get(
+    `${RESULT_API}/ovevivew?quiz_id=${quiz_id}&user_id=${user_id}`
+  );
+};
 
 export { postResult };
 export { countQuizByUserID };
 export { getAttempts };
+export { overview };

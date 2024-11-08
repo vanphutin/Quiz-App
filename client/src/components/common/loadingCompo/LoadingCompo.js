@@ -4,8 +4,8 @@ import "./__LoadingCompo.scss";
 import { CgSpinnerTwo } from "react-icons/cg";
 
 const pendingArr = [
-  "Vui lòng chờ trong khi chúng tôi đang tải dữ liệu...",
   "Please wait while we load data...",
+  "Vui lòng chờ trong khi chúng tôi đang tải dữ liệu...",
   "我们正在加载数据，请稍候...",
   "กรุณารอสักครู่ในขณะที่เรากำลังโหลดข้อมูล...",
   "データをロード中ですのでお待ちください...",
@@ -29,9 +29,9 @@ const LoadingCompo = ({ loading }) => {
       const hidden = myRef.current.previousSibling;
 
       if (!loading) {
-        hidden.classList.remove("d-none");
+        hidden?.classList.remove("d-none");
       } else {
-        hidden.classList.add("d-none");
+        hidden?.classList.add("d-none");
       }
     }
   }, [loading]);

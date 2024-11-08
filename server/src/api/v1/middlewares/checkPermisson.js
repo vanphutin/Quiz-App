@@ -3,13 +3,21 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const md5 = require("md5");
 
+// Kiểm tra xem JWT_SECRET có được định nghĩa không
+if (!process.env.JWT_SECRET) {
+  throw new Error("JWT_SECRET is not defined in environment variables");
+}
+
 //=== PHÂN QUYỀN NGƯỜI DÙNG
 module.exports.checkPermission = async (req, res, next) => {
   try {
-    // kiểm tra người dùng đăng nhập hay chưa
-    const token = req.headers.authorization?.split(" ")[1];
+    // Kiểm tra token có trong header không và đảm bảo đúng định dạng
+    const authHeader = req.headers.authorization;
+    const token =
+      authHeader && authHeader.startsWith("Bearer ")
+        ? authHeader.split(" ")[1]
+        : null;
 
-    // kiểm tra token
     if (!token) {
       return res.status(403).json({
         codeStatus: 403,
@@ -17,11 +25,19 @@ module.exports.checkPermission = async (req, res, next) => {
       });
     }
 
-    // xác thực token và lấy thông tin người dùng
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await Auth.findById(decoded.user_id);
+    // Xác thực token và lấy thông tin người dùng
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (error) {
+      return res.status(403).json({
+        codeStatus: 403,
+        message: "Invalid or malformed token",
+      });
+    }
 
-    // kiểm tra người dùng tồn tại
+    // Tìm người dùng trong cơ sở dữ liệu
+    const user = await Auth.findById(decoded.user_id);
     if (!user) {
       return res.status(404).json({
         codeStatus: 404,
@@ -29,20 +45,21 @@ module.exports.checkPermission = async (req, res, next) => {
       });
     }
 
-    // kiểm tra quyền người dùng, ví dụ: chỉ cho phép 'admin' và 'instructor'
-    if (user.role !== "admin" && user.role !== "instructor") {
+    // Kiểm tra quyền người dùng
+    const allowedRoles = ["admin", "instructor"];
+    if (!allowedRoles.includes(user.role)) {
       return res.status(403).json({
         codeStatus: 403,
         message: "Permission denied",
       });
     }
 
-    // lưu thông tin người dùng vào req để sử dụng trong các middleware hoặc route tiếp theo
+    // Lưu thông tin người dùng vào req để sử dụng tiếp
     req.user = user;
 
-    // tiếp tục xử lý
     next();
   } catch (error) {
+    console.error("Permission check failed:", error); // Ghi log để dễ tìm lỗi
     return res.status(500).json({
       codeStatus: 500,
       message: error.message,
@@ -51,9 +68,13 @@ module.exports.checkPermission = async (req, res, next) => {
   }
 };
 
-//KIỂM TRA TOKEN HẾT HẠN
+// KIỂM TRA TOKEN HẾT HẠN
 module.exports.checkToken = (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1];
+  const authHeader = req.headers.authorization;
+  const token =
+    authHeader && authHeader.startsWith("Bearer ")
+      ? authHeader.split(" ")[1]
+      : null;
 
   if (!token) {
     return res.status(403).json({
@@ -63,11 +84,8 @@ module.exports.checkToken = (req, res, next) => {
   }
 
   try {
-    // Kiểm tra token xem nó có hợp lệ và chưa hết hạn hay không
     jwt.verify(token, process.env.JWT_SECRET);
-
-    // Nếu token hợp lệ, cho phép tiếp tục
-    next();
+    next(); // Token hợp lệ, cho phép tiếp tục
   } catch (error) {
     if (error.name === "TokenExpiredError") {
       return res.status(401).json({
@@ -81,5 +99,58 @@ module.exports.checkToken = (req, res, next) => {
       codeStatus: 403,
       message: "Invalid token",
     });
+  }
+};
+
+// Middleware checkAuth cập nhật trả về status 200 và thêm success = false
+module.exports.checkAuth = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  const token =
+    authHeader && authHeader.startsWith("Bearer ")
+      ? authHeader.split(" ")[1]
+      : null;
+
+  if (!token) {
+    return res.status(200).json({
+      success: false,
+      codeStatus: 401,
+      message: "Not logged in",
+    });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    let errorResponse = {
+      success: false,
+      message: "",
+    };
+
+    if (error.name === "TokenExpiredError") {
+      errorResponse = {
+        ...errorResponse,
+        codeStatus: 401,
+        message: "Token expired",
+        code: "TOKEN_EXPIRED",
+      };
+    } else if (error.name === "JsonWebTokenError") {
+      errorResponse = {
+        ...errorResponse,
+        codeStatus: 403,
+        message: "Invalid token",
+        code: "INVALID_TOKEN",
+      };
+    } else {
+      errorResponse = {
+        ...errorResponse,
+        codeStatus: 500,
+        message: "Internal server error",
+        error: error.message,
+      };
+    }
+
+    return res.status(200).json(errorResponse); // Trả về status 200 để Axios không báo lỗi đỏ
   }
 };

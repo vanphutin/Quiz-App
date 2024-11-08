@@ -49,8 +49,7 @@ const Question = {
         q.question_type,
         q.difficulty,
         o.option_id,
-        o.option_text,
-        o.is_correct
+        o.option_text
     FROM 
         questions q
     LEFT JOIN 

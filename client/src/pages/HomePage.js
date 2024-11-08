@@ -5,27 +5,23 @@ import LoadingCompo from "../components/common/loadingCompo/LoadingCompo";
 import { useLoaderData } from "react-router-dom";
 
 const HomePage = () => {
-  const data = useLoaderData() || [];
+  const data = useLoaderData();
   const [loading, setLoading] = useState(true);
   const hiddenRef = useRef(null);
-
   useEffect(() => {
-    // Giả lập thời gian chờ khi tải dữ liệu
-    const timer = setTimeout(() => {
-      if (data.length > 0) {
-        setLoading(false);
-      }
-    }, 500);
-
-    return () => clearTimeout(timer);
+    // Set loading state based on data availability
+    if (!Array.isArray(data) || data.length === 0 || !data) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
   }, [data]);
 
   useEffect(() => {
-    // Xử lý khi loading đã hoàn tất
+    // Handle actions when loading is complete
     if (!loading && hiddenRef.current) {
       const hiddenElement = hiddenRef.current.previousSibling;
       if (hiddenElement) {
-        // Đảm bảo rằng phần tử trước đó tồn tại và có thể xử lý
         hiddenElement.classList.remove("d-none");
       }
     }
@@ -45,7 +41,7 @@ const HomePage = () => {
         <Introduction />
       </div>
       <div className="home__screen-card my-2 row">
-        {data.length > 0 ? (
+        {Array.isArray(data) && data.length > 0 ? (
           data.map((items, index) => (
             <div
               className="screen-card-item col-12 col-md-4 col-lg-4"
@@ -57,7 +53,7 @@ const HomePage = () => {
             </div>
           ))
         ) : (
-          <p>No quiz levels available.</p>
+          <LoadingCompo loading={loading} />
         )}
       </div>
     </div>
