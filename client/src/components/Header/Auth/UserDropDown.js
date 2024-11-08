@@ -26,8 +26,13 @@ function UserDropDown(props) {
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        {(user?.role === "admin" || user?.role === "instructor") && (
+        {/* {(user?.role === "admin" || user?.role === "instructor") && (
           <Dropdown.Item href="/admin?tab=dashboard">Admin</Dropdown.Item>
+        )} */}
+        {user?.role === "admin" ? (
+          <Dropdown.Item href="/admin?tab=dashboard">Adminstar</Dropdown.Item>
+        ) : (
+          <Dropdown.Item href="/admin?tab=quiz">Manager</Dropdown.Item>
         )}
         <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
         <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
