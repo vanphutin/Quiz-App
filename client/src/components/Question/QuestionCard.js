@@ -3,6 +3,10 @@ import "./__QuestionCard.scss";
 import { GrNext, GrPrevious } from "react-icons/gr";
 import { BsSendFill } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
+import { submitAnswer } from "../../services/apiAnswer";
+import { useSelector } from "react-redux";
+import { handleErrorResponse } from "../common/errorHandler/errorHandler";
+import { toast } from "react-toastify";
 
 const QuestionCard = ({
   data,
@@ -15,13 +19,14 @@ const QuestionCard = ({
   quiz_id,
 }) => {
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user.account);
   const [countSubmit, setCountSubmit] = useState(0);
   const [timer, setTimer] = useState(25);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [results, setResults] = useState([]); // Lưu kết quả của tất cả các câu
   useEffect(() => {
     if (data) {
-      setTimer(25);
+      setTimer(15);
 
       const savedAnswer = results.find(
         (result) => result.questionIndex === data.question_id
@@ -37,6 +42,9 @@ const QuestionCard = ({
       setTimer((prevTimer) => {
         if (prevTimer === 0) {
           saveAnswer();
+          if (currentIndex === dataFull.length) {
+            handleSubmit();
+          }
           onNext();
           clearInterval(intervalId);
           return 0;
@@ -48,7 +56,7 @@ const QuestionCard = ({
     return () => clearInterval(intervalId);
   }, [data]);
 
-  const handleOnchange = (e) => {
+  const handleOnChange = (e) => {
     setSelectedAnswer(e.target.value);
   };
   const saveAnswer = () => {
@@ -67,21 +75,44 @@ const QuestionCard = ({
 
   const handleCopy = (e) => {
     e.preventDefault();
-    alert("Copying content is disabled!");
+    toast.warn("Copying content is disabled!");
+  };
+
+  const apiFetchSubmitAnswer = async (user_id, quiz_id, answers) => {
+    try {
+      const res = await submitAnswer(user_id, quiz_id, answers);
+
+      if (res.codeStatus !== 200) {
+        return toast.error("Có lỗi xảy ra!");
+      }
+      return res;
+    } catch (error) {
+      console.error("Error in apiFetchSubmitAnswer:", error.message);
+      handleErrorResponse(error);
+      return {
+        status: "error",
+        message: "Failed to submit answer. Please try again later.",
+        error: error.message,
+      };
+    }
   };
 
   const handleSubmit = async (e) => {
     setCountSubmit((count) => count + 1);
     saveAnswer();
   };
-
   useEffect(() => {
-    if (countSubmit === 1) {
-      navigate("/quiz/result", {
-        state: { results, dataFull },
-      });
-      setCountSubmit(0);
-    }
+    const fetchData = async () => {
+      if (countSubmit === 1) {
+        const res = await apiFetchSubmitAnswer(user?.user_id, quiz_id, results);
+        navigate("/quiz/result", {
+          state: { res, titleQuiz },
+        });
+        setCountSubmit(0);
+      }
+    };
+
+    fetchData();
   }, [results, countSubmit]);
 
   return (
@@ -108,7 +139,7 @@ const QuestionCard = ({
                   id={item.option_id}
                   name={`question_${data.question_id}`}
                   value={item.option_id}
-                  onChange={(e) => handleOnchange(e)}
+                  onChange={(e) => handleOnChange(e)}
                   checked={selectedAnswer === item.option_id}
                 />
               </li>

@@ -32,15 +32,16 @@ const QuestionPage = () => {
       setCurrentIndex((currentIndex) => currentIndex - 1);
     }
   };
+  const randomQuestion = data?.sort(() => Math.random() - 0.5);
   return (
     <div className="question container  mt-5">
       <div className="question-main">
         <div className="qustion-title-quiz">
           <h2 className="name text-center">{state?.title}</h2>
         </div>
-        {data?.length > 0 ? (
+        {randomQuestion?.length > 0 ? (
           <QuestionCard
-            data={data[currentIndex]}
+            data={randomQuestion[currentIndex]}
             onNext={handleNextQuestion}
             onPrev={handlePrevQuestion}
             currentIndex={currentIndex + 1}
