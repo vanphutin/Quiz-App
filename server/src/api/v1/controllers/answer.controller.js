@@ -54,7 +54,10 @@ module.exports.checkAnswer = async (req, res) => {
   try {
     const getListResults = await Answer.getIsCheckAnswers(quiz_id);
     const cntAttempts = await Result.checkCountAttempts(quiz_id, user_id);
-
+    const checkQuizQxistQuiz = await Result.checkCountAttempts(
+      quiz_id,
+      user_id
+    );
     // Kiểm tra số câu trả lời đúng
     const isCorrect = answers.reduce((count, answer) => {
       const question = getListResults.find(
@@ -87,8 +90,14 @@ module.exports.checkAnswer = async (req, res) => {
             10 *
             Math.pow(1 - reductionPercentage, attempts)
           ).toFixed(2);
-
-    if (quiz_id) {
+    if (checkQuizQxistQuiz.length === 0) {
+      const INSERT_DATA = await Result.postQuiz(
+        uuidv4(),
+        quiz_id,
+        user_id,
+        PointsReceived
+      );
+    } else {
       await query(
         `UPDATE results
         SET score = score + ${PointsReceived}, attempts = attempts + 1
@@ -97,7 +106,8 @@ module.exports.checkAnswer = async (req, res) => {
         [quiz_id, user_id]
       );
     }
-
+    // console.log("checkQuizQxistQuiz", checkQuizQxistQuiz);
+    // kiểm tra xem đã có quizID và userID tồn tại ko
     return res.status(200).json({
       codeStatus: 200,
       status: "success",

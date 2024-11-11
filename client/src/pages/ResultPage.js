@@ -13,7 +13,6 @@ const ResultPage = () => {
   const user = useSelector((state) => state.user.account);
   const res = state?.res?.data;
   const titleQuiz = state?.titleQuiz;
-  console.log(state);
   useEffect(() => {
     // Thêm trạng thái mới vào history để ngăn người dùng quay lại trang trước
     window.history.pushState(null, null, window.location.href);
@@ -98,6 +97,3 @@ const ResultPage = () => {
 };
 
 export default ResultPage;
-
-// làm bảng xếp hạn
-// tao nhánh ranking

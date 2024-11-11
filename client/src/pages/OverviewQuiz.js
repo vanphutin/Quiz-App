@@ -6,6 +6,7 @@ import { MdOutlineNoEncryptionGmailerrorred } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { overview } from "../services/apiResult";
 import { handleErrorResponse } from "../components/common/errorHandler/errorHandler";
+import { toast } from "react-toastify";
 
 const OverviewQuiz = () => {
   const formattedDate = new Date().toLocaleDateString();
@@ -44,9 +45,8 @@ const OverviewQuiz = () => {
   const fetchApi = async (quizId, userId) => {
     try {
       const res = await overview(quizId, userId);
-
       if (res.codeStatus !== 200) {
-        navigate("/");
+        return setError(res.code);
       } else {
         setData(res.data);
       }
@@ -80,7 +80,7 @@ const OverviewQuiz = () => {
             <ul className="body-list">
               <li className="list-item">
                 <label htmlFor="#">Test name</label>
-                <h3>{data.title}</h3>
+                <h3>{data.title?.toUpperCase()}</h3>
               </li>
               <li className="list-item">
                 <label htmlFor="#">Status</label>
