@@ -38,14 +38,26 @@ function UserDropDown(props) {
       <Dropdown.Menu rootCloseEvent="mousedown">
         {(user?.role === "admin" || user?.role === "instructor") && (
           <Dropdown.Item>
-            <Link
-              to="/admin?tab=dashboard"
-              className="dropdown-item"
-              data-rr-ui-dropdown-item
-              onClick={() => {}}
-            >
-              Admin
-            </Link>
+            {user?.role === "admin" && (
+              <Link
+                to="/admin?tab=dashboard"
+                className="dropdown-item"
+                data-rr-ui-dropdown-item
+                onClick={() => {}}
+              >
+                Admin
+              </Link>
+            )}
+            {user?.role === "instructor" && (
+              <Link
+                to="/admin?tab=quiz"
+                className="dropdown-item"
+                data-rr-ui-dropdown-item
+                onClick={() => {}}
+              >
+                Manager
+              </Link>
+            )}
           </Dropdown.Item>
         )}
         <Dropdown.Item>
