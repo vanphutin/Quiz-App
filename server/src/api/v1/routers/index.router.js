@@ -6,6 +6,7 @@ const questionRouter = require("./question.router");
 const answerRouter = require("./answer.router");
 const resultRouter = require("./result.router");
 const rankingRouter = require("./ranking.router");
+const historyRouter = require("./history.router");
 
 module.exports = (app) => {
   const router = express.Router();
@@ -16,6 +17,7 @@ module.exports = (app) => {
   router.use("/answer", answerRouter);
   router.use("/result", resultRouter);
   router.use("/ranking", rankingRouter);
+  router.use("/history", historyRouter);
 
   app.use("/api/v1", router); // Ensure there is a leading `/`
 };
