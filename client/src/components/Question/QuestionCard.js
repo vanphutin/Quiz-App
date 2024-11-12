@@ -149,7 +149,7 @@ const QuestionCard = ({
       </div>
 
       <div className="card-footer">
-        <button
+        {/* <button
           className="prev btn btn-outline-secondary"
           onClick={() => {
             saveAnswer();
@@ -158,7 +158,7 @@ const QuestionCard = ({
         >
           <GrPrevious size={20} />
           prev
-        </button>
+        </button> */}
         <div className="timer">
           <span
             className="text-center"

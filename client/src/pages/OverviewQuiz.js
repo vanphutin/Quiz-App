@@ -108,7 +108,7 @@ const OverviewQuiz = () => {
                 <h3>{error ? "----" : "25s / 1 question"}</h3>
               </li>
               <li className="list-item">
-                <label htmlFor="#">Have done</label>
+                <label htmlFor="#">Attempts</label>
                 <h3 style={data.attempts > 10 ? { color: "red" } : {}}>
                   {data.attempts || 0}
                 </h3>
