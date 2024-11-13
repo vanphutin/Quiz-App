@@ -1,11 +1,12 @@
 import { useSelector } from "react-redux";
 
-const PrivateRouter = ({ roleRequired }) => {
-  // Lấy thông tin người dùng từ store
+const PrivateRouter = (allowedRoles) => {
+  // Lấy thông tin người dùng từ Redux store
   const user = useSelector((state) => state.user.account);
+  console.log(user);
 
   // Kiểm tra quyền
-  return user && (user.role === roleRequired || user.role === "instructor");
+  return user && allowedRoles.includes(user.role);
 };
 
 export default PrivateRouter;

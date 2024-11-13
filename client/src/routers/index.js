@@ -117,7 +117,7 @@ const router = createBrowserRouter([
           },
           {
             element: (
-              <ProtectedRoute role="admin">
+              <ProtectedRoute role={["admin", "instructor"]}>
                 <AdminPage />
               </ProtectedRoute>
             ),

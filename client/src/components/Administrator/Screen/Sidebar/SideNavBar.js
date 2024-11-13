@@ -26,7 +26,7 @@ const SideNavBar = () => {
       </div>
       <hr />
       <ul className="sidebar_nav">
-        {user && user.role === "admin" && (
+        {user?.role === "admin" && (
           <li data-toggle="tooltip" data-placement="right" title="Dashboard">
             <NavLink to="/admin?tab=dashboard">
               <MdDashboard size={30} />

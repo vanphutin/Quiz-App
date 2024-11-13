@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import SideNavBar from "../components/Administrator/Screen/Sidebar/SideNavBar";
 import Dashboard from "../components/Administrator/Tab/TabDashboard/TabDashboard";
 import TabQuiz from "../components/Administrator/Tab/TabQuiz/TabQuiz";
+import NotFoundPage from "./NotFoundPage";
 
 const AdminPage = () => {
   const [searchParams] = useSearchParams();
@@ -17,7 +18,7 @@ const AdminPage = () => {
         return <TabQuiz />;
       // Thêm các tab khác ở đây nếu cần
       default:
-        return <div>Select a tab from the sidebar</div>;
+        return <NotFoundPage />;
     }
   };
 
