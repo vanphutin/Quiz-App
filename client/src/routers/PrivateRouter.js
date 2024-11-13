@@ -6,11 +6,7 @@ const PrivateRouter = (allowedRoles) => {
   console.log(user);
 
   // Kiểm tra quyền
-<<<<<<< HEAD
   return user && allowedRoles.includes(user.role);
-=======
-  return user && (user.role === "admin" || user.role === "instructor");
->>>>>>> feature/about-page
 };
 
 export default PrivateRouter;
