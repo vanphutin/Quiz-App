@@ -1,0 +1,180 @@
+// src/assets/style/pages/_About.scss
+
+/* Thiết lập mặc định */
+
+.about-page {
+  padding: 60px 20px;
+  //   background: #05111f; /* Màu nền chính của trang */
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  /* Chuyển động nền động cho trang */
+  //   background: linear-gradient(135deg, #2d3e50, #061727);
+  background-size: 400% 400%;
+  animation: gradientBackground 10s ease infinite;
+}
+
+/* Animation nền */
+@keyframes gradientBackground {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.about-page__title {
+  font-size: 3rem;
+  text-align: center;
+  color: #635e5e;
+  font-weight: 700;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 1;
+  animation: fadeInTitle 1.5s forwards 0.5s; /* Animation cho title */
+}
+
+.about-page__subtitle {
+  font-size: 2.2rem;
+  text-align: center;
+  color: #46617c;
+  margin-bottom: 25px;
+  font-weight: 600;
+  text-transform: capitalize;
+  padding: 10px;
+  border-bottom: 2px solid #545353;
+  opacity: 0;
+  animation: fadeInSubtitle 1.5s forwards 1s; /* Animation cho subtitle */
+}
+
+/* Cards */
+
+.about-page__content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeIn 1.5s forwards 1.5s; /* Animation cho content */
+}
+
+.about-page__card {
+  position: relative;
+  width: 100%;
+  max-width: 350px;
+  border: none;
+  border-radius: 15px;
+  background: #1a1f2f;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease;
+  cursor: pointer;
+  opacity: 0;
+  animation: fadeInCard 1s forwards ease-out;
+  animation-delay: calc(0.2s * var(--card-index)); /* Delay animation */
+}
+
+/* Hover effect - Chuyển động 3D */
+.about-page__card:hover {
+  transform: translateY(-10px) rotateY(5deg); /* Hiệu ứng nổi lên và xoay nhẹ */
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3); /* Bóng đổ mạnh hơn */
+}
+
+.about-page__card-body {
+  padding: 30px;
+  text-align: center;
+  background: #1a1f2f;
+  border-radius: 15px;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-page__icon-container {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeInIcon 1s forwards 0.5s; /* Animation cho icon */
+}
+
+.about-page__card-title {
+  font-size: 1.6rem;
+  color: #0056b3;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.about-page__card-text {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.6;
+  margin-top: 10px;
+}
+
+/* Hiệu ứng Fade-in cho các phần tử */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInTitle {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInSubtitle {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInCard {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInIcon {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-page__title {
+    font-size: 2.5rem;
+  }
+
+  .about-page__subtitle {
+    font-size: 2rem;
+  }
+}

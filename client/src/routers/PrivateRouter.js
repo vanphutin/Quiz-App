@@ -5,7 +5,7 @@ const PrivateRouter = ({ roleRequired }) => {
   const user = useSelector((state) => state.user.account);
 
   // Kiểm tra quyền
-  return user && (user.role === roleRequired || user.role === "instructor");
+  return user && (user.role === "admin" || user.role === "instructor");
 };
 
 export default PrivateRouter;
