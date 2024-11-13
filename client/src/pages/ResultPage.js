@@ -51,9 +51,9 @@ const ResultPage = () => {
     <div className="container result-page mt-5">
       <h1 className="result-title text-center">
         Test results{" "}
-        <span className="point text-white">
+        {/* <span className="point text-white">
           max point : {res?.totalQuesPoint}
-        </span>
+        </span> */}
       </h1>
       <div className="result-details">
         <div className="result-item">
