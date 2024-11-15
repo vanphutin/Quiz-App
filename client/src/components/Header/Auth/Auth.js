@@ -8,6 +8,8 @@ const Auth = () => {
   const user = useSelector((state) => state.user.account);
 
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+  console.log("isAuthenticated", isAuthenticated);
+
   return (
     <div className="auth__isAuthenticated text-end">
       {isAuthenticated ? (

@@ -18,7 +18,6 @@ const LoginPage = () => {
     setIsLoading(true);
     try {
       const res = await loginUser(formData.email, formData.password);
-      console.log("res", res);
       if (res.codeStatus === 200) {
         navigator("/");
         dispatch(USER_LOGIN_SUCCESS(res.data));
