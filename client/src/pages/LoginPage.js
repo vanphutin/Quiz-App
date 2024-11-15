@@ -18,15 +18,15 @@ const LoginPage = () => {
     setIsLoading(true);
     try {
       const res = await loginUser(formData.email, formData.password);
-
+      console.log("res", res);
       if (res.codeStatus === 200) {
         navigator("/");
         dispatch(USER_LOGIN_SUCCESS(res.data));
       } else if (res.codeStatus === 401) {
-        toast.error(res.error || "Login failed");
+        toast.error(res.error || res.messages || "Login failed");
       } else {
         console.log("Login failed:", res.messages);
-        toast.error(res.messages || "Login failed");
+        toast.error(res.message || "Login failed ");
       }
     } catch (error) {
       console.log("error", error);
