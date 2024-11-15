@@ -1,8 +1,7 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import InputField from "../../../common/InputField/InputField";
-import { TbReload } from "react-icons/tb";
-
+import "./__ModalCreateQuestion.scss";
 import * as React from "react";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -11,23 +10,19 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { v4 as uuidv4 } from "uuid"; // For generating unique IDs
 import "./__ModalCreateQuestion.scss";
-import { getCategorie, getQuiz } from "../../../../services/apiAdministrator";
 import { handleErrorResponse } from "../../../common/errorHandler/errorHandler";
 import { IoMdRemoveCircle } from "react-icons/io";
 import { MdOutlineAddCircle } from "react-icons/md";
 import _ from "lodash";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
 import { postQuestion } from "../../../../services/apiQuestion";
 function ModalCreateQuestion(props) {
   const { dataquiz } = props;
   const level = ["easy", "medium", "hard"];
   const question_type = ["multiple_choice", "true_false", "short_answer"];
-  const [quizData, setQuizzData] = React.useState("");
   const [quizChoose, setQuizzChoose] = React.useState("");
   const [quizLevel, setQuizzLevel] = React.useState("easy");
   const [questionType, setQuestionType] = React.useState("multiple_choice");
-  const user = useSelector((state) => state.user.account);
   const questionId = uuidv4();
   const [point, setPoint] = React.useState(10);
   const [questions, setQuestions] = React.useState([
@@ -183,7 +178,6 @@ function ModalCreateQuestion(props) {
     }
   };
   const handleOnChangeAnswerOption = (type, value, questionID, answerIndex) => {
-    console.log(type, value, questionID, answerIndex);
     let answerClone = _.cloneDeep(questions);
     let questionIndex = answerClone.findIndex(
       (item) => item.question_id === questionID
@@ -274,7 +268,7 @@ function ModalCreateQuestion(props) {
   };
 
   return (
-    <Modal {...props} size="xl" backdrop="static">
+    <Modal {...props} size="xl" fullscreen="xl-down" backdrop="static">
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
           Modal create new questions
@@ -282,7 +276,7 @@ function ModalCreateQuestion(props) {
       </Modal.Header>
       <Modal.Body>
         <div className="select__items row">
-          <div className="select-level col-3">
+          {/* <div className="select-level col-3">
             <label>
               Level quiz
               <select
@@ -298,7 +292,7 @@ function ModalCreateQuestion(props) {
                   ))}
               </select>
             </label>
-          </div>
+          </div> */}
 
           <div className="select-category col-4 ">
             <label>
@@ -318,7 +312,7 @@ function ModalCreateQuestion(props) {
             </label>
           </div>
 
-          <div className="select-category col-5 ">
+          <div className="select-category col-8 ">
             <label>
               Select quiz
               <select
