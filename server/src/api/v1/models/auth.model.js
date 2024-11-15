@@ -114,6 +114,23 @@ const Auth = {
       throw new Error(`ERROR: reset password - ${error.message}`);
     }
   },
+  // check user isdeleted
+  checkIsDeletedUser: async (email) => {
+    const sql_checkIsDeletedUser = `
+      SELECT * 
+      FROM users 
+      WHERE email = ? AND is_deleted = 0
+    `;
+
+    try {
+      const result = await query(sql_checkIsDeletedUser, [email]);
+
+      return result?.length > 0 ? result : null; // Returns user data if found, else null
+    } catch (error) {
+      console.error("Error checking if user is deleted:", error);
+      throw error; // Or handle the error as needed
+    }
+  },
   //====END FORGOT PASSWORD====
 
   //=== START REGISTER====

@@ -14,6 +14,13 @@ module.exports.login = async (req, res) => {
 
   try {
     const user = await Auth.login(email, password);
+    const isUserDeleted = await Auth.checkIsDeletedUser(email);
+    if (!isUserDeleted) {
+      return res.status(404).json({
+        codeStatus: 400,
+        message: " User does not exist or is marked as deleted",
+      });
+    }
 
     // Kiểm tra xem người dùng có tồn tại không
     if (!user) {
@@ -27,7 +34,7 @@ module.exports.login = async (req, res) => {
     const token = jwt.sign(
       { user_id: user.user_id, role: user.role },
       process.env.JWT_SECRET,
-      { expiresIn: "24h" }
+      { expiresIn: "1m" }
     );
 
     return res.status(200).json({

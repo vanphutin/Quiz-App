@@ -5,7 +5,6 @@ export const handleErrorResponse = (error, navigate) => {
   if (error.response) {
     // Có phản hồi từ server với status code nằm ngoài 2xx
     const { status, data } = error.response;
-    console.log("data", data);
 
     if (status === 400) {
       toast.error(data.error || data.message || "Bad request");
@@ -16,7 +15,7 @@ export const handleErrorResponse = (error, navigate) => {
       navigate("/login");
       toast.error(data.error || data.message || "Forbidden");
     } else if (status === 404) {
-      toast.error("Resource not found");
+      toast.error(data.error || data.message || "Resource not found");
     } else if (status === 500) {
       toast.error(data.message || "Server error. Please try again later.");
     } else {
