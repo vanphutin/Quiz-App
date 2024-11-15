@@ -36,27 +36,45 @@ function UserDropDown(props) {
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        {/* {(user?.role === "admin" || user?.role === "instructor") && (
-          <Dropdown.Item href="/admin?tab=dashboard">Admin</Dropdown.Item>
-        )} */}
-        {user?.role === "admin" ? (
-          <Dropdown.Item href="/admin?tab=dashboard">Adminstar</Dropdown.Item>
-        ) : (
-          <Dropdown.Item href="/admin?tab=quiz">Manager</Dropdown.Item>
-        )}
-        <Dropdown.Item>
-          <Link
-            to="/me/history-quiz"
-            className="dropdown-item"
-            data-rr-ui-dropdown-item
-            onClick={() => {}}
-          >
-            History Test
-          </Link>
-        </Dropdown.Item>
-        <Dropdown.Item onClick={() => {}}>_______</Dropdown.Item>
+        <Dropdown.Menu rootCloseEvent="mousedown">
+          {(user?.role === "admin" || user?.role === "instructor") && (
+            <Dropdown.Item>
+              {user?.role === "admin" && (
+                <Link
+                  to="/admin?tab=dashboard"
+                  className="dropdown-item"
+                  data-rr-ui-dropdown-item
+                  onClick={() => {}}
+                >
+                  Admin
+                </Link>
+              )}
+              {user?.role === "instructor" && (
+                <Link
+                  to="/admin?tab=quiz"
+                  className="dropdown-item"
+                  data-rr-ui-dropdown-item
+                  onClick={() => {}}
+                >
+                  Manager
+                </Link>
+              )}
+            </Dropdown.Item>
+          )}
+          <Dropdown.Item>
+            <Link
+              to="/me/history-quiz"
+              className="dropdown-item"
+              data-rr-ui-dropdown-item
+              onClick={() => {}}
+            >
+              History Test
+            </Link>
+          </Dropdown.Item>
+          <Dropdown.Item onClick={() => {}}>_______</Dropdown.Item>
 
-        <Dropdown.Item onClick={handleLogout}>Log out</Dropdown.Item>
+          <Dropdown.Item onClick={handleLogout}>Log out</Dropdown.Item>
+        </Dropdown.Menu>
       </Dropdown.Menu>
     </Dropdown>
   );
