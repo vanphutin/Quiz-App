@@ -1,70 +1,82 @@
+// __QuestionCard.scss
+
+$theme-color: #05111f; // Màu nền chính của trang
+$primary-color: #57e389; // Màu chính: xanh lá đậm (Forest Green)
+$secondary-color: #ff9800; // Màu phụ: cam sáng
+$text-color: #ffffff; // Màu chữ: trắng
+$btn-bg-color: #388e3c; // Màu nền của nút: xanh lá đậm
+$hover-color: #66bb6a; // Màu khi hover: xanh lá nhạt
+$warning-color: #ff5722; // Màu cảnh báo: đỏ cam
+
 .question-card {
-  padding: 20px;
-  background-color: #202b36;
-  border-radius: 10px;
-  color: #e0e0e0;
+  background-color: #1d2b36; // Màu nền tối cho card
+  color: $text-color;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  max-width: 850px;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 
   .card-main {
-    padding: 10px;
-    background-color: #29323d;
-    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
 
     .card__title {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #ffffff;
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: $primary-color;
+      border-bottom: 2px solid $secondary-color;
+      padding-bottom: 0.5rem;
 
-      .text-white {
-        color: #ffffff;
+      span {
+        &.text-white {
+          color: $text-color;
+        }
       }
     }
 
     .option-answer {
-      margin-top: 15px;
-
-      .option-answer-items {
-        list-style-type: none;
+      ul.option-answer-items {
+        list-style: none;
         padding: 0;
+        margin-top: 1rem;
 
         li {
-          margin: 10px 0;
+          padding: 1rem;
+          margin: 0.5rem 0;
+          background-color: #2c3e50; // Tông màu tối hơn cho lựa chọn
+          border-radius: 12px;
+          transition: background-color 0.3s ease, transform 0.2s ease;
           display: flex;
           align-items: center;
-          background-color: #2f3b46;
-          padding: 10px;
-          border-radius: 5px;
+          cursor: pointer;
 
           label {
             flex: 1;
+            color: $text-color;
             font-size: 1.1rem;
-            color: #e0e0e0;
-
-            span {
-              font-weight: bold;
-              margin-right: 5px;
-            }
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
           }
 
           input[type="radio"] {
-            margin-left: 10px;
+            margin-right: 1rem;
+            accent-color: $primary-color; // Màu sắc cho radio button
           }
+        }
 
-          // Different background for selected answer
-          &.answer_1 input:checked + label {
-            background-color: #007bff;
-          }
+        li:hover {
+          background-color: $hover-color; // Màu khi hover
+          transform: scale(1.05); // Tạo hiệu ứng phóng to nhẹ khi hover
+        }
 
-          &.answer_2 input:checked + label {
-            background-color: #28a745;
-          }
-
-          &.answer_3 input:checked + label {
-            background-color: #ffc107;
-          }
-
-          &.answer_4 input:checked + label {
-            background-color: #dc3545;
-          }
+        li input[type="radio"]:checked + label {
+          color: $secondary-color; // Làm nổi bật lựa chọn đã chọn
         }
       }
     }
@@ -74,57 +86,67 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 2rem;
 
-    .prev,
-    .next {
+    .btn {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      border-radius: 8px;
       display: flex;
       align-items: center;
-      padding: 10px 15px;
-      font-size: 1rem;
-      border-radius: 5px;
+      gap: 0.5rem;
+      transition: background-color 0.3s, color 0.3s;
 
-      svg {
-        margin-right: 5px;
+      &.btn-outline-secondary {
+        color: $secondary-color;
+        background: transparent;
+        border: 2px solid $secondary-color;
+        &:hover {
+          background-color: $secondary-color;
+          color: $text-color;
+        }
       }
-    }
 
-    .prev {
-      color: #ffffff;
-      border-color: #6c757d;
-
-      &:hover {
-        background-color: #6c757d;
+      &.btn-primary {
+        color: $text-color;
+        background-color: $btn-bg-color;
+        border: 2px solid $btn-bg-color;
+        &:hover {
+          background-color: lighten($btn-bg-color, 10%);
+        }
       }
-    }
 
-    .next {
-      color: #ffffff;
-      border-color: #6c757d;
-
-      &:hover {
-        background-color: #6c757d;
+      &.btn-outline-secondary,
+      &.btn-primary {
+        transition: background-color 0.3s, color 0.3s;
       }
     }
 
     .timer {
       font-size: 1.5rem;
-      color: #b6b3b3;
-      background-color: rgb(28, 27, 27);
+      font-weight: 600;
+      color: $primary-color;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #1d2b36;
+      box-shadow: rgba(255, 255, 255, 0.33) 0px 1px 1px 0px inset,
+        // Màu sắc nhẹ từ trắng
+        rgba(63, 81, 181, 0.305) 0px 4px 8px -2px,
+        // Màu xanh dương nhẹ, tạo chiều sâu
+        rgba(0, 0, 0, 0.242) 0px 10px 20px -10px; // Màu đen nhẹ, tạo độ mờ cho độ sâu
 
-      // Change to red when timer <= 5
       span {
-        transition: color 0.5s ease;
-      }
-    }
+        &.text-center {
+          font-size: 1.6rem;
+          transition: color 0.3s;
+        }
 
-    // Styles for submit button
-    .btn-primary {
-      background-color: #007bff;
-      border-color: #007bff;
-
-      &:hover {
-        background-color: #0056b3;
+        &.text-danger {
+          color: $warning-color; // Màu cảnh báo khi hết thời gian
+        }
       }
     }
   }

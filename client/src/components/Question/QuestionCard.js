@@ -3,10 +3,10 @@ import "./__QuestionCard.scss";
 import { GrNext, GrPrevious } from "react-icons/gr";
 import { BsSendFill } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
-import { submitAnswer } from "../../services/apiAnswer";
 import { useSelector } from "react-redux";
 import { handleErrorResponse } from "../common/errorHandler/errorHandler";
 import { toast } from "react-toastify";
+import { submitAnswer } from "../../services/apiResult";
 
 const QuestionCard = ({
   data,
@@ -149,7 +149,7 @@ const QuestionCard = ({
       </div>
 
       <div className="card-footer">
-        <button
+        {/* <button
           className="prev btn btn-outline-secondary"
           onClick={() => {
             saveAnswer();
@@ -158,7 +158,7 @@ const QuestionCard = ({
         >
           <GrPrevious size={20} />
           prev
-        </button>
+        </button> */}
         <div className="timer">
           <span
             className="text-center"

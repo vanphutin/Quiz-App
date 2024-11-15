@@ -19,6 +19,8 @@ import OverviewQuiz from "../pages/OverviewQuiz";
 import RankPage from "../pages/RankPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import PrivateRouter from "./PrivateRouter";
+import HistoryPage from "../pages/HistoryPage";
+import About from "../pages/AboutPage";
 
 const AuthLayout = () => {
   return (
@@ -84,6 +86,14 @@ const router = createBrowserRouter([
           {
             element: <QuestionPage />,
             path: "/quiz/:id",
+          },
+          {
+            element: <HistoryPage />,
+            path: "/me/history-quiz",
+          },
+          {
+            element: <About />,
+            path: "/about",
           },
         ],
       },

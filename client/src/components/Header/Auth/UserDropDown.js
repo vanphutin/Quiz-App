@@ -1,7 +1,7 @@
 import Dropdown from "react-bootstrap/Dropdown";
 import avatar from "../../../assets/image/avatar-user.jpg";
 import { USER_LOGOUT_SUCCESS } from "../../../redux/userSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useContext } from "react";
 import { DataQuesContext } from "../../../context/DataQuesContext";
@@ -19,10 +19,20 @@ function UserDropDown(props) {
   };
 
   return (
-    <Dropdown>
-      <Dropdown.Toggle variant="dark" bg="dark" id="dropdown-basic">
-        <img src={avatar} alt="" width="30px" style={{ marginRight: "10px" }} />
-        {props.username}
+    <Dropdown onSelect={() => {}}>
+      <Dropdown.Toggle
+        variant="dark"
+        bg="dark"
+        id="dropdown-basic"
+        aria-label="User Menu"
+      >
+        <img
+          src={avatar}
+          alt="User Avatar"
+          width="30px"
+          className="user-avatar"
+        />
+        <span className="px-1">{props.username}</span>
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
@@ -34,8 +44,17 @@ function UserDropDown(props) {
         ) : (
           <Dropdown.Item href="/admin?tab=quiz">Manager</Dropdown.Item>
         )}
-        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+        <Dropdown.Item>
+          <Link
+            to="/me/history-quiz"
+            className="dropdown-item"
+            data-rr-ui-dropdown-item
+            onClick={() => {}}
+          >
+            History Test
+          </Link>
+        </Dropdown.Item>
+        <Dropdown.Item onClick={() => {}}>_______</Dropdown.Item>
 
         <Dropdown.Item onClick={handleLogout}>Log out</Dropdown.Item>
       </Dropdown.Menu>

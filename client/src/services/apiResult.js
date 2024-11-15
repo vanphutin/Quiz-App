@@ -18,6 +18,15 @@ const overview = (quiz_id, user_id) => {
   );
 };
 
+const submitAnswer = (user_id, quiz_id, answers) => {
+  return axios.post(`${RESULT_API}/submit-answers`, {
+    user_id,
+    quiz_id,
+    answers,
+  });
+};
+
+export { submitAnswer };
 export { postResult };
 export { countQuizByUserID };
 export { getAttempts };

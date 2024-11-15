@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 const SideNavBar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const user = useSelector((state) => state.user.account);
+
   const toggleSidebar = () => {
     setCollapsed(!collapsed);
   };

@@ -13,7 +13,6 @@ const ResultPage = () => {
   const user = useSelector((state) => state.user.account);
   const res = state?.res?.data;
   const titleQuiz = state?.titleQuiz;
-  console.log(state);
   useEffect(() => {
     // Thêm trạng thái mới vào history để ngăn người dùng quay lại trang trước
     window.history.pushState(null, null, window.location.href);
@@ -52,9 +51,9 @@ const ResultPage = () => {
     <div className="container result-page mt-5">
       <h1 className="result-title text-center">
         Test results{" "}
-        <span className="point text-white">
+        {/* <span className="point text-white">
           max point : {res?.totalQuesPoint}
-        </span>
+        </span> */}
       </h1>
       <div className="result-details">
         <div className="result-item">
@@ -98,6 +97,3 @@ const ResultPage = () => {
 };
 
 export default ResultPage;
-
-// làm bảng xếp hạn
-// tao nhánh ranking
