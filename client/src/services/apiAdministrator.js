@@ -38,8 +38,12 @@ const getCategorieTotal = () => {
 const getCategorie = () => {
   return axios.get(`${ADMIN_API}/categories`);
 };
+const patchDeleteUserByID = (user_id) => {
+  return axios.patch(`${ADMIN_API}/users/${user_id}`);
+};
 export { getUsers };
 export { getQuiz };
 export { getQuestion };
 export { getCategorieTotal };
 export { getCategorie };
+export { patchDeleteUserByID };

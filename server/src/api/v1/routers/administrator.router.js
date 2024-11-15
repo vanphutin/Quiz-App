@@ -28,5 +28,10 @@ router.get(
   permisson.checkPermission,
   administratorController.getCategories
 );
+router.patch(
+  "/users/:id",
+  permisson.checkPermission,
+  administratorController.deleteUserById
+);
 
 module.exports = router;

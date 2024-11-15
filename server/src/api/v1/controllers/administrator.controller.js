@@ -1,4 +1,5 @@
 const Administrator = require("../models/administrator.model");
+const Auth = require("../models/auth.model");
 
 module.exports.getUsers = async (req, res) => {
   const sort = req.query.sort;
@@ -123,7 +124,6 @@ module.exports.countQuestion = async (req, res) => {
 module.exports.countCategories = async (req, res) => {
   try {
     const categorie = await Administrator.countCategories();
-    console.log("categorie", categorie);
 
     if (categorie === 0) {
       return res.status(200).json({
@@ -169,6 +169,47 @@ module.exports.getCategories = async (req, res) => {
     return res.status(500).json({
       statusCode: 500,
       message: `Error at administrator: ${error.message}`,
+      name: error.name,
+    });
+  }
+};
+
+module.exports.deleteUserById = async (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    return res.status(400).json({
+      statusCode: 400,
+      message: "Missing user_id",
+    });
+  }
+
+  try {
+    // Check if user exists
+    const userExist = await Auth.findById(id);
+    if (!userExist) {
+      return res.status(404).json({
+        statusCode: 404,
+        message: "User not found",
+      });
+    }
+
+    // Attempt to delete user
+    const deleteById = await Administrator.deleteUserById(id);
+    if (!deleteById) {
+      return res.status(500).json({
+        statusCode: 500,
+        message: "Error occurred while deleting user",
+      });
+    }
+
+    return res.status(200).json({
+      statusCode: 200,
+      message: "User deleted successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      statusCode: 500,
+      message: `Error in deleteUserById: ${error.message}`,
       name: error.name,
     });
   }

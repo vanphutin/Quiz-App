@@ -6,11 +6,13 @@ import {
   getQuestion,
   getQuiz,
   getUsers,
+  patchDeleteUserByID,
 } from "../../../../services/apiAdministrator";
 import TableData from "./TableData";
 import { Pagination } from "@mui/material";
 import { FaSortAlphaDown, FaSortAlphaUpAlt } from "react-icons/fa";
 import SkeletonLoader from "../../../common/skeletonLoader/SkeletonLoader";
+import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(false);
@@ -98,6 +100,20 @@ const Dashboard = () => {
     setCurrentPage(value);
   };
 
+  const handleDeleteUser = async (id) => {
+    try {
+      const res = await patchDeleteUserByID(id);
+      if (res.statusCode === 200) {
+        toast.success("User deleted successfully");
+        fetchUsers(currentPage, itemsPerPage, sort);
+      } else {
+        toast.error("Error occurred while deleting user");
+      }
+    } catch (error) {
+      handleErrorResponse(error);
+      toast.error("Failed to delete user");
+    }
+  };
   return (
     <>
       {loading ? (
@@ -176,7 +192,11 @@ const Dashboard = () => {
             </div>
           </h2>
           <div className="dashboard__table__main mt-4">
-            <TableData data={user} count={countUser} />
+            <TableData
+              data={user}
+              count={countUser}
+              handleDeleteUser={handleDeleteUser}
+            />
             <div className="pagination">
               <Pagination
                 count={Math.ceil(countUser / itemsPerPage)} // Total pages based on items per page

@@ -22,7 +22,8 @@ const Administrator = {
     }
   },
   countUsers: async () => {
-    const sql_countUsers = "SELECT COUNT(*) AS count FROM users";
+    const sql_countUsers =
+      "SELECT COUNT(*) AS count FROM users WHERE is_deleted = 0";
     try {
       const result = await query(sql_countUsers);
       // Kiểm tra và trả về kết quả đúng
@@ -109,6 +110,17 @@ const Administrator = {
       return result;
     } catch (error) {
       console.error("Error in getCategories:", error);
+      throw error;
+    }
+  },
+  deleteUserById: async (user_id) => {
+    const sql_deleteUserById =
+      "UPDATE users SET is_deleted = 1 WHERE user_id = ?";
+    try {
+      const result = await query(sql_deleteUserById, [user_id]);
+      return result;
+    } catch (error) {
+      console.error("Error in deleteUserById:", error);
       throw error;
     }
   },
