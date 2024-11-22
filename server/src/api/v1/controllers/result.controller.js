@@ -105,28 +105,23 @@ module.exports.overView = async (req, res) => {
   try {
     // Gọi hàm truy vấn và lấy kết quả
     const overview = await Result.overViewQuiz(quiz_id, user_id);
-    if (!overview) {
-      return res.status(404).json({
-        codeStatus: 404,
-        message: "No data found for the given quiz_id and user_id",
-      });
-    }
+
     let GET_OVERVIEW = {};
-    if (overview.attempts === null) {
+    if (!overview) {
       GET_OVERVIEW = await query(
-        `SELECT quiz.title,quiz.created_by_user_id, COUNT(ques.question_id) AS totalQuestion
+        `SELECT quiz.title,quiz.created_by_user_id,0 AS attempts , COUNT(ques.question_id) AS totalQuestion
                                             FROM quizzes quiz
                                             JOIN questions ques ON ques.quiz_id = quiz.quiz_id
                                             WHERE quiz.quiz_id = ?`,
         [quiz_id]
       );
     }
-    // console.log(GET_OVERVIEW_V2);
+
     // console.log("overview", overview.attempts === null);
     return res.status(200).json({
       codeStatus: 200,
       message: "Data retrieved successfully",
-      data: overview.attempts === null ? GET_OVERVIEW[0] : overview,
+      data: !overview ? GET_OVERVIEW[0] : overview,
     });
   } catch (error) {
     console.error(error); // Ghi lỗi vào console để dễ dàng debug

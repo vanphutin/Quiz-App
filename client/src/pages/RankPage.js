@@ -15,12 +15,11 @@ const RankPage = () => {
   const fetchApi = async (user_id) => {
     try {
       const res = await getRanking(user_id);
-      console.log(res);
       if (res.statusCode === 200) {
         setRanks(res.data.ranks);
         setMyRank(res.data.myRank);
         const oneChampionship = res.data.ranks.filter(
-          (rank) => rank.rank === 1
+          (rank) => rank.ranking === 1
         );
         setRankOneChampionship(oneChampionship);
       } else {
@@ -35,7 +34,6 @@ const RankPage = () => {
   useEffect(() => {
     fetchApi(user.user_id);
   }, [user.user_id]);
-  console.log("rankOneChampionship", rankOneChampionship);
   return (
     <div className="rank-page container">
       <div className="table-rank mt-3">
@@ -74,7 +72,7 @@ const RankPage = () => {
             {ranks.map((user, index) => (
               <li key={index} className="table-rank__item row">
                 <span className="place col-4">
-                  <TfiCup /> {user.rank}
+                  <TfiCup /> {user.ranking}
                 </span>
                 <span className="username col-4">
                   <i> @{user.username}</i>
@@ -88,7 +86,7 @@ const RankPage = () => {
             <li className="table-rank__item row my-rank">
               <span className="place col-4 d-fle">
                 <b style={{ marginRight: "20px" }}>You</b> <TfiCup />{" "}
-                {myRank.rank}
+                {myRank.ranking}
               </span>
               <span className="username col-4">
                 <i> @ {myRank.username || "---"}</i>

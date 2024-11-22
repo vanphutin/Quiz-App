@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  # app:
+  #   build: .
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - DB_HOST=db
+  #     - DB_USER=root
+  #     - DB_PASSWORD=root
+  #     - DB_NAME=quiz_app
+  #     - JWT_SECRET=VAN_PHU-TIN-290204@0345.987613
+  #     - EMAIL_USER=vanphutin2902@gmail.com
+  #     - EMAIL_PASSWORD=bjzb pqbd rqjd mfor
+  #   depends_on:
+  #     - db
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: quiz_app_production
+    ports:
+      - "3307:3306"

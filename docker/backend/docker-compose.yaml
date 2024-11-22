@@ -1,0 +1,39 @@
+services:
+  backend:
+    build:
+      context: ../../server
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      - DB_HOST=database
+      - DB_PORT=3306 # Cổng MySQL trong container
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_URI=mysql://root:root@database:3306/quiz_app_production
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    entrypoint:
+      [
+        "sh",
+        "-c",
+        "until nc -z database 3306; do echo 'Waiting for MySQL'; sleep 2; done; npm start",
+      ]
+
+  database:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: quiz_app_production
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3307:3306" # Bạn có thể giữ cổng này nếu cần truy cập từ ngoài container
+    expose:
+      - 3306 # Chỉ mở cổng trong container
+
+volumes:
+  mysql_data:
+    driver: local

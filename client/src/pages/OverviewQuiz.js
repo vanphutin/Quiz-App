@@ -45,6 +45,7 @@ const OverviewQuiz = () => {
   const fetchApi = async (quizId, userId) => {
     try {
       const res = await overview(quizId, userId);
+      console.log("res", res);
       if (res.codeStatus !== 200) {
         return setError(res.code);
       } else {
