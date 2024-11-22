@@ -5,13 +5,14 @@ const database = require("./config/database.config");
 const api_router_v1 = require("./api/v1/routers/index.router");
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8081;
 
 // CORS configuration
 var whitelist = [
-  "https://quiz-app-server-5cdj.onrender.com, http://localhost:4000",
+  "https://quiz-app-server-5cdj.onrender.com",
   "http://localhost:3000",
 ];
+
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
@@ -60,4 +61,7 @@ app.use((err, req, res, next) => {
 // Simple route
 app.get("/", (req, res) => {
   res.send("Hello world");
+});
+app.get("/hhh", (req, res) => {
+  res.send("This is the /hhh route");
 });
