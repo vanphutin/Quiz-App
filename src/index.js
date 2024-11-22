@@ -63,5 +63,7 @@ app.get("/", (req, res) => {
   res.send("Hello world");
 });
 app.get("/hhh", (req, res) => {
-  res.send("This is the /hhh route");
+  res.json({
+    message: "ok",
+  });
 });
