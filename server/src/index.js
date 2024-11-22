@@ -8,7 +8,10 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 // CORS configuration
-var whitelist = ["http://localhost:4000", "http://localhost:3000"];
+var whitelist = [
+  "https://quiz-app-server-5cdj.onrender.com, http://localhost:4000",
+  "http://localhost:3000",
+];
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
