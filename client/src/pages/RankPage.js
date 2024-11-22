@@ -16,7 +16,8 @@ const RankPage = () => {
     try {
       const res = await getRanking(user_id);
       if (res.statusCode === 200) {
-        setRanks(res.data.ranks);
+        setRanks(res.data.ranks.sort((a, b) => a.rank - b.rank));
+
         setMyRank(res.data.myRank);
         const oneChampionship = res.data.ranks.filter(
           (rank) => rank.rank === 1
