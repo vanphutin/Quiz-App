@@ -9,8 +9,8 @@ const PORT = process.env.PORT || 8081;
 
 // CORS configuration
 var whitelist = [
-  "https://quiz-app-server-5cdj.onrender.com",
   "http://localhost:3000",
+  "https://quiz-app-server-5cdj.onrender.com",
 ];
 
 var corsOptions = {
