@@ -8,7 +8,11 @@ const app = express();
 const PORT = process.env.PORT || 8081;
 
 // CORS configuration
-var whitelist = ["http://localhost:3000", "http://localhost:4000"];
+var whitelist = [
+  "https://lustrous-swan-3c646b.netlify.app",
+  "http://localhost:3000",
+  "http://localhost:4000",
+];
 
 var corsOptions = {
   origin: function (origin, callback) {
@@ -19,7 +23,7 @@ var corsOptions = {
     }
   },
 };
-app.options("*", cors(corsOptions)); 
+app.options("*", cors(corsOptions));
 
 // Apply CORS middleware
 app.use(cors(corsOptions));
