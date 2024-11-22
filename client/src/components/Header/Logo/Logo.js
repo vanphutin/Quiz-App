@@ -5,7 +5,7 @@ const Logo = () => {
   return (
     <div className="logo">
       <p className="logo-name">
-        QUIZZ<span>app</span>
+        QUIZ<span>app</span>
       </p>
     </div>
   );
