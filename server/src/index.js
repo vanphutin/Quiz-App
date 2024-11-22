@@ -8,10 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 8081;
 
 // CORS configuration
-var whitelist = [
-  "http://localhost:3000",
-  "https://quiz-app-server-5cdj.onrender.com",
-];
+var whitelist = ["http://localhost:3000", "http://localhost:4000"];
 
 var corsOptions = {
   origin: function (origin, callback) {
@@ -22,6 +19,7 @@ var corsOptions = {
     }
   },
 };
+app.options("*", cors(corsOptions)); // Giải quyết preflight requests cho tất cả các route
 
 // Apply CORS middleware
 app.use(cors(corsOptions));
