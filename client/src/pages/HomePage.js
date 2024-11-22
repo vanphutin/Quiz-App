@@ -3,14 +3,16 @@ import Introduction from "../components/Home/Introduction/Introduction";
 import QuestionLevelCard from "../components/Home/QuestionLevelCard/QuestionLevelCard";
 import LoadingCompo from "../components/common/loadingCompo/LoadingCompo";
 import { useLoaderData } from "react-router-dom";
+import { getAllQuizzLevel } from "../services/apiQuizzes";
+import { handleErrorResponse } from "../components/common/errorHandler/errorHandler";
 
 const HomePage = () => {
-  const data = useLoaderData();
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const hiddenRef = useRef(null);
   useEffect(() => {
     // Set loading state based on data availability
-    if (!Array.isArray(data) || data.length === 0 || !data) {
+    if (!Array.isArray(data) || data.length === 0) {
       setLoading(true);
     } else {
       setLoading(false);
@@ -18,6 +20,7 @@ const HomePage = () => {
   }, [data]);
 
   useEffect(() => {
+    feachApi();
     // Handle actions when loading is complete
     if (!loading && hiddenRef.current) {
       const hiddenElement = hiddenRef.current.previousSibling;
@@ -27,6 +30,24 @@ const HomePage = () => {
     }
   }, [loading]);
 
+  const feachApi = async () => {
+    try {
+      const res = await getAllQuizzLevel();
+      if (res.statusCode === 200) {
+        const levelOrder = ["easy", "medium", "hard"];
+        setData(
+          res.data.sort((a, b) => {
+            return levelOrder.indexOf(a.level) - levelOrder.indexOf(b.level);
+          })
+        );
+      } else {
+        console.log("error ");
+      }
+    } catch (error) {
+      handleErrorResponse(error);
+    }
+  };
+
   const capitalizeFirstLetter = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
@@ -34,7 +55,6 @@ const HomePage = () => {
   if (loading) {
     return <LoadingCompo loading={loading} />;
   }
-
   return (
     <div className="home container mt-5" ref={hiddenRef}>
       <div className="home__screen-main">

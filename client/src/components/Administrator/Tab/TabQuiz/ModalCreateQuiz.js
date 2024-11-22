@@ -64,18 +64,9 @@ function ModalCreateQuiz({ show, handleClose }) {
 
   const handleSubmitForm = async (e) => {
     e.preventDefault();
-    console.log("submit");
 
     // Validate the form fields before proceeding
     if (validate(title, category, description, level, user)) {
-      console.log(
-        "text-category-description-level-user",
-        title,
-        category,
-        description,
-        level,
-        user
-      );
       // Continue form submission process
       const res = await postQuiz(title, category, description, level, user);
 

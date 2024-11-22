@@ -19,7 +19,7 @@ var corsOptions = {
     }
   },
 };
-app.options("*", cors(corsOptions)); // Giải quyết preflight requests cho tất cả các route
+app.options("*", cors(corsOptions)); 
 
 // Apply CORS middleware
 app.use(cors(corsOptions));

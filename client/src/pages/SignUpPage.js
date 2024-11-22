@@ -25,7 +25,6 @@ const SignUpPage = () => {
         formData.gender,
         formData.code
       );
-      console.log("res", res);
 
       if (res.codeStatus === 201) {
         toast.success(res.messages || "Sign up success");

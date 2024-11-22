@@ -57,15 +57,6 @@ const router = createBrowserRouter([
           {
             element: <HomePage />,
             path: "/",
-            loader: async () => {
-              const res = await getAllQuizzLevel();
-              const levelOrder = ["easy", "medium", "hard"];
-              return res.data.sort((a, b) => {
-                return (
-                  levelOrder.indexOf(a.level) - levelOrder.indexOf(b.level)
-                );
-              });
-            },
           },
           {
             element: <RankPage />,

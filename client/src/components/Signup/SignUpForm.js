@@ -72,7 +72,6 @@ const SignUpForm = ({ isLoading, setIsLoading, onSignup }) => {
           "Wrong teacher code, please contact the unit where you are working.";
       }
     }
-    console.log("newErrors", newErrors);
 
     return newErrors;
   };
@@ -91,9 +90,6 @@ const SignUpForm = ({ isLoading, setIsLoading, onSignup }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const validationErrors = validate();
-    console.log("formData", formData);
-
-    console.log("validationErrors", validationErrors);
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
