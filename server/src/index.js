@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 8081;
 
 // CORS configuration
 var whitelist = [
-  "https://lustrous-swan-3c646b.netlify.app",
+  "https://vpt-quiz-app.netlify.app",
   "http://localhost:3000",
   "http://localhost:4000",
 ];
