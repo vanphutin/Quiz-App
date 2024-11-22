@@ -22,6 +22,7 @@ const QuestionCard = ({
   const user = useSelector((state) => state.user.account);
   const [countSubmit, setCountSubmit] = useState(0);
   const [timer, setTimer] = useState(25);
+  const [loading, setLoading] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [results, setResults] = useState([]); // Lưu kết quả của tất cả các câu
   useEffect(() => {
@@ -97,10 +98,18 @@ const QuestionCard = ({
     }
   };
 
-  const handleSubmit = async (e) => {
-    setCountSubmit((count) => count + 1);
-    saveAnswer();
+  const handleSubmit = async () => {
+    setLoading(true); // Bắt đầu tải
+    try {
+      await saveAnswer(); // Lưu câu trả lời
+      setCountSubmit((count) => count + 1); // Cập nhật bộ đếm
+    } catch (error) {
+      console.error("Error saving answer:", error);
+    } finally {
+      setLoading(false); // Hoàn thành xử lý
+    }
   };
+
   useEffect(() => {
     const fetchData = async () => {
       if (countSubmit === 1) {
@@ -170,6 +179,7 @@ const QuestionCard = ({
 
         {currentIndex === INIT_MAX_QUES ? (
           <button
+            disabled={loading}
             className="next btn btn-primary"
             onClick={(e) => {
               handleSubmit(e);

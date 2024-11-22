@@ -25,22 +25,22 @@ function TableData({ data, onDeleteSuccess }) {
   };
   return (
     <>
-      <Table striped bordered hover variant="dark">
-        <thead>
-          <tr>
-            <th>Index</th>
-            <th>Title</th>
-            <th>Description</th>
-            {user && user.role === "admin" && <th>Created by</th>}
-            <th>Category name</th>
-            <th>Level</th>
-            <th>Created at</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data &&
-            data.map((item, index) => (
+      {data ? (
+        <Table striped bordered hover variant="dark">
+          <thead>
+            <tr>
+              <th>Index</th>
+              <th>Title</th>
+              <th>Description</th>
+              {user && user.role === "admin" && <th>Created by</th>}
+              <th>Category name</th>
+              <th>Level</th>
+              <th>Created at</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((item, index) => (
               <tr key={index} className="text-light">
                 <td>{index}</td>
                 <td>{item.title}</td>
@@ -67,8 +67,12 @@ function TableData({ data, onDeleteSuccess }) {
                 </td>
               </tr>
             ))}
-        </tbody>
-      </Table>
+          </tbody>
+        </Table>
+      ) : (
+        "Fetching data..."
+      )}
+
       <ModalDeleteQuiz
         handleClose={handleClose}
         quizId={quizToDelete}

@@ -105,7 +105,7 @@ const OverviewQuiz = () => {
               </li>
               <li className="list-item">
                 <label htmlFor="#">Timer</label>
-                <h3>{error ? "----" : "25s / 1 question"}</h3>
+                <h3>{error ? "----" : "15s / 1 question"}</h3>
               </li>
               <li className="list-item">
                 <label htmlFor="#">Attempts</label>

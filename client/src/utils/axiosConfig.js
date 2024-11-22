@@ -3,8 +3,8 @@ import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 
 const instance = axios.create({
-  // baseURL: "http://localhost:8080/api/v1/",
-  baseURL: "https://server-quiz-app.onrender.com/api/v1/",
+  baseURL: "http://localhost:8080/api/v1/",
+  // baseURL: "https://server-quiz-app.onrender.com/api/v1/",
   // timeout: 1000, // Có thể thêm nếu cần
   // headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } // Không cần thiết
 });
