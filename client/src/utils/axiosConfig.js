@@ -1,9 +1,9 @@
 import axios from "axios";
-import NProgress from "nprogress"; // Chỉnh sửa tên import cho đồng nhất
-import "nprogress/nprogress.css"; // Import stylesheet của nprogress
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 
 const instance = axios.create({
-  baseURL: "https://quiz-app-server-5cdj.onrender.com",
+  baseURL: "https://quiz-app-server-5cdj.onrender.com/api/v1/",
   // timeout: 1000, // Có thể thêm nếu cần
   // headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } // Không cần thiết
 });
