@@ -15,7 +15,6 @@ const RankPage = () => {
   const fetchApi = async (user_id) => {
     try {
       const res = await getRanking(user_id);
-      console.log(res);
       if (res.statusCode === 200) {
         setRanks(res.data.ranks);
         setMyRank(res.data.myRank);
@@ -35,7 +34,6 @@ const RankPage = () => {
   useEffect(() => {
     fetchApi(user.user_id);
   }, [user.user_id]);
-  console.log("rankOneChampionship", rankOneChampionship);
   return (
     <div className="rank-page container">
       <div className="table-rank mt-3">

@@ -5,13 +5,16 @@ const QUIZZES_API = "quizzes";
 const getAllQuizzLevel = () => {
   return axios.get(`${QUIZZES_API}/levels`);
 };
-const getQuizzes = (level, sort, page, limit) => {
+const getQuizzes = (level, search, sort, page, limit) => {
   let url = `${QUIZZES_API}?`;
   if (level) {
     url += `level=${level}&`;
   }
-  if (sort) {
-    url += `sort=${sort}&`;
+  // if (sort) {
+  //   url += `sort=${sort}&`;
+  // }
+  if (search) {
+    url += `search=${search}`;
   }
 
   // Xóa '&' cuối nếu cần thiết

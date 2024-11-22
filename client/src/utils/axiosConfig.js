@@ -3,7 +3,7 @@ import NProgress from "nprogress"; // Chỉnh sửa tên import cho đồng nh�
 import "nprogress/nprogress.css"; // Import stylesheet của nprogress
 
 const instance = axios.create({
-  baseURL: "http://localhost:8081/api/v1/",
+  baseURL: "http://localhost:8080/api/v1/",
   // timeout: 1000, // Có thể thêm nếu cần
   // headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } // Không cần thiết
 });

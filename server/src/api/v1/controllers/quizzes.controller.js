@@ -27,9 +27,10 @@ module.exports.getLevels = async (req, res) => {
 // Yêu cầu: GET /quizzes?level=easy&page=1&limit=2&sort=asc
 module.exports.getQuizzesLevel = async (req, res) => {
   const level = req.query.level;
+  const search = req.query.search;
   const sort = req.query.sort || "asc";
   const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 10;
+  const limit = parseInt(req.query.limit) || 1000;
   const offset = (page - 1) * limit;
 
   if (!level) {
@@ -64,10 +65,19 @@ module.exports.getQuizzesLevel = async (req, res) => {
       category_name: item.category_name,
       quizzes: JSON.parse(`[${item.quizzes}]`),
     }));
+
+    const filteredQuiz = search
+      ? formattedData.map((category) => ({
+          quizzes: category.quizzes.filter((quiz) =>
+            quiz.title.toLowerCase().includes(search.toLowerCase())
+          ),
+        }))
+      : formattedData;
+
     res.status(200).json({
       statusCode: 200,
       message: `Get quizzes for level: ${level} successful`,
-      data: formattedData,
+      data: filteredQuiz,
       pagination: {
         currentPage: page,
         itemsPerPage: limit,

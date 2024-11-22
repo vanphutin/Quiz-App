@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../assets/style/pages/_HistoryPage.scss";
 import { getHistory } from "../services/apiHistory";
 import { useSelector } from "react-redux";
@@ -9,6 +9,7 @@ const HistoryPage = () => {
   const [data, setData] = useState([]);
   const user = useSelector((state) => state.user.account);
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const searchInputRef = useRef(null);
   const fetchApi = async (user_id, search) => {
     try {
       const res = await getHistory(user_id, search);
@@ -22,6 +23,9 @@ const HistoryPage = () => {
   };
 
   useEffect(() => {
+    if (searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
     if (user?.user_id) {
       fetchApi(user.user_id, searchTerm);
     }
@@ -33,6 +37,7 @@ const HistoryPage = () => {
         <input
           type="text"
           placeholder="Search quizzes..."
+          ref={searchInputRef}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />

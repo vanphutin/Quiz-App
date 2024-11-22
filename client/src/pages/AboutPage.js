@@ -8,6 +8,7 @@ import {
   FaDatabase,
   FaBootstrap,
   FaServer,
+  FaDocker,
 } from "react-icons/fa";
 import {
   SiRedux,
@@ -78,6 +79,13 @@ const technologiesBE = [
     icon: <TbStackMiddle size={50} color="#00618d" />,
   },
 ];
+const technologiesDevOps = [
+  {
+    name: "Docker",
+    description: "Nền tảng container hóa để triển khai và quản lý ứng dụng.",
+    icon: <FaDocker size={50} color="#2496ed" />,
+  },
+];
 
 const About = () => {
   return (
@@ -110,6 +118,23 @@ const About = () => {
       <h2 className="about-page__subtitle mt-5">Công nghệ Back-end</h2>
       <div className="about-page__content">
         {technologiesBE.map((tech, index) => (
+          <Card key={index} className="about-page__card">
+            <Card.Body className="about-page__card-body">
+              <div className="about-page__icon-container">{tech.icon}</div>
+              <Card.Title className="about-page__card-title">
+                {tech.name}
+              </Card.Title>
+              <Card.Text className="about-page__card-text">
+                {tech.description}
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        ))}
+      </div>
+
+      <h2 className="about-page__subtitle mt-5">Công nghệ DevOps</h2>
+      <div className="about-page__content">
+        {technologiesDevOps.map((tech, index) => (
           <Card key={index} className="about-page__card">
             <Card.Body className="about-page__card-body">
               <div className="about-page__icon-container">{tech.icon}</div>
