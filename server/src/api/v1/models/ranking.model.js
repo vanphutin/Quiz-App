@@ -10,22 +10,23 @@ const Ranking = {
 
       // Chạy truy vấn xếp hạng
       const sql_getRanking = `
-        SELECT 
-            r.user_id, 
-            u.username, 
-            u.lastname,
-            u.firstname,
-            SUM(r.score) AS total_score,
-            @rank := @rank + 1 AS rank
-        FROM 
-            results r
-        JOIN 
-            users u ON r.user_id = u.user_id
-        GROUP BY 
-            r.user_id, u.username, u.lastname, u.firstname
-        ORDER BY 
-            total_score DESC;
-      `;
+      SELECT 
+          r.user_id, 
+          u.username, 
+          u.lastname,
+          u.firstname,
+          SUM(r.score) AS total_score,
+          @rank := @rank + 1 AS \`rank\`
+      FROM 
+          results r
+      JOIN 
+          users u ON r.user_id = u.user_id
+      GROUP BY 
+          r.user_id, u.username, u.lastname, u.firstname
+      ORDER BY 
+          total_score DESC
+    `;
+
       const result = await query(sql_getRanking);
       return result;
     } catch (error) {
