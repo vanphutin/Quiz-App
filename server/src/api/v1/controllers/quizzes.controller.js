@@ -93,60 +93,36 @@ module.exports.getQuizzesLevel = async (req, res) => {
   }
 };
 
-module.exports.createNewQuiz = async (req, res) => {
-  const { title, description, created_by_user_id, category_id, level } =
-    req.body;
+module.exports.createNewQuiz = async (
+  title,
+  description,
+  created_by_user_id,
+  category_id,
+  level
+) => {
+  const quiz_id = uuidv4(); // Tạo ID tự động cho quiz
+  const sql_createNewQuiz = `
+    INSERT INTO quizzes (quiz_id, title, description, created_by_user_id, category_id, level, created_at, updated_at, is_deleted, score)
+    VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW(), 0, 100.00);
+  `;
 
-  const valid = [
-    "title",
-    "description",
-    "created_by_user_id",
-    "category_id",
-    "level",
-  ];
-  const init_level = ["easy", "medium", "hard"];
-
-  // Check if title is one of the valid levels
-  if (!init_level.includes(level)) {
-    return res.status(400).json({
-      statusCode: 400,
-      message: `Invalid level. Level must be one of: ${init_level.join(", ")}`,
-    });
-  }
-
-  // Check if all required fields are present in req.body
-  for (let i = 0; i < valid.length; i++) {
-    if (!req.body[valid[i]]) {
-      // Check if the field is missing or undefined
-      return res.status(400).json({
-        statusCode: 400,
-        message: `Missing required field: ${valid[i]}`,
-      });
-    }
-  }
-  const quiz_id = uuidv4();
   try {
-    const createQuiz = await Quizzes.createNewQuiz(
-      quiz_id,
-      title,
-      description,
-      created_by_user_id,
-      category_id,
-      level
-    );
-
-    res.status(201).json({
-      statusCode: 201,
-      message: "Create quiz successful",
-    });
+    // Escape dữ liệu và sử dụng quiz_id tự tạo
+    const result = await query(sql_createNewQuiz, [
+      mysql.escape(quiz_id),
+      mysql.escape(title),
+      mysql.escape(description),
+      mysql.escape(created_by_user_id),
+      mysql.escape(category_id),
+      mysql.escape(level),
+    ]);
+    return result;
   } catch (error) {
-    return res.status(500).json({
-      statusCode: 500,
-      message: `Error at quizzes: ${error.message}`,
-      name: error.name,
-    });
+    console.error("SQL Error:", error); // Log toàn bộ lỗi để debug
+    throw new Error(`ERROR: create new quiz - ${error.message}`);
   }
 };
+
 // delete quiz
 
 module.exports.deleteQuiz = async (req, res) => {

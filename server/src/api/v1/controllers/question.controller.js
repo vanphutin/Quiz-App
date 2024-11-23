@@ -4,39 +4,46 @@ const db = require("../../../config/database.config");
 const { promisify } = require("util");
 const query = promisify(db.query).bind(db);
 
-module.exports.postNewQuestions = async (req, res) => {
-  const { question } = req.body; // Lấy mảng câu hỏi từ đối tượng body
-  const { point } = req.body;
-  if (!Array.isArray(question) || question.length === 0) {
-    return res.status(400).json({
-      codeStatus: 400,
-      message: "No questions provided",
-    });
-  }
+const mysql = require("mysql");
+const { v4: uuidv4 } = require("uuid"); // Dùng uuid để tạo ID tự động
+
+module.exports.postNewQuestions = async (questions) => {
+  // Sử dụng UUID để tạo ID cho mỗi câu hỏi
+  const sql_postNewQuestion = `INSERT INTO questions (question_id, quiz_id, question_text, question_type, difficulty) VALUES ?`;
+
+  const values = questions.map((q) => [
+    uuidv4(), // Tạo ID tự động cho câu hỏi
+    q.quiz_id, // Giữ nguyên quiz_id từ client (nếu cần)
+    mysql.escape(q.question_text), // Escape dữ liệu
+    mysql.escape(q.question_type), // Escape dữ liệu
+    mysql.escape(q.difficulty), // Escape dữ liệu
+  ]);
 
   try {
-    // Gọi phương thức trong Model để lưu dữ liệu vào database
-    const result = await Question.postNewQuestions(question);
-    if (point) {
-      await query(
-        `UPDATE quizzes
-                  SET score = score + ${point}
-                  WHERE quiz_id = ?;
-                 `,
-        [question[0]?.quiz_id]
-      );
-    }
-    return res.status(201).json({
-      codeStatus: 201,
-      message: "Create new questions successful",
-      result,
+    // Thực hiện truy vấn thêm câu hỏi
+    const result = await query(sql_postNewQuestion, [values]);
+
+    // Lưu các câu trả lời cho mỗi câu hỏi
+    const sql_postAnswer = `INSERT INTO options (option_id, option_text, is_correct, question_id) VALUES ?`;
+    const answerValues = [];
+
+    questions.forEach((q) => {
+      q.answer.forEach((a) => {
+        answerValues.push([
+          uuidv4(), // Tạo ID tự động cho câu trả lời
+          mysql.escape(a.option_text),
+          mysql.escape(a.is_correct),
+          q.question_id, // Sử dụng question_id đã được tạo
+        ]);
+      });
     });
+
+    await query(sql_postAnswer, [answerValues]);
+
+    return result;
   } catch (error) {
-    return res.status(500).json({
-      codeStatus: 500,
-      message: `Error at creating questions: ${error.message}`,
-      name: error.name,
-    });
+    console.error("Error in postNewQuestions:", error);
+    throw error;
   }
 };
 
