@@ -49,43 +49,55 @@ module.exports.getQuizzesLevel = async (req, res) => {
   }
 
   try {
+    // Lấy quiz theo cấp độ
     const quizzesByCategory = await Quizzes.getQuizzesLevel(
       level,
       sort,
       limit,
       offset
     );
+
     if (quizzesByCategory.length === 0) {
       return res.status(404).json({
         statusCode: 404,
         message: `No quizzes found for level: ${level}`,
       });
     }
-    const formattedData = quizzesByCategory.map((item) => {
-      let quizzes;
+
+    // Xử lý và chuyển đổi chuỗi JSON trong trường quizzes thành đối tượng JSON
+    const groupedQuizzes = quizzesByCategory.map((category) => {
       try {
-        quizzes = JSON.parse(`[${item.quizzes}]`); // Try parsing the quizzes field
+        // In ra dữ liệu quizzes trước khi phân tích
+        // console.log(
+        //   "Quizzes data for category:",
+        //   category.category_name,
+        //   category.quizzes
+        // );
+
+        // Kiểm tra và chuyển đổi quizzes từ chuỗi JSON thành đối tượng JSON
+        category.quizzes = JSON.parse(category.quizzes);
+
+        // Nếu quizzes không phải là mảng, biến thành mảng
+        if (!Array.isArray(category.quizzes)) {
+          category.quizzes = [category.quizzes];
+        }
       } catch (error) {
-        quizzes = []; // If it fails, set quizzes to an empty array or handle accordingly
+        // Nếu lỗi xảy ra khi phân tích JSON, ghi lại lỗi và chuỗi gây lỗi
+        console.error("Error parsing JSON for category:");
+        console.error("Error details:", error);
+        console.error("Invalid JSON string:");
+
+        category.quizzes = JSON.parse("[" + category.quizzes + "]"); // Đảm bảo luôn tạo thành mảng
       }
-      return {
-        category_name: item.category_name,
-        quizzes: quizzes,
-      };
+
+      return category;
     });
 
-    const filteredQuiz = search
-      ? formattedData.map((category) => ({
-          quizzes: category.quizzes.filter((quiz) =>
-            quiz.title.toLowerCase().includes(search.toLowerCase())
-          ),
-        }))
-      : formattedData;
-
+    // Trả về kết quả
     res.status(200).json({
       statusCode: 200,
       message: `Get quizzes for level: ${level} successful`,
-      data: filteredQuiz,
+      data: groupedQuizzes,
       pagination: {
         currentPage: page,
         itemsPerPage: limit,
@@ -93,10 +105,10 @@ module.exports.getQuizzesLevel = async (req, res) => {
       },
     });
   } catch (error) {
+    console.error("Error fetching quizzes:", error);
     return res.status(500).json({
       statusCode: 500,
-      message: `Error at quizzes: ${error.message}`,
-      name: error.name,
+      message: "An error occurred while fetching quizzes",
     });
   }
 };
