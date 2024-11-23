@@ -1,5 +1,6 @@
 const Quizzes = require("../models/quizzes.model");
 const { v4: uuidv4 } = require("uuid");
+const mysql = require("mysql");
 
 module.exports.getLevels = async (req, res) => {
   try {
@@ -49,115 +50,40 @@ module.exports.getQuizzesLevel = async (req, res) => {
   }
 
   try {
-    // Lấy quiz theo cấp độ
     const quizzesByCategory = await Quizzes.getQuizzesLevel(
       level,
       sort,
       limit,
       offset
     );
-
     if (quizzesByCategory.length === 0) {
       return res.status(404).json({
         statusCode: 404,
         message: `No quizzes found for level: ${level}`,
       });
     }
+    const formattedData = quizzesByCategory.map((item) => ({
+      category_name: item.category_name,
+      quizzes: JSON.parse(`[${item.quizzes}]`),
+    }));
 
-    // Xử lý và chuyển đổi chuỗi JSON trong trường quizzes thành đối tượng JSON
-    const groupedQuizzes = quizzesByCategory.map((category) => {
-      try {
-        // In ra dữ liệu quizzes trước khi phân tích
-        // console.log(
-        //   "Quizzes data for category:",
-        //   category.category_name,
-        //   category.quizzes
-        // );
+    const filteredQuiz = search
+      ? formattedData.map((category) => ({
+          quizzes: category.quizzes.filter((quiz) =>
+            quiz.title.toLowerCase().includes(search.toLowerCase())
+          ),
+        }))
+      : formattedData;
 
-        // Kiểm tra và chuyển đổi quizzes từ chuỗi JSON thành đối tượng JSON
-        category.quizzes = JSON.parse(category.quizzes);
-
-        // Nếu quizzes không phải là mảng, biến thành mảng
-        if (!Array.isArray(category.quizzes)) {
-          category.quizzes = [category.quizzes];
-        }
-      } catch (error) {
-        // Nếu lỗi xảy ra khi phân tích JSON, ghi lại lỗi và chuỗi gây lỗi
-        console.error("Error parsing JSON for category:");
-        console.error("Error details:", error);
-        console.error("Invalid JSON string:");
-
-        category.quizzes = JSON.parse("[" + category.quizzes + "]"); // Đảm bảo luôn tạo thành mảng
-      }
-
-      return category;
-    });
-
-    // Trả về kết quả
     res.status(200).json({
       statusCode: 200,
       message: `Get quizzes for level: ${level} successful`,
-      data: groupedQuizzes,
+      data: filteredQuiz,
       pagination: {
         currentPage: page,
         itemsPerPage: limit,
         totalItems: quizzesByCategory.length,
       },
-    });
-  } catch (error) {
-    console.error("Error fetching quizzes:", error);
-    return res.status(500).json({
-      statusCode: 500,
-      message: "An error occurred while fetching quizzes",
-    });
-  }
-};
-
-module.exports.createNewQuiz = async (req, res) => {
-  const { title, description, created_by_user_id, category_id, level } =
-    req.body;
-
-  const valid = [
-    "title",
-    "description",
-    "created_by_user_id",
-    "category_id",
-    "level",
-  ];
-  const init_level = ["easy", "medium", "hard"];
-
-  // Check if title is one of the valid levels
-  if (!init_level.includes(level)) {
-    return res.status(400).json({
-      statusCode: 400,
-      message: `Invalid level. Level must be one of: ${init_level.join(", ")}`,
-    });
-  }
-
-  // Check if all required fields are present in req.body
-  for (let i = 0; i < valid.length; i++) {
-    if (!req.body[valid[i]]) {
-      // Check if the field is missing or undefined
-      return res.status(400).json({
-        statusCode: 400,
-        message: `Missing required field: ${valid[i]}`,
-      });
-    }
-  }
-  const quiz_id = uuidv4();
-  try {
-    const createQuiz = await Quizzes.createNewQuiz(
-      quiz_id,
-      title.trim(),
-      description.trim(),
-      created_by_user_id.trim(),
-      category_id,
-      level
-    );
-
-    res.status(201).json({
-      statusCode: 201,
-      message: "Create quiz successful",
     });
   } catch (error) {
     return res.status(500).json({
@@ -167,6 +93,37 @@ module.exports.createNewQuiz = async (req, res) => {
     });
   }
 };
+
+module.exports.createNewQuiz = async (
+  title,
+  description,
+  created_by_user_id,
+  category_id,
+  level
+) => {
+  const quiz_id = uuidv4(); // Tạo ID tự động cho quiz
+  const sql_createNewQuiz = `
+    INSERT INTO quizzes (quiz_id, title, description, created_by_user_id, category_id, level, created_at, updated_at, is_deleted, score)
+    VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW(), 0, 100.00);
+  `;
+
+  try {
+    // Escape dữ liệu và sử dụng quiz_id tự tạo
+    const result = await query(sql_createNewQuiz, [
+      mysql.escape(quiz_id),
+      mysql.escape(title),
+      mysql.escape(description),
+      mysql.escape(created_by_user_id),
+      mysql.escape(category_id),
+      mysql.escape(level),
+    ]);
+    return result;
+  } catch (error) {
+    console.error("SQL Error:", error); // Log toàn bộ lỗi để debug
+    throw new Error(`ERROR: create new quiz - ${error.message}`);
+  }
+};
+
 // delete quiz
 
 module.exports.deleteQuiz = async (req, res) => {
