@@ -1,5 +1,6 @@
 const Quizzes = require("../models/quizzes.model");
 const { v4: uuidv4 } = require("uuid");
+const mysql = require("mysql");
 
 module.exports.getLevels = async (req, res) => {
   try {

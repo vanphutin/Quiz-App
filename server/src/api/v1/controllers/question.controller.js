@@ -8,19 +8,18 @@ const mysql = require("mysql");
 const { v4: uuidv4 } = require("uuid"); // Dùng uuid để tạo ID tự động
 
 module.exports.postNewQuestions = async (questions) => {
-  // Sử dụng UUID để tạo ID cho mỗi câu hỏi
   const sql_postNewQuestion = `INSERT INTO questions (question_id, quiz_id, question_text, question_type, difficulty) VALUES ?`;
 
+  // Kiểm tra và lọc dữ liệu đúng trước khi truyền vào
   const values = questions.map((q) => [
     uuidv4(), // Tạo ID tự động cho câu hỏi
-    q.quiz_id, // Giữ nguyên quiz_id từ client (nếu cần)
-    mysql.escape(q.question_text), // Escape dữ liệu
-    mysql.escape(q.question_type), // Escape dữ liệu
-    mysql.escape(q.difficulty), // Escape dữ liệu
+    q.quiz_id, // Kiểm tra nếu quiz_id là một số hoặc chuỗi hợp lệ
+    typeof q.question_text === "string" ? q.question_text : "", // Đảm bảo question_text là chuỗi
+    typeof q.question_type === "string" ? q.question_type : "", // Đảm bảo question_type là chuỗi
+    typeof q.difficulty === "string" ? q.difficulty : "", // Đảm bảo difficulty là chuỗi
   ]);
 
   try {
-    // Thực hiện truy vấn thêm câu hỏi
     const result = await query(sql_postNewQuestion, [values]);
 
     // Lưu các câu trả lời cho mỗi câu hỏi
@@ -29,10 +28,11 @@ module.exports.postNewQuestions = async (questions) => {
 
     questions.forEach((q) => {
       q.answer.forEach((a) => {
+        // Kiểm tra dữ liệu câu trả lời trước khi thêm vào
         answerValues.push([
           uuidv4(), // Tạo ID tự động cho câu trả lời
-          mysql.escape(a.option_text),
-          mysql.escape(a.is_correct),
+          typeof a.option_text === "string" ? a.option_text : "", // Đảm bảo option_text là chuỗi
+          typeof a.is_correct === "boolean" ? a.is_correct : false, // Đảm bảo is_correct là boolean
           q.question_id, // Sử dụng question_id đã được tạo
         ]);
       });

@@ -4,6 +4,7 @@ const db = require("../../../config/database.config");
 const { promisify } = require("util");
 const query = promisify(db.query).bind(db);
 const { v4: uuidv4 } = require("uuid");
+const mysql = require("mysql");
 
 module.exports.postNewAnswer = async (question_id, option_text, is_correct) => {
   const option_id = uuidv4(); // Tạo ID tự động cho câu trả lời
