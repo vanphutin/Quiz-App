@@ -9,8 +9,9 @@ const PORT = process.env.PORT || 8081;
 
 // CORS configuration
 var whitelist = [
+  "https://vpt-quiz-app.netlify.app",
   "http://localhost:3000",
-  "https://quiz-app-server-5cdj.onrender.com",
+  "http://localhost:4000",
 ];
 
 var corsOptions = {
@@ -22,6 +23,7 @@ var corsOptions = {
     }
   },
 };
+app.options("*", cors(corsOptions));
 
 // Apply CORS middleware
 app.use(cors(corsOptions));

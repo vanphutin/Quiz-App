@@ -26,6 +26,8 @@ pool.getConnection((err, connection) => {
         "Authentication mode not supported. Consider upgrading the MySQL client or adjusting the user authentication mode."
       );
     }
+
+    process.exit(1); // Dừng server nếu không thể kết nối
   }
 
   if (connection) connection.release();

@@ -69,16 +69,55 @@ const Quizzes = {
       ]);
       return result;
     } catch (error) {
+      console.error("SQL Error:", error); // Log toàn bộ lỗi để debug
       throw new Error(`ERROR: create new quiz - ${error.message}`);
     }
   },
   deleteQuiz: async (quiz_id) => {
-    const sql_deleteQuiz =
-      "UPDATE quizzes SET is_deleted = 1 WHERE quiz_id = ?";
+    // Truy vấn SQL xóa bản ghi trong bảng history liên quan đến quiz
+    const sql_deleteHistory = `
+      DELETE FROM history 
+      WHERE quiz_id = ?`;
+
+    // Truy vấn SQL xóa options liên quan đến quiz
+    const sql_deleteOptions = `
+      DELETE o 
+      FROM options o
+      INNER JOIN questions q ON o.question_id = q.question_id
+      WHERE q.quiz_id = ?`;
+
+    // Truy vấn SQL xóa questions liên quan đến quiz
+    const sql_deleteQuestions = `
+      DELETE FROM questions 
+      WHERE quiz_id = ?`;
+
+    // Truy vấn SQL xóa quiz
+    const sql_deleteQuiz = `
+      DELETE FROM quizzes 
+      WHERE quiz_id = ?`;
+
     try {
+      // Bắt đầu giao dịch
+      await query("START TRANSACTION");
+
+      // Xóa các bản ghi trong bảng history
+      await query(sql_deleteHistory, [quiz_id]);
+
+      // Xóa options liên quan đến quiz
+      await query(sql_deleteOptions, [quiz_id]);
+
+      // Xóa questions liên quan đến quiz
+      await query(sql_deleteQuestions, [quiz_id]);
+
+      // Xóa quiz
       const result = await query(sql_deleteQuiz, [quiz_id]);
+
+      // Commit giao dịch
+      await query("COMMIT");
       return result;
     } catch (error) {
+      // Rollback nếu có lỗi
+      await query("ROLLBACK");
       throw new Error(`ERROR: delete quiz - ${error.message}`);
     }
   },
