@@ -51,12 +51,10 @@ const Quizzes = {
     category_id,
     level
   ) => {
-    const sql_createNewQuiz = `INSERT INTO quizzes (quiz_id,
-    title,
-    description,
-    created_by_user_id,
-    category_id,
-    level) VALUES (?, ?, ?, ?, ?, ?) `;
+    const sql_createNewQuiz = `
+      INSERT INTO quizzes (quiz_id, title, description, created_by_user_id, category_id, level, created_at, updated_at, is_deleted, score)
+      VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW(), 0, 100.00);
+    `;
 
     try {
       const result = await query(sql_createNewQuiz, [
@@ -73,6 +71,7 @@ const Quizzes = {
       throw new Error(`ERROR: create new quiz - ${error.message}`);
     }
   },
+
   deleteQuiz: async (quiz_id) => {
     // Truy vấn SQL xóa bản ghi trong bảng history liên quan đến quiz
     const sql_deleteHistory = `
