@@ -61,10 +61,18 @@ module.exports.getQuizzesLevel = async (req, res) => {
         message: `No quizzes found for level: ${level}`,
       });
     }
-    const formattedData = quizzesByCategory.map((item) => ({
-      category_name: item.category_name,
-      quizzes: JSON.parse(`[${item.quizzes}]`),
-    }));
+    const formattedData = quizzesByCategory.map((item) => {
+      let quizzes;
+      try {
+        quizzes = JSON.parse(`[${item.quizzes}]`); // Try parsing the quizzes field
+      } catch (error) {
+        quizzes = []; // If it fails, set quizzes to an empty array or handle accordingly
+      }
+      return {
+        category_name: item.category_name,
+        quizzes: quizzes,
+      };
+    });
 
     const filteredQuiz = search
       ? formattedData.map((category) => ({
