@@ -5,14 +5,26 @@ module.exports.getRanking = async (req, res) => {
   const { id } = req.params;
 
   try {
+    // Lấy danh sách xếp hạng từ cơ sở dữ liệu
     const ranking = await Ranking.getRanking();
-    const myRank = ranking.find((rank) => rank.user_id === id); // Use .find() to get a single object
-    // Send JSON response with correctly formatted data
+
+    // Sắp xếp theo điểm tổng và tính thứ hạng
+    const sortedRanking = ranking.sort((a, b) => b.total_score - a.total_score);
+
+    // Thêm thuộc tính ranking vào mỗi đối tượng trong danh sách
+    const rankedUsers = sortedRanking.map((user, index) => ({
+      ...user,
+      rank: index + 1, // Thứ hạng là chỉ số + 1
+    }));
+
+    // Tìm thứ hạng của người dùng hiện tại
+    const myRank = rankedUsers.find((rank) => rank.user_id === id);
+
     return res.status(200).json({
       statusCode: 200,
       data: {
-        ranks: ranking,
-        myRank: myRank || null, // Return null if no match is found
+        ranks: rankedUsers, // Danh sách đã có thứ hạng
+        myRank: myRank || null, // Thứ hạng của người dùng hiện tại
       },
     });
   } catch (error) {
