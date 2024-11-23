@@ -1,0 +1,62 @@
+/* HistoryPage.scss */
+.history-page {
+  padding: 20px;
+  background-color: #051120;
+  color: #e0e0e0;
+
+  .history-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #c0c0c0;
+  }
+
+  .search-bar {
+    margin-bottom: 20px;
+    display: flex;
+
+    input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #2e3a4a;
+      background-color: #1a1f2f;
+      color: #e0e0e0;
+      font-size: 16px;
+
+      &::placeholder {
+        color: #9eb3c7;
+      }
+    }
+  }
+
+  .history-list {
+    list-style: none;
+    padding: 0;
+
+    .history-item {
+      background-color: #1a1f2f;
+      padding: 15px;
+      border: 1px solid #2e3a4a;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+
+      .quiz-title {
+        font-weight: bold;
+        font-size: 18px;
+        color: #9eb3c7;
+      }
+
+      .score,
+      .attempts,
+      .date {
+        font-size: 14px;
+        color: #b0b8c1;
+      }
+
+      .score {
+        color: #57e389;
+      }
+    }
+  }
+}

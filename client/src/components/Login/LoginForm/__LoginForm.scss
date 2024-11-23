@@ -1,0 +1,65 @@
+@import "../../../assets/style/utils/variables";
+.login-form {
+  border: 0.1px solid #cccccc4e;
+  padding: 40px 35px;
+  background-color: #05070a62;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: $border-radius;
+  h1 {
+    color: $text-color;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .error-field {
+    font-size: 0.8rem;
+    padding-top: 0;
+  }
+
+  .callout {
+    text-align: center;
+
+    &.callout-other {
+      position: relative;
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 45%;
+        height: 1px;
+        background-color: $background-card;
+      }
+
+      &::before {
+        left: 0;
+        margin-left: -1%;
+      }
+
+      &::after {
+        right: 0;
+        margin-right: -1%;
+      }
+    }
+  }
+  .callout.callout-forgotpass {
+    text-align: start;
+  }
+
+  button {
+    width: 100%;
+  }
+  .other-sign {
+    background: #05070a77;
+    border-color: #eaeaea62;
+
+    &:hover {
+      background-color: #05070a;
+    }
+  }
+  span.MuiButton-icon {
+    text-align: center;
+    margin-right: 10px;
+    font-size: $font-size-icon;
+  }
+}

@@ -1,0 +1,85 @@
+@import "../../assets/style/utils/variables";
+@import "../../assets/style/utils/responive";
+
+.card {
+  padding: 20px;
+  background-color: $background-quiz;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  .quiz__card {
+    padding: 20px;
+    background-color: #fff;
+    background-color: $background-quiz;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+
+    &:hover {
+      transform: scale(1.03);
+      transition: 0.2s ease-in-out;
+    }
+
+    &--level {
+      border-color: #475847;
+    }
+
+    &__title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      color: $text-color;
+
+      @include mobile {
+        font-size: 13px;
+        text-transform: uppercase;
+      }
+    }
+
+    &__description {
+      font-size: 16px;
+      margin-bottom: 20px;
+      color: #666;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+
+      @include mobile {
+        font-size: 13px;
+      }
+    }
+
+    &__creator {
+      display: flex;
+      align-items: center;
+
+      &__avatar {
+        width: 30px;
+        height: 30px;
+        background-color: #ddd;
+        border-radius: 50%;
+        margin-right: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        @include mobile {
+          width: 25px;
+          height: 25px;
+        }
+
+        .avatar-icon {
+          font-size: 20px;
+          color: #333;
+        }
+      }
+
+      &__name {
+        font-size: 16px;
+        color: $text-color;
+      }
+    }
+  }
+}

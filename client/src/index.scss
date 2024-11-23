@@ -1,0 +1,65 @@
+@import "./assets/style/utils/_variables.scss";
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-image: $background-gradient;
+  background: $background-color;
+  background-repeat: no-repeat;
+  color: $text-color;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+button {
+  background: $button-primary-color;
+  color: $text-color;
+  border: 1px solid $button-border-color;
+  border-radius: 0.2rem;
+  &:hover {
+    background: $button-primary-hover-color;
+  }
+}
+
+a {
+  color: $link-color;
+  text-decoration: none;
+  &:hover {
+    color: $link-hover-color;
+  }
+}
+
+.card {
+  background: $background-card;
+  border: 1px solid $border-color;
+  color: $text-color;
+}
+
+.alert-success {
+  background: $notification-success-color;
+  color: $text-color;
+}
+
+.alert-warning {
+  background: $notification-warning-color;
+  color: $text-color;
+}
+
+.alert-info {
+  background: $notification-info-color;
+  color: $text-color;
+}
+
+.selected {
+  background: $selected-color;
+  &:hover {
+    background: $selected-hover-color;
+  }
+}

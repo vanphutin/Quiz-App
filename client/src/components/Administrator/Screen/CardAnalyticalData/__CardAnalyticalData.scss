@@ -1,0 +1,28 @@
+@import "../../../../assets/style/utils/variables";
+@import "../../../../assets/style/utils/responive";
+.card {
+  @include mobile {
+    margin-bottom: 15px;
+  }
+  .card__description {
+    h6 {
+      color: $secondary-text-color;
+    }
+  }
+
+  .card__data {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+
+    .card__data__description {
+      font-size: $font-size-title;
+    }
+
+    .card__data__count {
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+    }
+  }
+}

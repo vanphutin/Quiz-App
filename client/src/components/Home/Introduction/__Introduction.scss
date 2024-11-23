@@ -1,0 +1,64 @@
+@import "../../../assets/style/utils/variables";
+@import "../../../assets/style/utils/responive";
+.introduction {
+  color: $text-secondary-color;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  .introduction__title {
+    @include mobile {
+      width: 100%;
+
+      h1 {
+        font-size: 4.3rem;
+      }
+    }
+    width: 60%;
+    .introduction__title-main {
+      h1 {
+        font-size: 5.3rem;
+        font-weight: 700;
+      }
+    }
+
+    .introduction__title-describe {
+      border: 1px solid;
+      padding: 20px 30px;
+      border-top-right-radius: 15px;
+      border-bottom-right-radius: 15px;
+      border-bottom-left-radius: 40px;
+      background-color: #aeeeee40;
+      h5 {
+        color: $text-color;
+      }
+    }
+  }
+
+  .introduction__bannerImg {
+    @include mobile {
+      display: none;
+    }
+    width: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
+      object-fit: cover;
+      width: 100%;
+      height: auto;
+      animation: scaleUpDown 7s infinite;
+    }
+
+    @keyframes scaleUpDown {
+      0% {
+        transform: scale(1.3);
+      }
+      50% {
+        transform: scale(1.4);
+      }
+      100% {
+        transform: scale(1.3);
+      }
+    }
+  }
+}

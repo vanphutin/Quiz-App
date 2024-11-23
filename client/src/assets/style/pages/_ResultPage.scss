@@ -1,0 +1,85 @@
+.result-page {
+  padding: 20px;
+  background-color: #202b36;
+  border-radius: 10px;
+  color: #e0e0e0;
+
+  .result-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 20px;
+
+    .point {
+      font-size: 1.5rem;
+      background-color: #007bff;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+  }
+
+  .result-details {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background-color: #29323d;
+      border-radius: 5px;
+
+      label {
+        font-weight: bold;
+        color: #b0bec5;
+      }
+
+      h3 {
+        font-size: 1.2rem;
+        color: #e0e0e0;
+        margin: 0;
+
+        &:nth-child(odd) {
+          color: #007bff;
+        }
+      }
+
+      // Style for specific dynamic colors
+      &:nth-child(4) h3 {
+        color: rgb(0, 246, 132); // Done (green)
+      }
+
+      &:nth-child(5) h3 {
+        color: yellow; // Not done
+      }
+
+      &:nth-child(6) h3 {
+        color: red; // Incorrect
+      }
+
+      &:nth-child(7) h3 {
+        color: rgb(0, 246, 132); // Final points
+      }
+
+      // Tooltip hover effect
+      &[data-toggle="tooltip"] {
+        position: relative;
+
+        &:hover::after {
+          content: attr(title);
+          position: absolute;
+          top: -40px;
+          left: 0;
+          background-color: #333;
+          color: #fff;
+          padding: 5px 10px;
+          border-radius: 5px;
+          font-size: 0.9rem;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+}

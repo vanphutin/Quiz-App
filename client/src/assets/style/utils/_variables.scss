@@ -1,0 +1,67 @@
+// Màu Nền
+$background-color: rgb(5, 17, 31);
+$background-secondary: #1c1c1c;
+$background-card: #2e3b4e;
+
+// Màu Chữ
+$text-color: #ffffff;
+$secondary-text-color: #b0b0b0;
+$heading-text-color: #e0e0e0;
+$text-secondary-color: #3498db;
+
+// Màu Nút
+$button-primary-color: #2ecc71;
+$button-primary-hover-color: #27ae60;
+$button-secondary-color: #3498db;
+$button-secondary-hover-color: #2980b9;
+
+// Màu Biên
+$border-color: rgba(51, 60, 77, 0.6);
+$button-border-color: #2ecc71;
+
+// Màu Được Chọn
+$selected-color: #f39c12;
+$selected-hover-color: #e67e22;
+
+// Màu Thông Báo
+$notification-success-color: #2ecc71;
+$notification-warning-color: #e74c3c;
+$notification-info-color: #3498db;
+
+// Màu Link
+$link-color: #3498db;
+$link-hover-color: #2980b9;
+
+// Gradient Nền
+$background-gradient: radial-gradient(
+  at 50% 50%,
+  rgba(0, 41, 82, 0.5),
+  rgb(9, 11, 17)
+);
+$background-quiz: #2e3856;
+
+// Màu chữ cho header
+$header-text-color: #ffffff; // Trắng sáng
+$header-text-color-light: #e0e0e0; // Xám sáng
+$header-text-color-blue-light: #aeeeee; // Xanh nhạt
+$header-text-color-yellow: #f1c40f; // Vàng sáng
+$header-text-color-green: #2ecc71; // Xanh lục đậm
+$header-text-color-orange: #f39c12; // Cam nhạt
+$header-text-color-purple: #dcd0ff; // Tím nhạt
+$header-text-color-dark-blue: #3498db; // Xanh dương đậm
+
+//===============
+// Biến kích thước
+$container-width: 1200px;
+$padding: 16px;
+$margin-bottom: 20px;
+$margin-bottom-component: 50px;
+$font-size-icon: 1, 2rem;
+$font-size-text: 1.1rem;
+$border-radius: 10px;
+$font-size-logo: 2rem;
+$font-size-text-lg: 1.3rem;
+$font-size-title: 1.2rem;
+$text-quiz-eays: #e3aadd;
+$text-quiz-eays: #073b4c;
+$text-quiz-eays: #0b6477;

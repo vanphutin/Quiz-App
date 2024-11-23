@@ -1,0 +1,60 @@
+@import "../../assets/style/utils/variables";
+@import "../../assets/style/utils/responive";
+
+.sign-up-form {
+  padding: 20px 30px;
+  border: 0.1px solid #cccccc4e;
+  margin: 10px 100px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: $border-radius;
+
+  @include mobile {
+    margin: 0;
+    margin-top: 20px;
+    border: none;
+    box-shadow: none;
+    padding: 10px 20px;
+  }
+
+  .option-role {
+    h6 {
+      width: 150px;
+    }
+    @include mobile {
+      display: block;
+    }
+    select {
+      @include mobile {
+        margin: 10px 0;
+      }
+      width: 150px;
+      background-color: #05070a;
+      color: #ffffff;
+    }
+  }
+  input {
+    color: #ffffff;
+    padding: 0.5rem;
+    font-size: 1rem;
+    display: block;
+    border: 0.5px solid rgba(234, 234, 234, 0.3843137255);
+    background: #05070a;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    margin-left: 1.2rem;
+    @include tablet {
+      margin-left: 0;
+      display: block;
+    }
+    @include mobile {
+      margin-left: 0;
+      display: block;
+    }
+
+    &::placeholder {
+      color: #cccccc57;
+    }
+  }
+}
+
+@media screen {
+}

@@ -1,0 +1,41 @@
+@import "../../../assets/style/utils/responive";
+.quizzes {
+  .search-bar {
+    display: flex;
+
+    input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #2e3a4a;
+      background-color: #1a1f2f;
+      color: #e0e0e0;
+      font-size: 16px;
+
+      &::placeholder {
+        color: #9eb3c7;
+      }
+    }
+  }
+
+  .quizzes__level {
+    .quizzes__level-title {
+    }
+  }
+
+  .quizzes__type {
+    .quizzes__type-item {
+      .quizzes__type-item-title {
+      }
+      .quizzes__type-item-card {
+        .swiper-slide {
+          width: 450px;
+
+          @include mobile {
+            width: 300px;
+          }
+        }
+      }
+    }
+  }
+}

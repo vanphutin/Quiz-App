@@ -1,0 +1,68 @@
+@import "../utils/responive";
+
+.header-items {
+  transition: opacity 0.3s ease, visibility 0.3s ease, max-height 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .header__item-navigation {
+    ul {
+      li {
+        padding: 0 30px;
+      }
+    }
+  }
+
+  .header__item-auth {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @include mobile {
+    height: 100vh;
+    width: 100%;
+    flex-direction: column;
+    justify-content: initial;
+    .header__item-navigation {
+      width: 100%;
+      border-top: 1px solid;
+      ul {
+        li {
+          padding: 20px 0;
+        }
+      }
+    }
+  }
+}
+
+.menu-hidden {
+  opacity: 0;
+  visibility: hidden;
+  max-height: 0;
+  overflow: hidden;
+}
+
+.menu-visible {
+  opacity: 1;
+  visibility: visible;
+  max-height: 1000px; /* Đảm bảo đủ cao để chứa nội dung menu */
+}
+
+@media (min-width: 768px) {
+  .header-items {
+    display: flex; /* Đảm bảo menu luôn hiển thị trên màn hình lớn hơn hoặc bằng 768px */
+    opacity: 1;
+    visibility: visible;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .menu-hidden,
+  .menu-visible {
+    opacity: 1; /* Luôn hiển thị trên các màn hình lớn */
+    visibility: visible;
+    max-height: none; /* Đảm bảo không bị giới hạn chiều cao */
+  }
+}
