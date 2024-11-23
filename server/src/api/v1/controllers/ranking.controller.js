@@ -7,7 +7,6 @@ module.exports.getRanking = async (req, res) => {
   try {
     const ranking = await Ranking.getRanking();
     const myRank = ranking.find((rank) => rank.user_id === id); // Use .find() to get a single object
-
     // Send JSON response with correctly formatted data
     return res.status(200).json({
       statusCode: 200,
