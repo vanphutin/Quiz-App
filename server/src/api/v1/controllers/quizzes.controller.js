@@ -128,9 +128,9 @@ module.exports.createNewQuiz = async (req, res) => {
   try {
     const createQuiz = await Quizzes.createNewQuiz(
       quiz_id,
-      title,
-      description,
-      created_by_user_id,
+      title.trim(),
+      description.trim(),
+      created_by_user_id.trim(),
       category_id,
       level
     );

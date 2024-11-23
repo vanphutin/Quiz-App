@@ -22,7 +22,7 @@ module.exports.postNewAnswer = async (req, res) => {
     const answer = await Answer.postNewAnswer(
       option_id,
       question_id,
-      option_id,
+      option_text.trim(),
       is_correct
     );
 

@@ -7,13 +7,13 @@ const Question = {
   postNewQuestions: async (questions) => {
     const sql_postNewQuestion = `INSERT INTO questions (question_id, quiz_id, question_text, question_type, difficulty) VALUES ?`;
 
-    // Tạo dữ liệu dưới dạng mảng để phù hợp với SQL
+    // Tạo dữ liệu dưới dạng mảng để phù hợp với SQL và sử dụng trim()
     const values = questions.map((q) => [
       q.question_id,
       q.quiz_id,
-      q.question_text,
-      q.question_type,
-      q.difficulty,
+      q.question_text.trim(), // Sử dụng trim() cho question_text
+      q.question_type.trim(), // Sử dụng trim() cho question_type
+      q.difficulty.trim(), // Sử dụng trim() cho difficulty
     ]);
 
     try {
@@ -27,7 +27,7 @@ const Question = {
         q.answer.forEach((a) => {
           answerValues.push([
             a.option_id,
-            a.option_text,
+            a.option_text.trim(), // Sử dụng trim() cho option_text
             a.is_correct,
             q.question_id,
           ]);
