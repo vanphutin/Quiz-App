@@ -1,4 +1,5 @@
 @import "../../assets/style/utils/variables";
+@import "../../assets/style/utils/responive";
 
 .card {
   padding: 20px;
@@ -27,6 +28,11 @@
       font-weight: bold;
       margin-bottom: 12px;
       color: $text-color;
+
+      @include mobile {
+        font-size: 13px;
+        text-transform: uppercase;
+      }
     }
 
     &__description {
@@ -39,6 +45,10 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: normal;
+
+      @include mobile {
+        font-size: 13px;
+      }
     }
 
     &__creator {
@@ -54,6 +64,11 @@
         display: flex;
         justify-content: center;
         align-items: center;
+
+        @include mobile {
+          width: 25px;
+          height: 25px;
+        }
 
         .avatar-icon {
           font-size: 20px;

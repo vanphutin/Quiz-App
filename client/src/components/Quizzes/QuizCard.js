@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import "./__QuizCard.scss";
-import { Link } from "react-router-dom";
 
 const QuizCard = ({ data }) => {
+  function formatString(input) {
+    const words = input.toLowerCase().split(" ");
+    const formattedWords = words.map(
+      (word) => word.charAt(0).toUpperCase() + word.slice(1)
+    );
+    return formattedWords.join(" ");
+  }
+  const newTtileFormat = formatString(data.title);
+
   return (
     <div className="card">
       <div className="quiz__card quiz__card--level">
-        <div className="quiz__card__title ">{data.title}</div>
+        <div className="quiz__card__title ">{newTtileFormat}</div>
         <div
           className="quiz__card__description"
           data-toggle="tooltip"

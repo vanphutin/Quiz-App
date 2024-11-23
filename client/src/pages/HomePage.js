@@ -32,6 +32,7 @@ const HomePage = () => {
 
   const feachApi = async () => {
     try {
+      console.log("by Văn Phú Tín");
       const res = await getAllQuizzLevel();
       if (res.statusCode === 200) {
         const levelOrder = ["easy", "medium", "hard"];
@@ -55,6 +56,7 @@ const HomePage = () => {
   if (loading) {
     return <LoadingCompo loading={loading} />;
   }
+
   return (
     <div className="home container mt-5" ref={hiddenRef}>
       <div className="home__screen-main">

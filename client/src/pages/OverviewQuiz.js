@@ -30,7 +30,7 @@ const OverviewQuiz = () => {
 
   const handleStartQuiz = async () => {
     if (data.attempts >= 11) {
-      alert("Bạn đã hết lượt làm bài!");
+      toast.warning("You have run out of turns!");
       return;
     }
 
@@ -66,6 +66,8 @@ const OverviewQuiz = () => {
       fetchApi(state?.id, user.user_id);
     }
   }, [state?.id, user.user_id]);
+
+  let data_check = Object.values(data);
 
   return (
     <div className="intro-quiz container mt-4">
@@ -122,19 +124,29 @@ const OverviewQuiz = () => {
               </ul>
             </div>
             <div className="intro-quiz footer">
-              <button
-                className="btn btn-primary btn-lg get-start"
-                disabled={loading || error || data.attempts >= 11}
-                onClick={handleStartQuiz}
-              >
-                {loading || error || data.attempts >= 11 ? (
-                  <span style={{ color: "red", cursor: "no-drop" }}>
-                    <MdOutlineNoEncryptionGmailerrorred size={30} />
-                  </span>
-                ) : (
-                  <span>Get start</span>
-                )}
-              </button>
+              {data_check.length > 0 ? (
+                <button
+                  className="btn btn-primary btn-lg get-start"
+                  onClick={handleStartQuiz}
+                >
+                  {error || data.attempts >= 11 ? (
+                    <MdOutlineNoEncryptionGmailerrorred
+                      size={30}
+                      style={{ color: "red", cursor: "no-drop" }}
+                    />
+                  ) : (
+                    "Get to start"
+                  )}
+                </button>
+              ) : loading || error || data.attempts >= 11 ? (
+                <span style={{ color: "red", cursor: "no-drop" }}>
+                  <MdOutlineNoEncryptionGmailerrorred size={30} />
+                </span>
+              ) : (
+                <button className="btn btn-warning btn-lg get-start" disabled>
+                  Checking ...
+                </button>
+              )}
             </div>
           </>
         )
