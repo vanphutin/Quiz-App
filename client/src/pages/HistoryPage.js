@@ -4,12 +4,14 @@ import { getHistory } from "../services/apiHistory";
 import { useSelector } from "react-redux";
 import { handleErrorResponse } from "../components/common/errorHandler/errorHandler";
 import useDebounce from "../hook/useDebounce";
+import NotFoundPage from "./NotFoundPage";
 const HistoryPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [data, setData] = useState([]);
   const user = useSelector((state) => state.user.account);
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
   const searchInputRef = useRef(null);
+
   const fetchApi = async (user_id, search) => {
     try {
       const res = await getHistory(user_id, search);
@@ -30,6 +32,10 @@ const HistoryPage = () => {
       fetchApi(user.user_id, searchTerm);
     }
   }, [user, debouncedSearchTerm]);
+
+  if (!user || user?.user_id === "") {
+    return <NotFoundPage />;
+  }
   return (
     <div className="history-page container">
       <h1 className="history-title text-center">Your Quiz History</h1>

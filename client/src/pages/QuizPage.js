@@ -54,7 +54,14 @@ const QuizPage = () => {
     try {
       const res = await getQuizzes(level, search);
       if (res.statusCode === 200) {
-        setDataQuizzes(res.data);
+        const groupedData = res.data; // Grouped by category
+        const flattenedData = Object.entries(groupedData).map(
+          ([categoryName, quizzes]) => ({
+            category_name: categoryName,
+            quizzes,
+          })
+        );
+        setDataQuizzes(flattenedData); // Update state with flattened data
       } else {
         console.error("Error fetching quizzes");
       }

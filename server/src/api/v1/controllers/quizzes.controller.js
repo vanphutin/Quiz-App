@@ -55,20 +55,11 @@ module.exports.getQuizzesLevel = async (req, res) => {
       limit,
       offset
     );
-    if (quizzesByCategory.length === 0) {
-      return res.status(404).json({
-        statusCode: 404,
-        message: `No quizzes found for level: ${level}`,
-      });
-    }
-    const formattedData = quizzesByCategory.map((item) => ({
-      category_name: item.category_name,
-      quizzes: JSON.parse(`[${item.quizzes}]`),
-    }));
+
     res.status(200).json({
       statusCode: 200,
       message: `Get quizzes for level: ${level} successful`,
-      data: formattedData,
+      data: quizzesByCategory,
       pagination: {
         currentPage: page,
         itemsPerPage: limit,
@@ -87,7 +78,6 @@ module.exports.getQuizzesLevel = async (req, res) => {
 module.exports.createNewQuiz = async (req, res) => {
   const { title, description, created_by_user_id, category_id, level } =
     req.body;
-
   const valid = [
     "title",
     "description",

@@ -63,6 +63,16 @@ function UserDropDown(props) {
           )}
           <Dropdown.Item>
             <Link
+              to="/me/profile"
+              className="dropdown-item"
+              data-rr-ui-dropdown-item
+              onClick={() => {}}
+            >
+              Profile
+            </Link>
+          </Dropdown.Item>
+          <Dropdown.Item>
+            <Link
               to="/me/history-quiz"
               className="dropdown-item"
               data-rr-ui-dropdown-item
@@ -71,6 +81,7 @@ function UserDropDown(props) {
               History Test
             </Link>
           </Dropdown.Item>
+
           <Dropdown.Item onClick={() => {}}>_______</Dropdown.Item>
 
           <Dropdown.Item onClick={handleLogout}>Log out</Dropdown.Item>

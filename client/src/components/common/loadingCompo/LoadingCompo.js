@@ -4,12 +4,10 @@ import "./__LoadingCompo.scss";
 import { CgSpinnerTwo } from "react-icons/cg";
 
 const pendingArr = [
-  "Please wait while we load data...",
-  "Vui lòng chờ trong khi chúng tôi đang tải dữ liệu...",
-  "我们正在加载数据，请稍候...",
-  "กรุณารอสักครู่ในขณะที่เรากำลังโหลดข้อมูล...",
-  "データをロード中ですのでお待ちください...",
-  "데이터를 로드하는 동안 잠시 기다려 주십시오...",
+  "Please wait a moment while we load the data...",
+  "Vui lòng chờ trong giây lát khi chúng tôi đang tải dữ liệu...",
+  "Because the server is free, sometimes the speed may be slow or you may not be able to access it, we hope you understand.",
+  "Do server miễn phí, đôi khi tốc độ có thể chậm hoặc bạn không thể truy cập được, mong bạn thông cảm.",
 ];
 
 const LoadingCompo = ({ loading }) => {

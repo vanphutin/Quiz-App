@@ -1,0 +1,87 @@
+// _ProfilePage.scss
+
+// Tổng thể profile container
+.profile-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: #1a2731; // Màu nền tối phù hợp với nền web của bạn
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); // Tạo hiệu ứng shadow cho container
+  color: #e0e0e0; // Màu chữ sáng để dễ đọc trên nền tối
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.02); // Hiệu ứng phóng to khi hover
+  }
+}
+
+// Avatar
+.profile-avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #00bcd4; // Viền màu sắc nổi bật
+  margin-bottom: 25px;
+  transition: border-color 0.3s ease;
+
+  &:hover {
+    border-color: #ff4081; // Đổi màu viền khi hover
+  }
+}
+
+// Tên người dùng
+.profile-name {
+  font-size: 40px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 15px 0;
+}
+
+// Thông tin người dùng
+.profile-info {
+  margin-bottom: 30px;
+
+  p {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .info-label {
+    font-weight: 600;
+    color: #00bcd4; // Màu nhấn cho nhãn
+  }
+
+  .info-value {
+    font-weight: 400;
+    color: #b0bec5; // Màu sáng hơn để tạo sự tương phản
+  }
+}
+
+// Nút chỉnh sửa
+.waring-edit {
+  color: yellow;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+.edit-button {
+  padding: 12px 25px;
+  background-color: #00bcd4; // Màu chủ đạo của trang web
+  color: #05111f; // Màu chữ tối để dễ đọc
+  border: none;
+  border-radius: 25px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+
+  &:hover {
+    background-color: #ff4081; // Đổi màu khi hover
+    transform: translateY(-3px); // Hiệu ứng di chuyển nhẹ khi hover
+  }
+
+  &:focus {
+    outline: none; // Loại bỏ outline khi nhấn vào nút
+  }
+}

@@ -14,35 +14,50 @@ const Quizzes = {
   },
   getQuizzesLevel: async (level, sort, limit, offset) => {
     const sql_getQuizzesLevel = `
-      SELECT c.category_name,
-        GROUP_CONCAT(
-          JSON_OBJECT(
-            'quiz_id', q.quiz_id,
-            'title', q.title,
-            'description', q.description,
-            'created_by_user_id', q.created_by_user_id,
-            'created_at', q.created_at,
-            'updated_at', q.updated_at,
-            'is_deleted', q.is_deleted,
-            'level', q.level,
-            'username', u.username
-          )
-        ) AS quizzes
+      SELECT 
+        c.category_name,
+        q.quiz_id,
+        q.title,
+        q.description,
+        q.created_by_user_id,
+        q.created_at,
+        q.updated_at,
+        q.is_deleted,
+        q.level,
+        u.username
       FROM categories c
       JOIN quizzes q ON c.category_id = q.category_id
       JOIN users u ON q.created_by_user_id = u.user_id
       WHERE q.level = ? AND q.is_deleted = 0
-      GROUP BY c.category_name
-      ORDER BY q.created_at ${sort.toUpperCase()}
-      LIMIT ? OFFSET ?`; // Thêm phần phân trang
+      ORDER BY q.created_at
+      LIMIT ? OFFSET ?`;
 
     try {
-      const result = await query(sql_getQuizzesLevel, [level, limit, offset]);
-      return result;
+      const rows = await query(sql_getQuizzesLevel, [level, limit, offset]);
+
+      // Nhóm dữ liệu trên ứng dụng
+      const groupedResult = rows.reduce((acc, row) => {
+        if (!acc[row.category_name]) acc[row.category_name] = [];
+        acc[row.category_name].push({
+          quiz_id: row.quiz_id,
+          title: row.title,
+          description: row.description,
+          created_by_user_id: row.created_by_user_id,
+          created_at: row.created_at,
+          updated_at: row.updated_at,
+          is_deleted: row.is_deleted,
+          level: row.level,
+          username: row.username,
+        });
+        return acc;
+      }, {});
+
+      return groupedResult;
     } catch (error) {
       throw new Error(`ERROR: get Quizzes Level - ${error.message}`);
     }
   },
+
   createNewQuiz: async (
     quiz_id,
     title,
@@ -51,10 +66,12 @@ const Quizzes = {
     category_id,
     level
   ) => {
-    const sql_createNewQuiz = `
-      INSERT INTO quizzes (quiz_id, title, description, created_by_user_id, category_id, level, created_at, updated_at, is_deleted, score)
-      VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW(), 0, 100.00);
-    `;
+    const sql_createNewQuiz = `INSERT INTO quizzes (quiz_id,
+    title,
+    description,
+    created_by_user_id,
+    category_id,
+    level) VALUES (?, ?, ?, ?, ?, ?) `;
 
     try {
       const result = await query(sql_createNewQuiz, [
@@ -65,9 +82,9 @@ const Quizzes = {
         category_id,
         level,
       ]);
+
       return result;
     } catch (error) {
-      console.error("SQL Error:", error); // Log toàn bộ lỗi để debug
       throw new Error(`ERROR: create new quiz - ${error.message}`);
     }
   },

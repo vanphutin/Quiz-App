@@ -21,6 +21,7 @@ import NotFoundPage from "../pages/NotFoundPage";
 import PrivateRouter from "./PrivateRouter";
 import HistoryPage from "../pages/HistoryPage";
 import About from "../pages/AboutPage";
+import ProfilePage from "../pages/ProfilePage";
 
 const AuthLayout = () => {
   return (
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
           {
             element: <HistoryPage />,
             path: "/me/history-quiz",
+          },
+          {
+            element: <ProfilePage />,
+            path: "/me/profile",
           },
           {
             element: <About />,

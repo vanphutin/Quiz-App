@@ -12,7 +12,6 @@ import { postQuiz } from "../../../../services/apiQuizzes";
 function ModalCreateQuiz({ show, handleClose }) {
   const init_level = ["easy", "medium", "hard"];
   const [quizData, setQuizzData] = React.useState("");
-  const [quizChoose, setQuizzChoose] = React.useState("");
 
   const [title, setTitle] = React.useState("");
   const [level, setLevel] = React.useState("");
@@ -68,7 +67,13 @@ function ModalCreateQuiz({ show, handleClose }) {
     // Validate the form fields before proceeding
     if (validate(title, category, description, level, user)) {
       // Continue form submission process
-      const res = await postQuiz(title, category, description, level, user);
+      const res = await postQuiz(
+        title.toLowerCase().trim(),
+        category,
+        description.toLowerCase().trim(),
+        level,
+        user
+      );
 
       try {
         if (res.statusCode === 201) {
